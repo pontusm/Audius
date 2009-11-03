@@ -1,0 +1,25 @@
+#pragma once
+////////////////////////////////////////////////////////////////////////////////////////
+//	   File: AppTrayIconComponent.h
+////////////////////////////////////////////////////////////////////////////////////////
+// Description:
+//
+// Handles the tray icon for the application.
+//
+////////////////////////////////////////////////////////////////////////////////////////
+
+#include "juce.h"
+
+class AppTrayIconComponent : public SystemTrayIconComponent
+{
+public:
+	AppTrayIconComponent(ApplicationCommandManager* commandManager);
+	~AppTrayIconComponent();
+
+	void mouseDown (const MouseEvent& e);
+
+private:
+	ApplicationCommandManager*	_commandManager;
+
+	Image*	_icon;
+};

@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Audius", "Source\AudiusClient\AudiusClient.vcproj", "{AFB84DFE-80AD-4C98-A093-97564B8043A5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FC9FDD58-8545-4931-998C-01C057BEA96C} = {FC9FDD58-8545-4931-998C-01C057BEA96C}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AudiusLib", "Source\AudiusLib\AudiusLib.vcproj", "{FC9FDD58-8545-4931-998C-01C057BEA96C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AudiusTest", "Source\AudiusTest\AudiusTest.vcproj", "{0D45AEED-34DB-4725-9E37-34C1763C4B1C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{980579BF-2A32-466B-B414-456B72C17315}"
+	ProjectSection(SolutionItems) = preProject
+		BuildReadMe.txt = BuildReadMe.txt
+		ToDo.txt = ToDo.txt
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AudiusExt", "Source\AudiusExt\AudiusExt.vcproj", "{D3BC9FB8-1BD5-4565-A4EB-078C2133C24C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AFB84DFE-80AD-4C98-A093-97564B8043A5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AFB84DFE-80AD-4C98-A093-97564B8043A5}.Debug|Win32.Build.0 = Debug|Win32
+		{AFB84DFE-80AD-4C98-A093-97564B8043A5}.Debug|x64.ActiveCfg = Debug|x64
+		{AFB84DFE-80AD-4C98-A093-97564B8043A5}.Debug|x64.Build.0 = Debug|x64
+		{AFB84DFE-80AD-4C98-A093-97564B8043A5}.Release|Win32.ActiveCfg = Release|Win32
+		{AFB84DFE-80AD-4C98-A093-97564B8043A5}.Release|Win32.Build.0 = Release|Win32
+		{AFB84DFE-80AD-4C98-A093-97564B8043A5}.Release|x64.ActiveCfg = Release|x64
+		{AFB84DFE-80AD-4C98-A093-97564B8043A5}.Release|x64.Build.0 = Release|x64
+		{FC9FDD58-8545-4931-998C-01C057BEA96C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FC9FDD58-8545-4931-998C-01C057BEA96C}.Debug|Win32.Build.0 = Debug|Win32
+		{FC9FDD58-8545-4931-998C-01C057BEA96C}.Debug|x64.ActiveCfg = Debug|x64
+		{FC9FDD58-8545-4931-998C-01C057BEA96C}.Debug|x64.Build.0 = Debug|x64
+		{FC9FDD58-8545-4931-998C-01C057BEA96C}.Release|Win32.ActiveCfg = Release|Win32
+		{FC9FDD58-8545-4931-998C-01C057BEA96C}.Release|Win32.Build.0 = Release|Win32
+		{FC9FDD58-8545-4931-998C-01C057BEA96C}.Release|x64.ActiveCfg = Release|x64
+		{FC9FDD58-8545-4931-998C-01C057BEA96C}.Release|x64.Build.0 = Release|x64
+		{0D45AEED-34DB-4725-9E37-34C1763C4B1C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0D45AEED-34DB-4725-9E37-34C1763C4B1C}.Debug|Win32.Build.0 = Debug|Win32
+		{0D45AEED-34DB-4725-9E37-34C1763C4B1C}.Debug|x64.ActiveCfg = Debug|x64
+		{0D45AEED-34DB-4725-9E37-34C1763C4B1C}.Debug|x64.Build.0 = Debug|x64
+		{0D45AEED-34DB-4725-9E37-34C1763C4B1C}.Release|Win32.ActiveCfg = Release|Win32
+		{0D45AEED-34DB-4725-9E37-34C1763C4B1C}.Release|Win32.Build.0 = Release|Win32
+		{0D45AEED-34DB-4725-9E37-34C1763C4B1C}.Release|x64.ActiveCfg = Release|x64
+		{0D45AEED-34DB-4725-9E37-34C1763C4B1C}.Release|x64.Build.0 = Release|x64
+		{D3BC9FB8-1BD5-4565-A4EB-078C2133C24C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D3BC9FB8-1BD5-4565-A4EB-078C2133C24C}.Debug|Win32.Build.0 = Debug|Win32
+		{D3BC9FB8-1BD5-4565-A4EB-078C2133C24C}.Debug|x64.ActiveCfg = Debug|Win32
+		{D3BC9FB8-1BD5-4565-A4EB-078C2133C24C}.Release|Win32.ActiveCfg = Release|Win32
+		{D3BC9FB8-1BD5-4565-A4EB-078C2133C24C}.Release|Win32.Build.0 = Release|Win32
+		{D3BC9FB8-1BD5-4565-A4EB-078C2133C24C}.Release|x64.ActiveCfg = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

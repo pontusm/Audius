@@ -1,0 +1,13 @@
+Icons was done using Gimp.
+
+Normal:
+Color tool
+ Hue=340
+
+Hover:
+Color tool
+ Lightness=20
+
+Down:
+ Scale down to 30x30
+ Expand image to 32x32

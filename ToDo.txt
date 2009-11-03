@@ -1,0 +1,29 @@
+*** Audius todo list ***
+------------------------
+
+v0.1 (first Juce version)
+DONE -Play music
+DONE -Graphics icon
+DONE -Application icon
+
+v0.2
+DONE -Login dialog
+DONE -Show currently playing song
+DONE -Remember login info
+
+v0.3
+DONE -Handle media keys
+DONE -Show slider bar for song position
+
+v0.4
+-Show playlist
+
+v0.x
+-Rewrite player to use libmad/libmpg123
+-Incorporate crash reporter
+-Improve login dialog
+-Integrate with MSN
+-Scrobble to Last.fm
+-Capture audius: links
+
+v1.0
