@@ -2,7 +2,7 @@
 // Include this file when using the lib externally.
 
 // Ensure that the precompiled stuff is included first
-#include "precompiled.h"
+#include "Precompiled.h"
 
 #include "AudiusLib/System/Exception.h"
 

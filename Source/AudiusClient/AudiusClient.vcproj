@@ -45,7 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)\Libs&quot;;&quot;$(SolutionDir)\Source&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Libs&quot;;&quot;$(SolutionDir)Dependencies\juce&quot;;&quot;$(SolutionDir)Dependencies\libcurl\include&quot;;&quot;$(SolutionDir)\Source&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;W_STATIC_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -93,7 +93,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy /Y $(SolutionDir)Libs\$(ConfigurationName)\*.dll $(TargetDir)"
+				CommandLine="copy /Y $(SolutionDir)Dependencies\libcurl\lib\DLL-$(ConfigurationName)\*.dll $(TargetDir)&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -202,7 +202,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)\Libs&quot;;&quot;$(SolutionDir)\Source&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Libs&quot;;&quot;$(SolutionDir)Dependencies\juce&quot;;&quot;$(SolutionDir)Dependencies\libcurl\include&quot;;&quot;$(SolutionDir)\Source&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;W_STATIC_LIB"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -252,7 +252,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy /Y $(SolutionDir)Libs\$(ConfigurationName)\*.dll $(TargetDir)&#x0D;&#x0A;$(SolutionDir)Tools\Upx\Upx.exe $(TargetPath)&#x0D;&#x0A;"
+				CommandLine="copy /Y $(SolutionDir)Dependencies\libcurl\lib\DLL-$(ConfigurationName)\*.dll $(TargetDir)&#x0D;&#x0A;$(SolutionDir)Tools\Upx\Upx.exe $(TargetPath)&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration

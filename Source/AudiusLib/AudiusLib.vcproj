@@ -45,7 +45,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Libs&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Libs&quot;;&quot;$(SolutionDir)Dependencies\juce&quot;;&quot;$(SolutionDir)Dependencies\libcurl\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;W_STATIC_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -66,7 +66,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libwmp3.lib libcurld_imp.lib"
+				AdditionalDependencies="libwmp3.lib"
 				AdditionalLibraryDirectories="$(SolutionDir)Libs\$(ConfigurationName)"
 				IgnoreDefaultLibraryNames="LIBCMTD"
 			/>
@@ -182,7 +182,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Libs&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Libs&quot;;&quot;$(SolutionDir)Dependencies\juce&quot;;&quot;$(SolutionDir)Dependencies\libcurl\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;W_STATIC_LIB"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -202,7 +202,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libwmp3.lib libcurl_imp.lib"
+				AdditionalDependencies="libwmp3.lib"
 				AdditionalLibraryDirectories="$(SolutionDir)Libs\$(ConfigurationName)"
 			/>
 			<Tool
@@ -307,6 +307,18 @@
 				>
 			</File>
 			<File
+				RelativePath=".\juce_lib.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\Services\KejkService.cpp"
 				>
 			</File>
@@ -402,6 +414,10 @@
 			</File>
 			<File
 				RelativePath=".\System\Exception.h"
+				>
+			</File>
+			<File
+				RelativePath=".\juce_AppConfig.h"
 				>
 			</File>
 			<File
