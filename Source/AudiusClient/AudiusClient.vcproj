@@ -93,7 +93,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy /Y $(SolutionDir)Dependencies\libcurl\lib\DLL-$(ConfigurationName)\*.dll $(TargetDir)&#x0D;&#x0A;"
+				CommandLine="rem copy /Y $(SolutionDir)Dependencies\libcurl\lib\DLL-$(ConfigurationName)\*.dll $(TargetDir)&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -252,7 +252,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy /Y $(SolutionDir)Dependencies\libcurl\lib\DLL-$(ConfigurationName)\*.dll $(TargetDir)&#x0D;&#x0A;$(SolutionDir)Tools\Upx\Upx.exe $(TargetPath)&#x0D;&#x0A;"
+				CommandLine="rem copy /Y $(SolutionDir)Dependencies\libcurl\lib\DLL-$(ConfigurationName)\*.dll $(TargetDir)&#x0D;&#x0A;$(SolutionDir)Tools\Upx\Upx.exe $(TargetPath)&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration

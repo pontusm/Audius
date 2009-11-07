@@ -24,6 +24,7 @@
 		<move todir="${OutputDir}\${Configuration}">
 			<fileset basedir="${directory::get-current-directory()}\..\bin\${Configuration}\bin\">
 				<include name="*.dll"/>
+				<include name="*.lib"/>
 			</fileset>
 		</move>
 		<delete dir="${directory::get-current-directory()}\..\bin"/>

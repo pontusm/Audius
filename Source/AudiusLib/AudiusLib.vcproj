@@ -66,8 +66,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libwmp3.lib"
-				AdditionalLibraryDirectories="$(SolutionDir)Libs\$(ConfigurationName)"
+				AdditionalDependencies="libwmp3.lib libcurld_imp.lib"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)Dependencies\libcurl\lib\DLL-$(ConfigurationName)&quot;;&quot;$(SolutionDir)Libs\$(ConfigurationName)&quot;"
 				IgnoreDefaultLibraryNames="LIBCMTD"
 			/>
 			<Tool
@@ -202,8 +202,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libwmp3.lib"
-				AdditionalLibraryDirectories="$(SolutionDir)Libs\$(ConfigurationName)"
+				AdditionalDependencies="libwmp3.lib libcurl_imp.lib"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)Dependencies\libcurl\lib\DLL-$(ConfigurationName)&quot;;&quot;$(SolutionDir)Libs\$(ConfigurationName)&quot;"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -311,6 +311,14 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
