@@ -31,3 +31,5 @@ _ReSharper*/
 BuildLogs/
 BuildTools/
 Output/
+/Setup/Audius-cache/
+/Setup/Audius.msi
