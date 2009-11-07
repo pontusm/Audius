@@ -1,7 +1,4 @@
-<?xml version="1.0"?>
-<project name="Audius" default="rebuild" basedir=".">
-	<description>Builds the Audius project</description>
-	
+<project basedir=".">
 	<target name="config">
 		<!-- The FrameworkDir is the directory where the MSBuild and .Net framework exists -->
 		<property name="FrameworkDir" value="C:\Windows\Microsoft.NET\Framework\v3.5" unless="${property::exists('FrameworkDir')}"/>
@@ -25,21 +22,16 @@
 				 </fileset>
 		</delete>
 
-		<!-- The OutputDir holds the build output (this is not yet used) -->
-		<!--
-		<property name="OutputDir" value="${directory::get-current-directory()}\Output" unless="${property::exists('OutputDir')}"/>
+		<property name="OutputDir" value="${directory::get-current-directory()}\..\Output" unless="${property::exists('OutputDir')}"/>
 		<echo message="OutputDir = '${OutputDir}'"/>
-		<mkdir dir="${OutputDir}" failonerror="false"/>
+		<mkdir dir="${OutputDir}" failonerror="true"/>
+		<!--
 		<delete >
 				 <fileset basedir="${OutputDir}">
 							<include name="**/*"/>
 				 </fileset>
 		</delete>
 		-->
-
-		<!-- The solution that we will build -->
-		<property name="SolutionFile" value="${directory::get-current-directory()}\Source\Audius.sln"/>
-		<echo message="SolutionFile = '${SolutionFile}'"/>
 
 		<!-- The CCNet property is used to assign some non-commandline settings when
 				CCNet is used to drive this NAnt file. -->
@@ -56,43 +48,4 @@
 		</if>
 		<echo message="MSBuildLogger = '${MSBuildLogger}'"/>		
 	</target>
-
-	<!--
-	<target name="clean" depends="config">
-		<exec program="${FrameworkDir}\MSBuild.exe" useruntimeengine="true"
-         output="${BuildLogs}\msbuild-${target::get-current-target()}-results.xml">
-			<arg value="${SolutionFile}"/>
-			<arg value="/target:Clean" />
-			<arg value="/noconsolelogger" if="${property::exists('CCNet')}" />
-			<arg value="/nologo" if="${property::exists('CCNet')}" />
-			<arg value="/p:Configuration=${Configuration}" />
-			<arg value="/verbosity:minimal" />
-			<arg value="/logger:${MSBuildLogger}" unless="${MSBuildLogger==''}"/>
-		</exec>
-	</target>
-	-->
-	
-	<!--
-	<target name="build" depends="config">
-		<exec program="${FrameworkDir}\MSBuild.exe" useruntimeengine="true"
-				 output="${BuildLogs}\msbuild-${target::get-current-target()}-results.xml">
-			<arg value="${SolutionFile}"/>
-			<arg value="/target:Build" />
-			<arg value="/noconsolelogger" if="${property::exists('CCNet')}" />
-			<arg value="/nologo" if="${property::exists('CCNet')}" />
-			<arg value="/p:Configuration=${Configuration}" />
-			<arg value="/p:Platform=Mixed Platforms" />
-			<arg value="/verbosity:minimal" />
-			<arg value="/logger:${MSBuildLogger}" unless="${MSBuildLogger==''}"/>
-		</exec>
-	</target>
-	-->
-
-	<!--
-	<target name="rebuild" depends="clean,build"/>
-	-->
-	
-	<!--
-	<target name="all" depends="clean, get, build, test"/>
-	-->
 </project>

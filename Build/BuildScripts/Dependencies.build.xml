@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<project name="Audius" default="build" basedir=".">
+	<description>Builds the Audius dependencies</description>
+
+	<include buildfile="Config.include.xml"/>
+	
+	<target name="build" depends="config">
+		<!-- The solution that we will build -->
+		<property name="SolutionFile" value="${directory::get-current-directory()}\..\Dependencies\Dependencies.sln"/>
+		<echo message="SolutionFile = '${SolutionFile}'"/>
+
+		<exec program="${FrameworkDir}\MSBuild.exe" useruntimeengine="true"
+         output="${BuildLogs}\msbuild-${target::get-current-target()}-results.xml">
+			<arg value="${SolutionFile}"/>
+			<arg value="/target:Build" />
+			<arg value="/noconsolelogger" if="${property::exists('CCNet')}" />
+			<arg value="/nologo" if="${property::exists('CCNet')}" />
+			<arg value="/p:Configuration=${Configuration}" />
+			<arg value="/verbosity:minimal" />
+			<arg value="/logger:${MSBuildLogger}" unless="${MSBuildLogger==''}"/>
+		</exec>
+		
+		<!-- Move libcurl -->
+		<move todir="${OutputDir}\${Configuration}">
+			<fileset basedir="${directory::get-current-directory()}\..\bin\${Configuration}\bin\">
+				<include name="*.dll"/>
+			</fileset>
+		</move>
+		<delete dir="${directory::get-current-directory()}\..\bin"/>
+	</target>
+
+	<!--
+	<target name="clean" depends="config">
+		<exec program="${FrameworkDir}\MSBuild.exe" useruntimeengine="true"
+         output="${BuildLogs}\msbuild-${target::get-current-target()}-results.xml">
+			<arg value="${SolutionFile}"/>
+			<arg value="/target:Clean" />
+			<arg value="/noconsolelogger" if="${property::exists('CCNet')}" />
+			<arg value="/nologo" if="${property::exists('CCNet')}" />
+			<arg value="/p:Configuration=${Configuration}" />
+			<arg value="/verbosity:minimal" />
+			<arg value="/logger:${MSBuildLogger}" unless="${MSBuildLogger==''}"/>
+		</exec>
+	</target>
+	-->
+	
+	<!--
+	<target name="build" depends="config">
+		<exec program="${FrameworkDir}\MSBuild.exe" useruntimeengine="true"
+				 output="${BuildLogs}\msbuild-${target::get-current-target()}-results.xml">
+			<arg value="${SolutionFile}"/>
+			<arg value="/target:Build" />
+			<arg value="/noconsolelogger" if="${property::exists('CCNet')}" />
+			<arg value="/nologo" if="${property::exists('CCNet')}" />
+			<arg value="/p:Configuration=${Configuration}" />
+			<arg value="/p:Platform=Mixed Platforms" />
+			<arg value="/verbosity:minimal" />
+			<arg value="/logger:${MSBuildLogger}" unless="${MSBuildLogger==''}"/>
+		</exec>
+	</target>
+	-->
+
+	<!--
+	<target name="rebuild" depends="clean,build"/>
+	-->
+	
+	<!--
+	<target name="all" depends="clean, get, build, test"/>
+	-->
+</project>
