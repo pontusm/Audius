@@ -234,6 +234,7 @@ void PlayerComponent::actionListenerCallback( const String& message )
 			titleLabel->setTooltip(songInfo->getTitle());
 			artistLabel->setText(songInfo->getArtist(), false);
 			//albumLabel->setText(songInfo->getAlbum(), false);
+			albumLabel->setText(String::empty, false);
 			songPositionSlider->setRange(0, songInfo->getLengthSeconds());
 		}
 		else
