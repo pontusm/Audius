@@ -21,7 +21,7 @@
 		</exec>
 		
 		<!-- Move libcurl -->
-		<move todir="${OutputDir}\${Configuration}">
+		<move todir="${OutputDir}\${Configuration}" overwrite="true">
 			<fileset basedir="${directory::get-current-directory()}\..\bin\${Configuration}\bin\">
 				<include name="*.dll"/>
 				<include name="*.lib"/>
