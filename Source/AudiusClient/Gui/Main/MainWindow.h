@@ -25,6 +25,10 @@ public:
 	}
 
 private:
+	bool hookMediaKeys();
+	void unhookMediaKeys();
+
+private:
 	AppTrayIconComponent*	_trayIcon;
 	ApplicationCommandManager* _appCommandManager;
 };
