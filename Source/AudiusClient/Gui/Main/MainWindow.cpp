@@ -9,7 +9,6 @@
 // Globally shared data segment
 #pragma data_seg(".HOOKDATA")
 HHOOK g_hook = NULL;
-HWND g_hWnd = NULL;
 #pragma data_seg()
 
 #pragma comment(linker, "/SECTION:.HOOKDATA,RWS")
