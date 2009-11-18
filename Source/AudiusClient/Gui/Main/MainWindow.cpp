@@ -9,7 +9,6 @@
 // Globally shared data segment
 #pragma data_seg(".HOOKDATA")
 HHOOK g_hook = NULL;
-HWND g_hWnd = NULL;
 #pragma data_seg()
 
 #pragma comment(linker, "/SECTION:.HOOKDATA,RWS")
@@ -76,8 +75,12 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 	if(nCode == HC_ACTION && wParam == WM_KEYDOWN)
 	{
 		KBDLLHOOKSTRUCT* kbdinfo = (KBDLLHOOKSTRUCT*)lParam;
-		if(kbdinfo->vkCode == VK_MEDIA_PLAY_PAUSE)
+		switch(kbdinfo->vkCode)
 		{
+		case VK_MEDIA_PLAY_PAUSE:
+		case VK_MEDIA_NEXT_TRACK:
+		case VK_MEDIA_PREV_TRACK:
+		case VK_MEDIA_STOP:
 			//SendMessage(g_hWnd, wParam, kbdinfo->vkCode, kbdinfo->scanCode << 4);
 			return TRUE;
 		}
