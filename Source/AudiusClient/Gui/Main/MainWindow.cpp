@@ -1,6 +1,7 @@
 #include "Precompiled.h"
 #include "MainWindow.h"
 
+#include "../../ApplicationCommands.h"
 #include "../AppTrayIconComponent.h"
 #include "PlayerComponent.h"
 
@@ -13,6 +14,8 @@ HHOOK g_hook = NULL;
 
 #pragma comment(linker, "/SECTION:.HOOKDATA,RWS")
 
+ApplicationCommandManager* g_commandManager = NULL;
+
 MainWindow::MainWindow(MusicPlayer* player) :
 	DocumentWindow(T("Audius"),
 					Colours::azure,
@@ -24,6 +27,7 @@ MainWindow::MainWindow(MusicPlayer* player) :
 	// Init commands
 	_appCommandManager = new ApplicationCommandManager();
 	_appCommandManager->registerAllCommandsForTarget(JUCEApplication::getInstance());
+	g_commandManager = _appCommandManager;
 
 	// Setup key mappings
 	//_appCommandManager->getKeyMappings()->resetToDefaultMappings();
@@ -67,21 +71,35 @@ MainWindow::~MainWindow(void)
 	// are deleted before we destroy the command manager which is used by it
 	setContentComponent(NULL, true);
 
+	g_commandManager = NULL;
 	deleteAndZero(_appCommandManager);
 }
 
 LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
-	if(nCode == HC_ACTION && wParam == WM_KEYDOWN)
+	if(nCode == HC_ACTION && wParam == WM_KEYDOWN && g_commandManager)
 	{
 		KBDLLHOOKSTRUCT* kbdinfo = (KBDLLHOOKSTRUCT*)lParam;
+		CommandID cmd = 0;
 		switch(kbdinfo->vkCode)
 		{
 		case VK_MEDIA_PLAY_PAUSE:
+			cmd = ApplicationCommandIDs::toggleplaypause;
+			break;
 		case VK_MEDIA_NEXT_TRACK:
+			cmd = ApplicationCommandIDs::next;
+			break;
 		case VK_MEDIA_PREV_TRACK:
+			cmd = ApplicationCommandIDs::previous;
+			break;
 		case VK_MEDIA_STOP:
-			//SendMessage(g_hWnd, wParam, kbdinfo->vkCode, kbdinfo->scanCode << 4);
+			cmd = ApplicationCommandIDs::pause;
+			break;
+		}
+
+		if(cmd != 0)
+		{
+			g_commandManager->invokeDirectly(cmd, true);
 			return TRUE;
 		}
 	}
