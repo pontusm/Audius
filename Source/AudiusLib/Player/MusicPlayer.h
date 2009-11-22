@@ -16,6 +16,7 @@
 #include "PlayerStatus.h"
 
 class SongInfo;
+class PlaylistEntry;
 
 class MusicPlayer : public Thread,
 					public MessageQueue
@@ -43,6 +44,11 @@ public:
 
 	bool isLoggedIn();
 	bool performLogin(const String& login, const String& password);
+
+	// Playlist handling
+	boost::shared_ptr<PlaylistEntry> getPlaylistEntry(uint32 position);
+	uint32 getPlaylistCount();
+	uint32 getPlaylistPosition();
 
 	// Thread main loop
 	virtual void run();

@@ -3,7 +3,8 @@
 
 #include "../../ApplicationCommands.h"
 #include "../AppTrayIconComponent.h"
-#include "PlayerComponent.h"
+#include "MainComponent.h"
+//#include "PlayerComponent.h"
 
 #include "AudiusExt/AudiusExt.h"
 
@@ -36,14 +37,14 @@ MainWindow::MainWindow(MusicPlayer* player) :
 	addKeyListener(_appCommandManager->getKeyMappings());
 
 	// Hook media keys
-	//HookMediaKeys((HWND)getPeer()->getNativeHandle());
 	hookMediaKeys();
 
 	// Setup main window component (lifetime is managed by window)
-	PlayerComponent* pc = new PlayerComponent(player, _appCommandManager);
-	setContentComponent(pc, true, true);
+	//PlayerComponent* component = new PlayerComponent(player, _appCommandManager);
+	MainComponent* component = new MainComponent(player, _appCommandManager);
+	setContentComponent(component, true, true);
 
-	setResizeLimits(200, 170, 1000, 170);
+	//setResizeLimits(200, 170, 1000, 170);
 	setResizable(true, false);
 
 	centreWithSize(350, 170);
@@ -64,7 +65,6 @@ MainWindow::~MainWindow(void)
 	deleteAndZero (_trayIcon);
 #endif
 
-	//UnhookMediaKeys();
 	unhookMediaKeys();
 
 	// This will ensure that the current content component and all its children
@@ -108,8 +108,6 @@ LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 
 bool MainWindow::hookMediaKeys()
 {
-	//g_hWnd = hWnd;
-	//g_hook = SetWindowsHookEx( WH_SHELL, ShellProc, g_hInstance, NULL);
 	g_hook = SetWindowsHookEx( WH_KEYBOARD_LL, LowLevelKeyboardProc, GetModuleHandle(NULL), NULL);
 	if(!g_hook)
 		return false;

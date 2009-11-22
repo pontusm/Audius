@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  22 Nov 2009 12:58:02 pm
+  Creation date:  22 Nov 2009 12:52:22 pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -19,14 +19,15 @@
   ==============================================================================
 */
 
-#ifndef __JUCER_HEADER_PLAYLISTCOMPONENT_PLAYLISTCOMPONENT_45D8D187__
-#define __JUCER_HEADER_PLAYLISTCOMPONENT_PLAYLISTCOMPONENT_45D8D187__
+#ifndef __JUCER_HEADER_MAINCOMPONENT_MAINCOMPONENT_996F66E6__
+#define __JUCER_HEADER_MAINCOMPONENT_MAINCOMPONENT_996F66E6__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "juce.h"
 
 class MusicPlayer;
-class PlaylistModel;
+class PlayerComponent;
+class PlaylistComponent;
 //[/Headers]
 
 
@@ -39,12 +40,12 @@ class PlaylistModel;
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class PlaylistComponent  : public Component
+class MainComponent  : public Component
 {
 public:
     //==============================================================================
-    PlaylistComponent (MusicPlayer* player);
-    ~PlaylistComponent();
+    MainComponent (MusicPlayer* musicplayer, ApplicationCommandManager* commandManager);
+    ~MainComponent();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
@@ -60,17 +61,17 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
 	MusicPlayer*	_player;
-	PlaylistModel*	_playlistModel;
     //[/UserVariables]
 
     //==============================================================================
-    TableListBox* playlistTable;
+    PlayerComponent* playerComp;
+    PlaylistComponent* playlistComp;
 
     //==============================================================================
     // (prevent copy constructor and operator= being generated..)
-    PlaylistComponent (const PlaylistComponent&);
-    const PlaylistComponent& operator= (const PlaylistComponent&);
+    MainComponent (const MainComponent&);
+    const MainComponent& operator= (const MainComponent&);
 };
 
 
-#endif   // __JUCER_HEADER_PLAYLISTCOMPONENT_PLAYLISTCOMPONENT_45D8D187__
+#endif   // __JUCER_HEADER_MAINCOMPONENT_MAINCOMPONENT_996F66E6__

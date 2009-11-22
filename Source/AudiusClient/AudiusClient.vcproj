@@ -371,6 +371,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Gui\Main\MainComponent.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Gui\Main\MainWindow.cpp"
 				>
 			</File>
@@ -380,6 +384,10 @@
 			</File>
 			<File
 				RelativePath=".\Gui\Main\PlaylistComponent.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Gui\Main\PlaylistModel.cpp"
 				>
 			</File>
 			<File
@@ -461,6 +469,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Gui\Main\MainComponent.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Gui\Main\MainWindow.h"
 				>
 			</File>
@@ -470,6 +482,10 @@
 			</File>
 			<File
 				RelativePath=".\Gui\Main\PlaylistComponent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Gui\Main\PlaylistModel.h"
 				>
 			</File>
 			<File

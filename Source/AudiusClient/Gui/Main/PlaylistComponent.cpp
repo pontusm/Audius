@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  27 Oct 2009 9:28:11 pm
+  Creation date:  22 Nov 2009 12:58:02 pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -22,6 +22,7 @@
 //[Headers] You can add your own extra header files here...
 #include "Precompiled.h"
 
+#include "PlaylistModel.h"
 #include "../../../AudiusLib/AudiusLib.h"
 //[/Headers]
 
@@ -36,7 +37,9 @@ PlaylistComponent::PlaylistComponent (MusicPlayer* player)
     : _player(player),
       playlistTable (0)
 {
-    addAndMakeVisible (playlistTable = new TableListBox(T("playlist"), NULL));
+    addAndMakeVisible (playlistTable = new TableListBox (T("playlist"), NULL));
+    playlistTable->setName (T("playlist"));
+
 
     //[UserPreSize]
     //[/UserPreSize]
@@ -44,7 +47,8 @@ PlaylistComponent::PlaylistComponent (MusicPlayer* player)
     setSize (400, 400);
 
     //[Constructor] You can add your own custom stuff here..
-
+	_playlistModel = new PlaylistModel(player);
+	playlistTable->setModel(_playlistModel);
     //[/Constructor]
 }
 
@@ -56,6 +60,7 @@ PlaylistComponent::~PlaylistComponent()
     deleteAndZero (playlistTable);
 
     //[Destructor]. You can add your own custom destruction code here..
+	deleteAndZero(_playlistModel);
     //[/Destructor]
 }
 
@@ -64,8 +69,6 @@ void PlaylistComponent::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
-
-    g.fillAll (Colours::white);
 
     //[UserPaint] Add your own custom painting code here..
     //[/UserPaint]
@@ -97,10 +100,10 @@ BEGIN_JUCER_METADATA
                  variableInitialisers="_player(player)" snapPixels="8" snapActive="1"
                  snapShown="1" overlayOpacity="0.330000013" fixedSize="0" initialWidth="400"
                  initialHeight="400">
-  <BACKGROUND backgroundColour="ffffffff"/>
+  <BACKGROUND backgroundColour="ffffff"/>
   <GENERICCOMPONENT name="playlist" id="13011219828ab88e" memberName="playlistTable"
                     virtualName="" explicitFocusOrder="0" pos="8 8 16M 55M" class="TableListBox"
-                    params=""/>
+                    params="T(&quot;playlist&quot;), NULL"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

@@ -309,11 +309,10 @@ private:
 	// Public variables
 public:
 	PlayerThread*	_playerThread;
+	shared_ptr<Playlist>	_playlist;		// Shared with player thread
 
 	// Private variables
 private:
-	shared_ptr<Playlist>	_playlist;		// Shared with player thread
-
 	KejkService		_kejkService;
 	String			_userKey;
 
@@ -454,3 +453,17 @@ void MusicPlayer::registerListener( ActionListener* const listener )
 	_pimpl->_playerThread->addActionListener(listener);
 }
 
+boost::shared_ptr<PlaylistEntry> MusicPlayer::getPlaylistEntry( uint32 position )
+{
+	return _pimpl->_playlist->getEntry(position);
+}
+
+uint32 MusicPlayer::getPlaylistCount()
+{
+	return _pimpl->_playlist->getCount();
+}
+
+uint32 MusicPlayer::getPlaylistPosition()
+{
+	return _pimpl->_playlist->getCurrentPosition();
+}

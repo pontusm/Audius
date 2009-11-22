@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  27 Oct 2009 9:12:48 pm
+  Creation date:  22 Nov 2009 12:55:32 pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -19,8 +19,8 @@
   ==============================================================================
 */
 
-#ifndef __JUCER_HEADER_PLAYERCOMPONENT_PLAYERCOMPONENT_C29CEC5F__
-#define __JUCER_HEADER_PLAYERCOMPONENT_PLAYERCOMPONENT_C29CEC5F__
+#ifndef __JUCER_HEADER_PLAYERCOMPONENT_PLAYERCOMPONENT_EF4DCF6__
+#define __JUCER_HEADER_PLAYERCOMPONENT_PLAYERCOMPONENT_EF4DCF6__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "juce.h"
@@ -46,7 +46,7 @@ class PlayerComponent  : public Component,
 {
 public:
     //==============================================================================
-    PlayerComponent (MusicPlayer* player, ApplicationCommandManager* commandManager);
+    PlayerComponent (MusicPlayer* musicplayer, ApplicationCommandManager* commandManager);
     ~PlayerComponent();
 
     //==============================================================================
@@ -116,4 +116,4 @@ private:
 };
 
 
-#endif   // __JUCER_HEADER_PLAYERCOMPONENT_PLAYERCOMPONENT_C29CEC5F__
+#endif   // __JUCER_HEADER_PLAYERCOMPONENT_PLAYERCOMPONENT_EF4DCF6__

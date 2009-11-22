@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  27 Oct 2009 9:12:48 pm
+  Creation date:  22 Nov 2009 12:55:32 pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -34,8 +34,8 @@ using namespace boost;
 //[/MiscUserDefs]
 
 //==============================================================================
-PlayerComponent::PlayerComponent (MusicPlayer* player, ApplicationCommandManager* commandManager)
-    : _player(player),
+PlayerComponent::PlayerComponent (MusicPlayer* musicplayer, ApplicationCommandManager* commandManager)
+    : _player(musicplayer),
       titleLabel (0),
       artistLabel (0),
       albumLabel (0),
@@ -153,16 +153,6 @@ void PlayerComponent::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
-
-    g.fillAll (Colours::white);
-
-    GradientBrush gradient_1 (Colours::white,
-                              208.0f, 32.0f,
-                              Colour (0xffbee6c8),
-                              240.0f, 280.0f,
-                              false);
-    g.setBrush (&gradient_1);
-    g.fillRect (0, 0, proportionOfWidth (1.0000f), proportionOfHeight (1.0000f));
 
     g.setColour (Colours::black);
     g.drawImageWithin (cachedImage_loudspeaker_png,
@@ -286,17 +276,15 @@ BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="PlayerComponent" componentName=""
                  parentClasses="public Component, public ActionListener, public Timer"
-                 constructorParams="MusicPlayer* player, ApplicationCommandManager* commandManager"
-                 variableInitialisers="_player(player)" snapPixels="8" snapActive="1"
+                 constructorParams="MusicPlayer* musicplayer, ApplicationCommandManager* commandManager"
+                 variableInitialisers="_player(musicplayer)" snapPixels="8" snapActive="1"
                  snapShown="1" overlayOpacity="0.330000013" fixedSize="0" initialWidth="350"
                  initialHeight="130">
   <METHODS>
     <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
     <METHOD name="mouseDrag (const MouseEvent&amp; e)"/>
   </METHODS>
-  <BACKGROUND backgroundColour="ffffffff">
-    <RECT pos="0 0 100% 100%" fill="linear: 208 32, 240 280, 0=ffffffff, 1=ffbee6c8"
-          hasStroke="0"/>
+  <BACKGROUND backgroundColour="ffffff">
     <IMAGE pos="4 4 64 64" resource="loudspeaker_png" opacity="1" mode="2"/>
   </BACKGROUND>
   <LABEL name="title" id="90f7db01e53dece5" memberName="titleLabel" virtualName=""
