@@ -14,9 +14,9 @@
 #include "../System/MessageQueue.h"
 
 #include "PlayerStatus.h"
+#include "PlaylistEntry.h"
 
 class SongInfo;
-class PlaylistEntry;
 
 class MusicPlayer : public Thread,
 					public MessageQueue

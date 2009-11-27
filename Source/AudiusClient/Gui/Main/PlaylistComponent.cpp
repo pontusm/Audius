@@ -22,7 +22,6 @@
 //[Headers] You can add your own extra header files here...
 #include "Precompiled.h"
 
-#include "PlaylistModel.h"
 #include "../../../AudiusLib/AudiusLib.h"
 //[/Headers]
 
@@ -30,12 +29,14 @@
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
+using namespace boost;
 //[/MiscUserDefs]
 
 //==============================================================================
 PlaylistComponent::PlaylistComponent (MusicPlayer* player)
     : _player(player),
       _font(14.0f),
+	  _boldfont(14.0f, Font::bold),
       playlistTable (0)
 {
     addAndMakeVisible (playlistTable = new TableListBox (T("playlist"), this));
@@ -50,8 +51,11 @@ PlaylistComponent::PlaylistComponent (MusicPlayer* player)
 	playlistTable->setColour(ListBox::outlineColourId, Colours::grey);
 	playlistTable->setOutlineThickness(1);
 
-	playlistTable->getHeader()->addColumn(T("Test"), 1, 100, 30, -1, TableHeaderComponent::notSortable);
+	playlistTable->getHeader()->addColumn(T("Track"), 1, 250, 30, -1, TableHeaderComponent::notSortable);
+	playlistTable->getHeader()->addColumn(T("Length"), 2, 50, 30, -1, TableHeaderComponent::notSortable);
+	//playlistTable->getHeader()->setStretchToFitActive(true);
 
+	_player->registerListener(this);
     //[/Constructor]
 }
 
@@ -93,25 +97,46 @@ int PlaylistComponent::getNumRows()
 
 void PlaylistComponent::paintRowBackground( Graphics& g, int rowNumber, int width, int height, bool rowIsSelected )
 {
-	g.fillAll(Colours::red);
+	if (rowIsSelected)
+		g.fillAll (Colours::lightblue);
 }
 
 void PlaylistComponent::paintCell( Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected )
 {
 	g.setColour(Colours::black);
-	g.setFont(_font);
+	if(_player->getPlaylistPosition() == rowNumber)
+		g.setFont(_boldfont);
+	else
+		g.setFont(_font);
 
-	//const XmlElement* rowElement = dataList->getChildElement (rowNumber);
+	shared_ptr<PlaylistEntry> playlistEntry = _player->getPlaylistEntry(rowNumber);
 
-	//if (rowElement != 0)
-	//{
-	//	const String text (rowElement->getStringAttribute (getAttributeNameForColumnId (columnId)));
-
-	//	g.drawText (text, 2, 0, width - 4, height, Justification::centredLeft, true);
-	//}
+	if(playlistEntry)
+	{
+		shared_ptr<SongInfo> songInfo = playlistEntry->getSongInfo();
+		switch(columnId)
+		{
+		case 1:
+			g.drawText(songInfo->getTitle(), 2, 0, width - 4, height, Justification::centredLeft, true);
+			break;
+		case 2:
+			int seconds = songInfo->getLengthSeconds();
+			const String s = String::formatted(T("%d:%02d"), (seconds / 60), (seconds % 60) );
+			g.drawText(s, 2, 0, width - 4, height, Justification::centredRight, true);
+			break;
+		}
+	}
 
 	//g.setColour (Colours::black.withAlpha (0.2f));
 	//g.fillRect (width - 1, 0, 1, height);
+}
+
+void PlaylistComponent::actionListenerCallback(const String& message)
+{
+	if(message == PlayerNotifications::playlistChanged || message == PlayerNotifications::newSong)
+	{
+		playlistTable->updateContent();
+	}
 }
 //[/MiscUserCode]
 

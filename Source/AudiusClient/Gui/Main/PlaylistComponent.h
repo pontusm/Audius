@@ -40,6 +40,7 @@ class PlaylistModel;
                                                                     //[/Comments]
 */
 class PlaylistComponent  : public Component,
+						   public ActionListener,
                            public TableListBoxModel
 {
 public:
@@ -49,6 +50,7 @@ public:
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+	virtual void actionListenerCallback(const String& message);
 	virtual int getNumRows();
 	virtual void paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected);
 	virtual void paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected);
@@ -64,6 +66,7 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
 	Font _font;
+	Font _boldfont;
 
 	MusicPlayer*	_player;
     //[/UserVariables]

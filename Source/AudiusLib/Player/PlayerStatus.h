@@ -25,4 +25,5 @@ namespace PlayerNotifications
 {
 	static const String newSong			= T("newsong");
 	static const String statusChanged	= T("statuschg");
+	static const String playlistChanged = T("playlistchg");
 }

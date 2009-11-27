@@ -100,6 +100,7 @@ public:
 				// Stop player and clear playlist
 				_playerThread->stop();
 				_playlist->clear();
+				_playerThread->sendActionMessage(PlayerNotifications::playlistChanged);
 
 				// Resume playing if user was playing before
 				if(status == Player::Playing)
@@ -186,6 +187,7 @@ private:
 		_playlist->clear();
 		_playlist->add( playlistEntry );
 		_playerThread->play();
+		_playerThread->sendActionMessage(PlayerNotifications::playlistChanged);
 
 		// Schedule a full scan of the playlist
 		// TODO: Schedule in the future to avoid hogging connection and UI thread
@@ -207,7 +209,10 @@ private:
 		{
 			playlistEntry = createPlaylistEntryFromKejkXml( _kejkService.gotoNext(_userKey) );
 			if(playlistEntry)
+			{
 				_playlist->add(playlistEntry);
+				_playerThread->sendActionMessage(PlayerNotifications::playlistChanged);
+			}
 		} while(playlistEntry);
 
 		// Step back to original position
@@ -264,6 +269,7 @@ private:
 				return;
 
 			_playlist->add( playlistEntry );
+			_playerThread->sendActionMessage(PlayerNotifications::playlistChanged);
 		}
 
 		// Step to the next playlist entry
@@ -292,6 +298,7 @@ private:
 				return;
 
 			_playlist->insert(0, playlistEntry );
+			_playerThread->sendActionMessage(PlayerNotifications::playlistChanged);
 		}
 
 		// Step to the previous playlist entry

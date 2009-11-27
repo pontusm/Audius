@@ -387,10 +387,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Gui\Main\PlaylistModel.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Precompiled.cpp"
 				>
 				<FileConfiguration
@@ -482,10 +478,6 @@
 			</File>
 			<File
 				RelativePath=".\Gui\Main\PlaylistComponent.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Gui\Main\PlaylistModel.h"
 				>
 			</File>
 			<File
