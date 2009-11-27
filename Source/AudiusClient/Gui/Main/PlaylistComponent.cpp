@@ -131,6 +131,11 @@ void PlaylistComponent::paintCell( Graphics& g, int rowNumber, int columnId, int
 	//g.fillRect (width - 1, 0, 1, height);
 }
 
+void PlaylistComponent::cellDoubleClicked(int rowNumber, int columnId, const MouseEvent& e)
+{
+	_player->setPlaylistPosition(rowNumber);
+}
+
 void PlaylistComponent::actionListenerCallback(const String& message)
 {
 	if(message == PlayerNotifications::playlistChanged)

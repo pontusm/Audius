@@ -95,6 +95,17 @@ public:
 		return _currentPosition;
 	}
 
+	// Sets the current position of the playlist
+	bool setCurrentPosition(uint32 position)
+	{
+		const ScopedLock l(_lock);
+		if(position < 0 || position >= _entries.size())
+			return false;
+
+		_currentPosition = position;
+		return true;
+	}
+
 	boost::shared_ptr<PlaylistEntry> getEntry(uint32 position)
 	{
 		const ScopedLock l(_lock);

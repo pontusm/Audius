@@ -47,7 +47,8 @@ MainWindow::MainWindow(MusicPlayer* player) :
 	//setResizeLimits(200, 170, 1000, 170);
 	setResizable(true, false);
 
-	centreWithSize(350, 170);
+	//centreWithSize(350, 170);
+	centreWithSize(350, 500);
 
 	//centreWithSize(getWidth(), getHeight());
 

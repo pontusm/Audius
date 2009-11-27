@@ -54,6 +54,7 @@ public:
 	virtual int getNumRows();
 	virtual void paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected);
 	virtual void paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected);
+	virtual void cellDoubleClicked(int rowNumber, int columnId, const MouseEvent& e);
     //[/UserMethods]
 
     void paint (Graphics& g);

@@ -476,3 +476,14 @@ uint32 MusicPlayer::getPlaylistPosition()
 {
 	return _pimpl->_playlist->getCurrentPosition();
 }
+
+void MusicPlayer::setPlaylistPosition(uint32 position)
+{
+	// Update playlist position
+	if(!_pimpl->_playlist->setCurrentPosition(position))
+		return;
+
+	// If successful, restart player to play new song
+	stopPlaying();
+	startPlaying();
+}

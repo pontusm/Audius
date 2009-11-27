@@ -252,7 +252,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="rem copy /Y $(SolutionDir)Dependencies\libcurl\lib\DLL-$(ConfigurationName)\*.dll $(TargetDir)&#x0D;&#x0A;$(SolutionDir)Tools\Upx\Upx.exe $(TargetPath)&#x0D;&#x0A;"
+				CommandLine="rem copy /Y $(SolutionDir)Dependencies\libcurl\lib\DLL-$(ConfigurationName)\*.dll $(TargetDir)&#x0D;&#x0A;$(SolutionDir)Tools\Upx\Upx.exe --force $(TargetPath)&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -342,10 +342,6 @@
 		<ProjectReference
 			ReferencedProjectIdentifier="{FC9FDD58-8545-4931-998C-01C057BEA96C}"
 			RelativePathToProject=".\Source\AudiusLib\AudiusLib.vcproj"
-		/>
-		<ProjectReference
-			ReferencedProjectIdentifier="{D3BC9FB8-1BD5-4565-A4EB-078C2133C24C}"
-			RelativePathToProject=".\Source\AudiusExt\AudiusExt.vcproj"
 		/>
 	</References>
 	<Files>

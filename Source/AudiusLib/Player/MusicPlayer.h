@@ -49,6 +49,7 @@ public:
 	boost::shared_ptr<PlaylistEntry> getPlaylistEntry(uint32 position);
 	uint32 getPlaylistCount();
 	uint32 getPlaylistPosition();
+	void setPlaylistPosition(uint32 position);
 
 	// Thread main loop
 	virtual void run();

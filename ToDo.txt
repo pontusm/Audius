@@ -16,7 +16,12 @@ DONE -Handle media keys
 DONE -Show slider bar for song position
 
 v0.4
--Show playlist
+DONE -Show playlist
+
+v0.5
+-Use Clodder service
+-Replace mp3 lib
+-Use Juce sound output
 
 v0.x
 -Rewrite player to use libmad/libmpg123
