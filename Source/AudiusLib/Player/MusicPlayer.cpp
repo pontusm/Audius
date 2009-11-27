@@ -282,6 +282,7 @@ private:
 			_playerThread->stop();
 			_playerThread->play();
 		}
+		_playerThread->sendActionMessage(PlayerNotifications::newSong);
 	}
 
 	void handleGotoPrevious()
@@ -311,6 +312,7 @@ private:
 			_playerThread->stop();
 			_playerThread->play();
 		}
+		_playerThread->sendActionMessage(PlayerNotifications::newSong);
 	}
 
 	// Public variables

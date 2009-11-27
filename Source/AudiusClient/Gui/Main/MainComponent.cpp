@@ -75,15 +75,14 @@ void MainComponent::paint (Graphics& g)
 
     g.fillAll (Colours::white);
 
-    GradientBrush gradient_1 (Colours::white,
-                              208.0f, 32.0f,
-                              Colour (0xffbee6c8),
-                              240.0f, 280.0f,
-                              false);
-    g.setBrush (&gradient_1);
-    g.fillRect (0, 0, proportionOfWidth (1.0000f), proportionOfHeight (1.0000f));
-
     //[UserPaint] Add your own custom painting code here..
+	GradientBrush gradient_1 (Colours::white,
+		208.0f, getHeight() - 140.0f,
+		Colour (0xffbee6c8),
+		240.0f, getHeight() - 20.0f,
+		false);
+	g.setBrush (&gradient_1);
+	g.fillRect (0, 0, proportionOfWidth (1.0000f), proportionOfHeight (1.0000f));
     //[/UserPaint]
 }
 

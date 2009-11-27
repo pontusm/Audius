@@ -82,7 +82,7 @@ void PlaylistComponent::paint (Graphics& g)
 
 void PlaylistComponent::resized()
 {
-    playlistTable->setBounds (8, 8, getWidth() - 16, getHeight() - 55);
+    playlistTable->setBounds (8, 8, getWidth() - 16, getHeight() - 16);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -133,9 +133,13 @@ void PlaylistComponent::paintCell( Graphics& g, int rowNumber, int columnId, int
 
 void PlaylistComponent::actionListenerCallback(const String& message)
 {
-	if(message == PlayerNotifications::playlistChanged || message == PlayerNotifications::newSong)
+	if(message == PlayerNotifications::playlistChanged)
 	{
 		playlistTable->updateContent();
+	}
+	else if(message == PlayerNotifications::newSong)
+	{
+		playlistTable->repaint();
 	}
 }
 //[/MiscUserCode]
