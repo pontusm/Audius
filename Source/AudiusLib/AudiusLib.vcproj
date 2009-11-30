@@ -7,7 +7,6 @@
 	RootNamespace="AudiusLib"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
-	ShowAllFiles="true"
 	>
 	<Platforms>
 		<Platform
@@ -67,8 +66,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libwmp3.lib libcurld_imp.lib"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)Dependencies\libcurl\lib\DLL-$(ConfigurationName)&quot;;&quot;$(SolutionDir)Libs\$(ConfigurationName)&quot;"
+				AdditionalDependencies="libwmp3.lib libcurld_imp.lib libmpg123.lib"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)Dependencies\libcurl\lib\DLL-$(ConfigurationName)&quot;;&quot;$(SolutionDir)Libs\$(ConfigurationName)&quot;;&quot;$(SolutionDir)Output\$(ConfigurationName)&quot;"
 				IgnoreDefaultLibraryNames="LIBCMTD"
 			/>
 			<Tool
@@ -203,8 +202,8 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libwmp3.lib libcurl_imp.lib"
-				AdditionalLibraryDirectories="&quot;$(SolutionDir)Dependencies\libcurl\lib\DLL-$(ConfigurationName)&quot;;&quot;$(SolutionDir)Libs\$(ConfigurationName)&quot;"
+				AdditionalDependencies="libwmp3.lib libcurl_imp.lib libmpg123.lib"
+				AdditionalLibraryDirectories="&quot;$(SolutionDir)Dependencies\libcurl\lib\DLL-$(ConfigurationName)&quot;;&quot;$(SolutionDir)Libs\$(ConfigurationName)&quot;;&quot;$(SolutionDir)Output\$(ConfigurationName)&quot;"
 			/>
 			<Tool
 				Name="VCALinkTool"
