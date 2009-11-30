@@ -7,6 +7,7 @@
 	RootNamespace="AudiusLib"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
+	ShowAllFiles="true"
 	>
 	<Platforms>
 		<Platform
