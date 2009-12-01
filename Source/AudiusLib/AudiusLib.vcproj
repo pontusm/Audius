@@ -335,6 +335,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Audio\Mp3AudioFormat.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Player\MusicPlayer.cpp"
 				>
 			</File>
@@ -438,6 +442,10 @@
 			</File>
 			<File
 				RelativePath=".\Model\ModelBuilder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Audio\Mp3AudioFormat.h"
 				>
 			</File>
 			<File
