@@ -299,6 +299,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\Services\ClodderService.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Downloader\DownloadManager.cpp"
 				>
 			</File>
@@ -325,10 +329,6 @@
 						UsePrecompiledHeader="0"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\Services\KejkService.cpp"
-				>
 			</File>
 			<File
 				RelativePath=".\Model\ModelBuilder.cpp"
@@ -405,6 +405,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Services\ClodderService.h"
+				>
+			</File>
+			<File
 				RelativePath=".\System\Net\DataReceivedEventArgs.h"
 				>
 			</File>
@@ -426,10 +430,6 @@
 			</File>
 			<File
 				RelativePath=".\juce_AppConfig.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Services\KejkService.h"
 				>
 			</File>
 			<File

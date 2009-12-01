@@ -13,7 +13,7 @@ AppTrayIconComponent::AppTrayIconComponent( ApplicationCommandManager* commandMa
 	if(_icon)
 		setIconImage(*_icon);
 
-	setIconTooltip (T("Audius music player for Kejk"));
+	setIconTooltip (T("Audius music player"));
 }
 
 AppTrayIconComponent::~AppTrayIconComponent()

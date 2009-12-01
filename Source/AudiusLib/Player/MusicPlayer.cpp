@@ -5,7 +5,7 @@
 #include "Playlist.h"
 #include "PlaylistEntry.h"
 
-#include "../Services/KejkService.h"
+#include "../Services/ClodderService.h"
 #include "../Model/ModelBuilder.h"
 #include "../Model/SongInfo.h"
 
@@ -143,7 +143,7 @@ private:
 
 		try
 		{
-			_userKey = _kejkService.login(_login, _password);
+			_userKey = _service.login(_login, _password);
 			return _userKey.length() > 0;
 		}
 		catch(WebException& ex)
@@ -175,11 +175,11 @@ private:
 			return;
 		}
 
-		// Retrieve current entry from Kejk and start playing it
-		shared_ptr<PlaylistEntry> playlistEntry = getCurrentPlaylistEntryFromKejk();
+		// Retrieve current entry and start playing it
+		shared_ptr<PlaylistEntry> playlistEntry = getCurrentPlaylistEntryFromServer();
 		if(!playlistEntry)
 		{
-			Logger::writeToLog(T("Unable to start playing. Kejk playlist is empty."));
+			Logger::writeToLog(T("Unable to start playing. Server playlist is empty."));
 			return;
 		}
 
@@ -195,7 +195,7 @@ private:
 		refreshPlaylist();
 	}
 
-	// Scans the entire playlist from Kejk
+	// Scans the entire playlist from server
 	void refreshPlaylist() 
 	{
 		if(!ensureLoggedIn())
@@ -207,7 +207,7 @@ private:
 		// Scan forward to get last part of playlist
 		do
 		{
-			playlistEntry = createPlaylistEntryFromKejkXml( _kejkService.gotoNext(_userKey) );
+			playlistEntry = createPlaylistEntryFromServerXml( _service.gotoNext(_userKey) );
 			if(playlistEntry)
 			{
 				_playlist->add(playlistEntry);
@@ -217,7 +217,7 @@ private:
 
 		// Step back to original position
 		for(int i = 0; i < (int)_playlist->getCount() - 1; i++)
-			_kejkService.gotoPrevious(_userKey);
+			_service.gotoPrevious(_userKey);
 
 		// Scan backwards to build first part of playlist
 		// ** Temporarily disabling this for now ***
@@ -225,28 +225,28 @@ private:
 		DBG(T("Backtracking playlist..."));
 		do
 		{
-		playlistEntry = createPlaylistEntryFromKejkXml( _kejkService.gotoPrevious(_userKey) );
+		playlistEntry = createPlaylistEntryFromServerXml( _service.gotoPrevious(_userKey) );
 		if(playlistEntry)
 		_playlist->insert(0, playlistEntry);
 		} while (playlistEntry);
 		*/
 	}
 
-	// Retrieves the current song from Kejk and creates a PlaylistEntry for it
-	shared_ptr<PlaylistEntry> getCurrentPlaylistEntryFromKejk()
+	// Retrieves the current song from server and creates a PlaylistEntry for it
+	shared_ptr<PlaylistEntry> getCurrentPlaylistEntryFromServer()
 	{
-		String itemXml = _kejkService.getCurrentPlaylistItem(_userKey);
-		return createPlaylistEntryFromKejkXml(itemXml);
+		String itemXml = _service.getCurrentPlaylistItem(_userKey);
+		return createPlaylistEntryFromServerXml(itemXml);
 	}
 
-	shared_ptr<PlaylistEntry> createPlaylistEntryFromKejkXml(const String& itemXml)
+	shared_ptr<PlaylistEntry> createPlaylistEntryFromServerXml(const String& itemXml)
 	{
 		ModelBuilder builder;
 		shared_ptr<SongInfo> songInfo = builder.createSongInfo(itemXml);
 		if(!songInfo)
 			return shared_ptr<PlaylistEntry>();
 
-		String url = _kejkService.getSongUrl(_userKey, songInfo->getSongID());
+		String url = _service.getSongUrl(_userKey, songInfo->getSongID());
 		if(url.length() == 0)
 			return shared_ptr<PlaylistEntry>();
 
@@ -260,11 +260,11 @@ private:
 		// At end of playlist?
 		if(_playlist->getCurrentPosition() >= _playlist->getCount() - 1)
 		{
-			// Retrieve next from Kejk
+			// Retrieve next from server
 			if(!ensureLoggedIn())
 				return;
 
-			shared_ptr<PlaylistEntry> playlistEntry = createPlaylistEntryFromKejkXml( _kejkService.gotoNext(_userKey) );
+			shared_ptr<PlaylistEntry> playlistEntry = createPlaylistEntryFromServerXml( _service.gotoNext(_userKey) );
 			if(!playlistEntry)
 				return;
 
@@ -290,11 +290,11 @@ private:
 		// At start of playlist?
 		if(_playlist->getCurrentPosition() <= 0)
 		{
-			// Check if we can retrieve earlier entries from Kejk
+			// Check if we can retrieve earlier entries from server
 			if(!ensureLoggedIn())
 				return;
 
-			shared_ptr<PlaylistEntry> playlistEntry = createPlaylistEntryFromKejkXml( _kejkService.gotoPrevious(_userKey) );
+			shared_ptr<PlaylistEntry> playlistEntry = createPlaylistEntryFromServerXml( _service.gotoPrevious(_userKey) );
 			if(!playlistEntry)
 				return;
 
@@ -322,7 +322,7 @@ public:
 
 	// Private variables
 private:
-	KejkService		_kejkService;
+	ClodderService	_service;
 	String			_userKey;
 
 	CriticalSection		_loginLock;

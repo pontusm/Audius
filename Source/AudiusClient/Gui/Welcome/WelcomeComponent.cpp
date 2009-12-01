@@ -39,7 +39,7 @@ WelcomeComponent::WelcomeComponent ()
       textButton (0)
 {
     addAndMakeVisible (label = new Label (String::empty,
-                                          T("Would you like to add your music to Kejk?")));
+                                          T("Would you like to add your music to Clodder?")));
     label->setFont (Font (15.0000f, Font::plain));
     label->setJustificationType (Justification::centred);
     label->setEditable (false, false, false);
@@ -47,7 +47,7 @@ WelcomeComponent::WelcomeComponent ()
     label->setColour (TextEditor::backgroundColourId, Colour (0x0));
 
     addAndMakeVisible (label2 = new Label (String::empty,
-                                           T("Welcome to Audius\nmusic player for Kejk")));
+                                           T("Welcome to Audius\nmusic player for Clodder")));
     label2->setFont (Font (25.1000f, Font::bold));
     label2->setJustificationType (Justification::centred);
     label2->setEditable (false, false, false);
@@ -188,12 +188,12 @@ BEGIN_JUCER_METADATA
   </BACKGROUND>
   <LABEL name="" id="78e526e81f48e65" memberName="label" virtualName=""
          explicitFocusOrder="0" pos="8 88 368 24" edTextCol="ff000000"
-         edBkgCol="0" labelText="Would you like to add your music to Kejk?"
+         edBkgCol="0" labelText="Would you like to add your music to Clodder?"
          editableSingleClick="0" editableDoubleClick="0" focusDiscardsChanges="0"
          fontname="Default font" fontsize="15" bold="0" italic="0" justification="36"/>
   <LABEL name="" id="4610de6778e61a4a" memberName="label2" virtualName=""
          explicitFocusOrder="0" pos="8 8 368 64" edTextCol="ff000000"
-         edBkgCol="0" labelText="Welcome to Audius&#10;music player for Kejk"
+         edBkgCol="0" labelText="Welcome to Audius&#10;music player for Clodder"
          editableSingleClick="0" editableDoubleClick="0" focusDiscardsChanges="0"
          fontname="Default font" fontsize="25.1" bold="1" italic="0" justification="36"/>
   <TOGGLEBUTTON name="Yes" id="86f3025b7c502d7e" memberName="toggleYes" virtualName=""

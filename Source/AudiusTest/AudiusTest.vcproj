@@ -7,7 +7,6 @@
 	RootNamespace="AudiusTest"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
-	ShowAllFiles="true"
 	>
 	<Platforms>
 		<Platform
@@ -348,6 +347,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ClodderServiceTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\dllmain.cpp"
 				>
 				<FileConfiguration
@@ -386,10 +389,6 @@
 						CompileAsManaged="0"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\KejkServiceTest.cpp"
-				>
 			</File>
 			<File
 				RelativePath=".\ModelBuilderTest.cpp"
