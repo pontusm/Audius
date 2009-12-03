@@ -24,11 +24,11 @@ v0.5
 -Use Juce sound output
 
 v0.x
--Rewrite player to use libmad/libmpg123
 -Incorporate crash reporter
 -Improve login dialog
 -Integrate with MSN
 -Scrobble to Last.fm
 -Capture audius: links
+-Auto upgrade
 
 v1.0

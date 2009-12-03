@@ -12,8 +12,6 @@
 #include "Playlist.h"
 #include "PlaylistEntry.h"
 
-#include "libwmp3.h"
-
 using namespace boost;
 
 #define MP3_BUFFER_LENGTH_MS	2000
@@ -60,11 +58,11 @@ public:
 	  _isDownloading(false),
 	  _isNewStream(true)
 	{
-		_player = CreateCWMp3();
+		//_player = CreateCWMp3();
 	}
 	~impl()
 	{
-		_player->Release();
+		//_player->Release();
 	}
 
 	// This is called periodically to handle routine tasks
@@ -87,7 +85,7 @@ public:
 		const ScopedLock l(_lock);
 
 		// Check player status
-		MP3_STATUS status;
+/*		MP3_STATUS status;
 		_player->GetStatus(&status);
 		//if(_isBuffering)
 		//	return Player::Buffering;
@@ -97,7 +95,7 @@ public:
 			return Player::Paused;
 		if(status.fStop)
 			return Player::Stopped;
-
+*/
 		return Player::Unknown;
 	}
 
@@ -110,9 +108,11 @@ public:
 	uint32 getCurrentSongTime()
 	{
 		const ScopedLock l(_lock);
-		MP3_TIME position;
+/*		MP3_TIME position;
 		_player->GetPosition(&position);
 		return position.sec;
+*/
+		return 0;
 	}
 
 	// Called when user wants to play
@@ -125,7 +125,7 @@ public:
 		const ScopedLock l(_lock);
 
 		// Check player status
-		MP3_STATUS status;
+/*		MP3_STATUS status;
 		_player->GetStatus(&status);
 
 		// Resume paused song?
@@ -137,6 +137,7 @@ public:
 		}
 
 		startPlaying();
+*/
 	}
 
 	// Called when music should pause
@@ -145,10 +146,11 @@ public:
 		const ScopedLock l(_lock);
 
 		// Check player status
-		MP3_STATUS status;
+/*		MP3_STATUS status;
 		_player->GetStatus(&status);
 		if(status.fPlay)
 			_player->Pause();
+*/
 	}
 
 	// Called when music should stop
@@ -160,16 +162,17 @@ public:
 		const ScopedLock l(_lock);
 
 		// Check player status
-		MP3_STATUS status;
+/*		MP3_STATUS status;
 		_player->GetStatus(&status);
 		if(!status.fStop)
 			_player->Stop();
+*/
 	}
 
 	void seek(uint32 seconds)
 	{
 		const ScopedLock l(_lock);
-		MP3_TIME position;
+/*		MP3_TIME position;
 		position.sec = seconds;
 		if(_player->Seek(TIME_FORMAT_SEC, &position, SONG_BEGIN) == 0)
 		{
@@ -177,7 +180,7 @@ public:
 			Logger::writeToLog("Seek failed: " + err);
 			return;
 		}
-
+*/
 		// Resume playing
 		play();
 	}
@@ -239,7 +242,7 @@ private:
 		// Check if we have reached the end of the current song
 		uint32 length = _currentSong->getLengthSeconds();
 
-		MP3_TIME position;
+/*		MP3_TIME position;
 		_player->GetPosition(&position);
 
 		// Not even started yet?
@@ -290,6 +293,7 @@ private:
 			Logger::writeToLog(T("End of playlist reached."));
 			_ownerThread->postThreadMessage( new PlayerThreadMessage(PlayerThreadMessage::Stop) );
 		}
+*/
 	}
 
 	// Starts buffering/playing the current song in the playlist
@@ -338,7 +342,7 @@ private:
 
 		// Enter critical section
 		const ScopedLock l(_lock);
-
+/*
 		// Stream data
 		if(_isNewStream)
 		{
@@ -395,11 +399,12 @@ private:
 		}
 
 		_isDownloading = !args->isFinished;
+*/
 	}
 
 	void fadeOut(bool wait)
 	{
-		MP3_STATUS status;
+/*		MP3_STATUS status;
 		_player->GetStatus(&status);
 		if(!status.fPlay)
 			return;
@@ -412,6 +417,7 @@ private:
 		_player->FadeVolume(FADE_OUT, TIME_FORMAT_MS, &fadetime);
 		if(wait)
 			Thread::getCurrentThread()->wait(MP3_FADEOUT_TIME_MS + MP3_BUFFER_LENGTH_MS);
+*/
 	}
 
 	// Aborts any download in progress
@@ -440,7 +446,7 @@ private:
 	// Must only be accessed within critical section
 	CriticalSection			_lock;
 	shared_ptr<SongInfo>	_currentSong;
-	CWMp3*					_player;
+	//CWMp3*					_player;
 
 	uint32	_lastKnownPosition;
 	bool	_songStopped;

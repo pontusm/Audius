@@ -6,8 +6,6 @@
 #include "MainComponent.h"
 //#include "PlayerComponent.h"
 
-#include "AudiusExt/AudiusExt.h"
-
 // Globally shared data segment
 #pragma data_seg(".HOOKDATA")
 HHOOK g_hook = NULL;
