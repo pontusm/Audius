@@ -3,8 +3,6 @@
 
 #include "SongInfo.h"
 
-#include "../System/Exception.h"
-
 using namespace boost;
 
 ModelBuilder::ModelBuilder(void)

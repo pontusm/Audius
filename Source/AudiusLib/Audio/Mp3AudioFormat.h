@@ -27,11 +27,11 @@ public:
 	AudioFormatReader* createReaderFor (InputStream* sourceStream,
 		const bool deleteStreamIfOpeningFails);
 
-	AudioFormatWriter* createWriterFor (OutputStream* streamToWriteTo,
-		double sampleRateToUse,
-		unsigned int numberOfChannels,
-		int bitsPerSample,
-		const StringPairArray& metadataValues,
-		int qualityOptionIndex);
+	//AudioFormatWriter* createWriterFor (OutputStream* streamToWriteTo,
+	//	double sampleRateToUse,
+	//	unsigned int numberOfChannels,
+	//	int bitsPerSample,
+	//	const StringPairArray& metadataValues,
+	//	int qualityOptionIndex);
 
 };
