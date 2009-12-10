@@ -12,6 +12,7 @@
 
 #include "Services/ClodderService.h"
 
+#include "Player/AudioPlayer.h"
 #include "Player/MusicPlayer.h"
 
 #include "Downloader/DownloadManager.h"

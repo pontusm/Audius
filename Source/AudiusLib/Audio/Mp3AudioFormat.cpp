@@ -155,6 +155,9 @@ bool Mp3AudioFormat::canDoMono()
 AudioFormatReader* Mp3AudioFormat::createReaderFor(InputStream* sourceStream, const bool deleteStreamIfOpeningFails)
 {
 	Mp3Reader* r = new Mp3Reader(sourceStream);
+	if (r->sampleRate == 0)
+		if (!deleteStreamIfOpeningFails)
+			delete r;
 	return r;
 }
 
