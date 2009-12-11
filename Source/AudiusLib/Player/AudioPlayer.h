@@ -19,4 +19,10 @@ public:
 private:
 	AudioPlayer(void);
 	~AudioPlayer(void);
+
+public:
+	void initialize();
+
+private:
+	AudioDeviceManager _deviceManager;
 };

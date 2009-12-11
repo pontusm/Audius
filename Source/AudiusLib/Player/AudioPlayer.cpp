@@ -9,5 +9,9 @@ AudioPlayer::~AudioPlayer(void)
 {
 }
 
+void AudioPlayer::initialize()
+{
+}
+
 // Singleton impl
 juce_ImplementSingleton(AudioPlayer)

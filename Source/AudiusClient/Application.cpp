@@ -41,6 +41,7 @@ public:
 
 			// Create music player
 			_player = new MusicPlayer();
+			AudioPlayer::getInstance()->initialize();
 
 			// Initialize main window
 			_mainWindow = new MainWindow(_player);
