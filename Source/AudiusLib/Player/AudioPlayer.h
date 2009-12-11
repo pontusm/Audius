@@ -13,16 +13,12 @@
 
 class AudioPlayer : public DeletedAtShutdown
 {
-public:
-	juce_DeclareSingleton(AudioPlayer, true)
-
 private:
 	AudioPlayer(void);
 	~AudioPlayer(void);
 
 public:
-	void initialize();
+	juce_DeclareSingleton(AudioPlayer, true)
 
-private:
-	AudioDeviceManager _deviceManager;
+	void initialise();
 };

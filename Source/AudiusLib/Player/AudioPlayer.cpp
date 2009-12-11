@@ -9,8 +9,9 @@ AudioPlayer::~AudioPlayer(void)
 {
 }
 
-void AudioPlayer::initialize()
+void AudioPlayer::initialise()
 {
+	Logger::writeToLog(T("Initializing player..."));
 }
 
 // Singleton impl
