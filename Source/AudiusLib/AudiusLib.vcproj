@@ -351,6 +351,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Player\PlaylistAudioSource.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Player\PlaylistEntry.cpp"
 				>
 			</File>
@@ -389,6 +393,10 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\Services\ServiceManager.cpp"
+				>
 			</File>
 			<File
 				RelativePath=".\Model\SongInfo.cpp"
@@ -477,11 +485,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Player\PlaylistAudioSource.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Player\PlaylistEntry.h"
 				>
 			</File>
 			<File
 				RelativePath=".\Precompiled.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Services\ServiceManager.h"
 				>
 			</File>
 			<File

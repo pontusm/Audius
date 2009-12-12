@@ -57,6 +57,7 @@ public:
 		catch(Exception& ex)
 		{
 			Logger::writeToLog(ex.getFullMessage());
+			quit();
 		}
 	}
 
@@ -67,6 +68,7 @@ public:
 		DownloadManager::getInstance()->shutdown();
 
 		_player->shutdown();
+		AudioPlayer::getInstance()->shutdown();
 
 		// Release stuff
 		//deleteAndZero(_animator);
@@ -153,14 +155,15 @@ public:
 
 	bool perform(const InvocationInfo& info)
 	{
+		AudioPlayer* player = AudioPlayer::getInstance();
 		switch(info.commandID)
 		{
 		case ApplicationCommandIDs::play:
 			if(!checkLogin())
 				return true;
-			_player->startPlaying();
+			player->startPlaying();
 			return true;
-		case ApplicationCommandIDs::pause:
+/*		case ApplicationCommandIDs::pause:
 			_player->pausePlaying();
 			return true;
 		case ApplicationCommandIDs::next:
@@ -179,7 +182,7 @@ public:
 			_player->refreshPlaylist();
 			AlertWindow::showMessageBox(AlertWindow::InfoIcon, T("Refresh playlist"), T("Your playlist has been refreshed from the server."));
 			return true;
-		}
+*/		}
 		return JUCEApplication::perform(info);
 	}
 

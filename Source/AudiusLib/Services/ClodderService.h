@@ -30,16 +30,6 @@ public:
 	String gotoNext(const String & userKey);
 	String gotoPrevious(const String & userKey);
 
-/*
-
-	CString GetCurrentPlaylistItem(const CString& userkey);
-	CString GoToNext(const CString& userkey);
-	CString GoToPrevious(const CString& userkey);
-	CString GetSongUrl(const CString& userkey, int songID);
-
-private:
-	CString m_baseUrl;
-*/
 private:
 	String	_baseUrl;
 };

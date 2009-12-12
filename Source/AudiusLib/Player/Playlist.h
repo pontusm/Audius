@@ -11,7 +11,7 @@
 
 #include "juce.h"
 
-class PlaylistEntry;
+#include "PlaylistEntry.h"
 
 class Playlist
 {

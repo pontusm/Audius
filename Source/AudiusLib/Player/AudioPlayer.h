@@ -11,6 +11,8 @@
 
 #include "juce.h"
 
+#include "Playlist.h"
+
 class AudioPlayer : public DeletedAtShutdown
 {
 private:
@@ -21,4 +23,17 @@ public:
 	juce_DeclareSingleton(AudioPlayer, true)
 
 	void initialise();
+	void shutdown();
+
+	void startPlaying();
+	//void pausePlaying();
+	//void togglePlayPause();
+	//void stopPlaying();
+	//void goToNext();
+	//void goToPrevious();
+	//void refreshPlaylist();
+
+private:
+	class impl;
+	impl* vars;
 };

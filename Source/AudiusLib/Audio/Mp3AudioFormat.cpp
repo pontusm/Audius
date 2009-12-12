@@ -26,12 +26,34 @@ public:
 		sampleRate = 0;
 		usesFloatingPointData = true;
 
-		//mpg123_init();
 		_handle = mpg123_new(NULL, NULL);
 		if(!_handle)
 			Logger::writeToLog(T("Failed to init mp3 lib."));
 
 		mpg123_open_feed(_handle);
+
+		// Scan until format can be determined
+		//int64 startpos = inp->getPosition();
+		const int ScanBufferSize = 1024;
+		byte buffer[ScanBufferSize];
+		int result;
+		do
+		{
+			size_t decodedbytes;
+			int bytesread = inp->read(buffer, ScanBufferSize);
+			result = mpg123_decode(_handle, buffer, bytesread, NULL, 0, &decodedbytes);
+			if(result == MPG123_NEW_FORMAT)
+			{
+				long rate;
+				int channels;
+				int encoding;
+				result = mpg123_getformat(_handle, &rate, &channels, &encoding);
+				if(result == MPG123_OK)
+					break;
+			}
+		} while (result != MPG123_ERR && !inp->isExhausted());
+
+		//inp->setPosition(startpos);		// Reset stream
 	}
 
 	~Mp3Reader()
@@ -152,16 +174,21 @@ bool Mp3AudioFormat::canDoMono()
 	return true;
 }
 
+bool Mp3AudioFormat::isCompressed()
+{
+	return true;
+}
+
 AudioFormatReader* Mp3AudioFormat::createReaderFor(InputStream* sourceStream, const bool deleteStreamIfOpeningFails)
 {
 	Mp3Reader* r = new Mp3Reader(sourceStream);
 	if (r->sampleRate == 0)
-		if (!deleteStreamIfOpeningFails)
+		if (deleteStreamIfOpeningFails)
 			delete r;
 	return r;
 }
 
-bool Mp3AudioFormat::isCompressed()
+AudioFormatWriter* Mp3AudioFormat::createWriterFor( OutputStream* streamToWriteTo, double sampleRateToUse, unsigned int numberOfChannels, int bitsPerSample, const StringPairArray& metadataValues, int qualityOptionIndex )
 {
-	return true;
+	return NULL;
 }
