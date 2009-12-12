@@ -27,8 +27,8 @@ public:
 
 	/** Loads content from a url and returns it as a string */
 	String	downloadString(const String & url);
-
-	void downloadChunks(const String & url, DataReceivedDelegate callback);
+	void	downloadStream(const String & url, OutputStream & stream);
+	void	downloadChunks(const String & url, DataReceivedDelegate callback);
 
 	void	close();
 

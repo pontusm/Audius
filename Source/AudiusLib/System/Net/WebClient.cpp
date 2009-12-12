@@ -82,6 +82,13 @@ public:
 		(*str) += String::fromUTF8((uint8*)args->getData(), args->getBytesReceived());
 	}
 
+	void downloadStreamCallback(OutputStream * stream, shared_ptr<DataReceivedEventArgs> args)
+	{
+		// Write data to output stream
+		if(!stream->write(args->getData(), args->getBytesReceived()))
+			args->cancelTransfer = true;
+	}
+
 private:
 	// Generic receive data method (called by Curl)
 	size_t receiveDataInternal(void* ptr, uint32 receivedBytes)
@@ -151,6 +158,12 @@ String WebClient::downloadString(const String & url)
 	_pimpl->downloadChunks(url, callback);
 
 	return str;
+}
+
+void WebClient::downloadStream(const String & url, OutputStream & stream )
+{
+	DataReceivedDelegate callback = boost::bind(&impl::downloadStreamCallback, _pimpl, &stream, _1);
+	_pimpl->downloadChunks(url, callback);
 }
 
 void WebClient::downloadChunks(const String & url, DataReceivedDelegate callback)
