@@ -13,7 +13,6 @@ class Mp3Reader : public AudioFormatReader
 	mpg123_handle* _handle;
 	AudioSampleBuffer _reservoir;
 	int _reservoirStart, _samplesInReservoir;
-	float _decoderBuffer[4096 * 2];
 
 public:
 	Mp3Reader(InputStream* const inp)
@@ -73,13 +72,12 @@ public:
 		//inp->setPosition(startpos);		// Reset stream
 
 		// Configure decoder
-		if(sampleRate > 0)
-		{
-			result = mpg123_format(_handle, 44100, MPG123_STEREO, MPG123_ENC_FLOAT_32);
-			if(result != MPG123_OK)
-				Logger::writeToLog(T("Failed to set mp3 output format."));
-
-		}
+		//if(sampleRate > 0)
+		//{
+		//	result = mpg123_format(_handle, 44100, MPG123_STEREO, MPG123_ENC_FLOAT_32);
+		//	if(result != MPG123_OK)
+		//		Logger::writeToLog(T("Failed to set mp3 output format."));
+		//}
 	}
 
 	~Mp3Reader()
@@ -133,7 +131,7 @@ public:
 				while(numToRead > 0)
 				{
 					off_t frameNum;
-					float* audiobuffer;
+					short* audiobuffer;
 					size_t bytesread;
 					int result = mpg123_decode_frame(_handle, &frameNum, (byte**)&audiobuffer, &bytesread);
 
