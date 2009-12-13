@@ -24,6 +24,7 @@ public:
 	{
 		// Init base class members
 		sampleRate = 0;
+		bitsPerSample = 16;
 		usesFloatingPointData = true;
 
 		_handle = mpg123_new(NULL, NULL);
@@ -36,8 +37,8 @@ public:
 		//int64 startpos = inp->getPosition();
 		const int ScanBufferSize = 1024;
 		byte buffer[ScanBufferSize];
-		int result;
-		do
+		int result = MPG123_OK;
+		while(result != MPG123_ERR && !inp->isExhausted())
 		{
 			size_t decodedbytes;
 			int bytesread = inp->read(buffer, ScanBufferSize);
@@ -49,11 +50,29 @@ public:
 				int encoding;
 				result = mpg123_getformat(_handle, &rate, &channels, &encoding);
 				if(result == MPG123_OK)
+				{
+					sampleRate = rate;
+					numChannels = channels;
+
+					if(encoding & MPG123_ENC_SIGNED_16)
+						bitsPerSample = 16;
+					else
+						Logger::writeToLog(T("Unknown encoding: ") + String(encoding));
+
 					break;
+				}
 			}
-		} while (result != MPG123_ERR && !inp->isExhausted());
+		}
 
 		//inp->setPosition(startpos);		// Reset stream
+
+		// Configure decoder
+		if(sampleRate > 0)
+		{
+			result = mpg123_format(_handle, 44100, MPG123_STEREO, MPG123_ENC_FLOAT_32);
+			if(result != MPG123_OK)
+				Logger::writeToLog(T("Failed to set mp3 output format."));
+		}
 	}
 
 	~Mp3Reader()
@@ -76,7 +95,7 @@ public:
 
 				for (int i = jmin (numDestChannels, _reservoir.getNumChannels()); --i >= 0;)
 					if (destSamples[i] != 0)
-						memcpy (destSamples[i] + startOffsetInDestBuffer,
+						memcpy(destSamples[i] + startOffsetInDestBuffer,
 							_reservoir.getSampleData (i, (int) (startSampleInFile - _reservoirStart)),
 							sizeof(float) * numToUse);
 
@@ -103,6 +122,10 @@ public:
 
 				int offset = 0;
 				int numToRead = _samplesInReservoir;
+
+				while(numToRead > 0)
+				{
+				}
 /*
 				while (numToRead > 0)
 				{

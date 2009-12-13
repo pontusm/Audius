@@ -101,6 +101,18 @@ void AudioPlayer::initialise()
 	if(err.length() > 0)
 		throw Exception(T("Failed to initialize audio device. ") + err);
 
+	AudioIODevice* device = vars->deviceManager.getCurrentAudioDevice();
+	if(device)
+	{
+		Logger::writeToLog(T("  Found device: ") + device->getName());
+		Logger::writeToLog(T("   Device type: ") + device->getTypeName());
+		Logger::writeToLog(T("  Audio format: ") +
+			String(device->getCurrentSampleRate()) + T("Hz ") +
+			String(device->getCurrentBitDepth()) + T(" bits"));
+	}
+	else
+		Logger::writeToLog(T("Unable to find a suitable audio device."));
+
 	AudioDeviceManager::AudioDeviceSetup deviceSettings;
 	vars->deviceManager.getAudioDeviceSetup(deviceSettings);
 	deviceSettings.bufferSize = 4096;
@@ -123,10 +135,13 @@ void AudioPlayer::initialise()
 	AudioFormatReader* reader = mp3Format.createReaderFor(input, false);
 	vars->formatReaderSource = new AudioFormatReaderSource(reader, true);
 	vars->transportSource.setSource(vars->formatReaderSource);
+
 }
 
 void AudioPlayer::shutdown()
 {
+	vars->deviceManager.removeAudioCallback(&vars->sourcePlayer);
+
 	vars->transportSource.setSource(NULL);
 	vars->sourcePlayer.setSource(NULL);
 	vars->deviceManager.closeAudioDevice();

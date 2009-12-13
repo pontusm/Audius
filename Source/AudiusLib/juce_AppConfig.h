@@ -5,7 +5,8 @@
 #define JUCE_QUICKTIME  0
 //#define JUCE_FORCE_DEBUG  1
 //#define JUCE_LOG_ASSERTIONS  1
-#define JUCE_DIRECTSOUND 0
+#define JUCE_WASAPI 1
+#define JUCE_DIRECTSOUND 1
 #define JUCE_ASIO  0
 //#define JUCE_ALSA  1
 #define JUCE_OPENGL  0
