@@ -13,6 +13,7 @@ class Mp3Reader : public AudioFormatReader
 	mpg123_handle* _handle;
 	AudioSampleBuffer _reservoir;
 	int _reservoirStart, _samplesInReservoir;
+	float _decoderBuffer[4096 * 2];
 
 public:
 	Mp3Reader(InputStream* const inp)
@@ -31,18 +32,23 @@ public:
 		if(!_handle)
 			Logger::writeToLog(T("Failed to init mp3 lib."));
 
-		mpg123_open_feed(_handle);
-
+		mpg123_replace_reader(_handle, &mp3ReadCallback, &mp3SeekCallback);
+		//mpg123_open_feed(_handle);
+		mpg123_open_fd(_handle, (int)inp);
+		
 		// Scan until format can be determined
 		//int64 startpos = inp->getPosition();
-		const int ScanBufferSize = 1024;
-		byte buffer[ScanBufferSize];
+		//byte buffer[1024];
 		int result = MPG123_OK;
-		while(result != MPG123_ERR && !inp->isExhausted())
+		while(result != MPG123_ERR && result != MPG123_DONE && !inp->isExhausted())
 		{
-			size_t decodedbytes;
-			int bytesread = inp->read(buffer, ScanBufferSize);
-			result = mpg123_decode(_handle, buffer, bytesread, NULL, 0, &decodedbytes);
+			//size_t decodedbytes;
+			//int bytesread = inp->read(buffer, sizeof(buffer));
+			//result = mpg123_decode(_handle, buffer, bytesread, NULL, 0, &decodedbytes);
+			off_t frameNum;
+			byte* audiobuffer;
+			size_t bytesread;
+			result = mpg123_decode_frame(_handle, &frameNum, &audiobuffer, &bytesread);
 			if(result == MPG123_NEW_FORMAT)
 			{
 				long rate;
@@ -72,6 +78,7 @@ public:
 			result = mpg123_format(_handle, 44100, MPG123_STEREO, MPG123_ENC_FLOAT_32);
 			if(result != MPG123_OK)
 				Logger::writeToLog(T("Failed to set mp3 output format."));
+
 		}
 	}
 
@@ -125,6 +132,19 @@ public:
 
 				while(numToRead > 0)
 				{
+					off_t frameNum;
+					float* audiobuffer;
+					size_t bytesread;
+					int result = mpg123_decode_frame(_handle, &frameNum, (byte**)&audiobuffer, &bytesread);
+
+					if(bytesread == 0 || result != MPG123_OK)
+						break;
+
+					const int samps = bytesread / sizeof(float) / numChannels;
+					jassert(samps <= numToRead);
+
+					numToRead -= samps;
+					offset += samps;
 				}
 /*
 				while (numToRead > 0)
@@ -162,6 +182,24 @@ public:
 		}
 
 		return true;
+	}
+
+	static ssize_t mp3ReadCallback(int fd, void* buffer, size_t bytesToRead)
+	{
+		return ((InputStream*)fd)->read(buffer, bytesToRead);
+	}
+
+	static off_t mp3SeekCallback(int fd, off_t offset, int whence)
+	{
+		InputStream* const input = (InputStream*)fd;
+		if (whence == SEEK_CUR)
+			offset += input->getPosition();
+		else if (whence == SEEK_END)
+			offset += input->getTotalLength();
+
+		if(!input->setPosition(offset))
+			return -1;
+		return input->getPosition();
 	}
 };
 

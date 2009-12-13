@@ -130,7 +130,8 @@ void AudioPlayer::initialise()
 	//vars->clodderKey = vars->clodder->login(T("xx"), T("xx"));
 
 	// *** Debug mp3 playing
-	FileInputStream* input = new FileInputStream(File(T("D:\\Music\\mp3\\_incoming\\_Incomplete\\Godspeed You Black Emperor! - Lift Your Skinny Fists Like Antennas To Heaven\\Godspeed You Black Emperor! - 01 - Storm.mp3")));
+	//FileInputStream* input = new FileInputStream(File(T("D:\\Music\\mp3\\_incoming\\_Incomplete\\Godspeed You Black Emperor! - Lift Your Skinny Fists Like Antennas To Heaven\\Godspeed You Black Emperor! - 01 - Storm.mp3")));
+	FileInputStream* input = new FileInputStream(File(T("D:\\Projects\\Current\\Audius\\test.mp3")));
 	Mp3AudioFormat mp3Format;
 	AudioFormatReader* reader = mp3Format.createReaderFor(input, false);
 	vars->formatReaderSource = new AudioFormatReaderSource(reader, true);
