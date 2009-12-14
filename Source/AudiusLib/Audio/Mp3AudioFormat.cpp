@@ -13,7 +13,7 @@ class Mp3Reader : public AudioFormatReader
 	mpg123_handle* _handle;
 	AudioSampleBuffer _reservoir;
 	int _reservoirStart, _samplesInReservoir;
-
+	byte _samplebuffer[4096 * 2 * 2];
 public:
 	Mp3Reader(InputStream* const inp)
 		: AudioFormatReader(inp, mp3FormatName),
@@ -86,6 +86,12 @@ public:
 		mpg123_delete(_handle);
 	}
 
+	inline float fixedToIEEEfloat(const short val) const
+	{
+		const double factor = 1.0/(1<<15);
+		return (float)jlimit(-1.0, 1.0, (val * factor));
+	} 
+
 	bool readSamples(int** destSamples, int numDestChannels, int startOffsetInDestBuffer, int64 startSampleInFile, int numSamples)
 	{
 		while(numSamples > 0)
@@ -130,16 +136,29 @@ public:
 
 				while(numToRead > 0)
 				{
-					off_t frameNum;
-					short* audiobuffer;
+					//off_t frameNum;
+					//short* audiobuffer;
 					size_t bytesread;
-					int result = mpg123_decode_frame(_handle, &frameNum, (byte**)&audiobuffer, &bytesread);
+					//int result = mpg123_decode_frame(_handle, &frameNum, (byte**)&audiobuffer, &bytesread);
+					int result = mpg123_read(_handle, _samplebuffer, sizeof(_samplebuffer), &bytesread);
 
 					if(bytesread == 0 || result != MPG123_OK)
 						break;
 
-					const int samps = bytesread / sizeof(float) / numChannels;
+					const int samps = bytesread / sizeof(short) / numChannels;
 					jassert(samps <= numToRead);
+
+					// Fill reservoir
+					for (int i = jmin (numChannels, _reservoir.getNumChannels()); --i >= 0;)
+					{
+						float* buffer = _reservoir.getSampleData(i, offset);
+						short* src = ((short*)_samplebuffer) + i;
+						for(int j = 0; j < samps; j++)
+						{
+							(*buffer++) = fixedToIEEEfloat((*src));
+							src += numChannels;		// Skip other channel data
+						}
+					}
 
 					numToRead -= samps;
 					offset += samps;
