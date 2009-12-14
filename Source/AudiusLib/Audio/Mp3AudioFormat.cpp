@@ -78,6 +78,8 @@ public:
 		//	if(result != MPG123_OK)
 		//		Logger::writeToLog(T("Failed to set mp3 output format."));
 		//}
+		//mpg123_set_filesize(_handle, input->getTotalLength());
+		lengthInSamples = mpg123_length(_handle);
 	}
 
 	~Mp3Reader()
@@ -136,10 +138,7 @@ public:
 
 				while(numToRead > 0)
 				{
-					//off_t frameNum;
-					//short* audiobuffer;
 					size_t bytesread;
-					//int result = mpg123_decode_frame(_handle, &frameNum, (byte**)&audiobuffer, &bytesread);
 					int result = mpg123_read(_handle, _samplebuffer, sizeof(_samplebuffer), &bytesread);
 
 					if(bytesread == 0 || result != MPG123_OK)
@@ -148,7 +147,7 @@ public:
 					const int samps = bytesread / sizeof(short) / numChannels;
 					jassert(samps <= numToRead);
 
-					// Fill reservoir
+					// Fill reservoir (TODO: Optimize this)
 					for (int i = jmin (numChannels, _reservoir.getNumChannels()); --i >= 0;)
 					{
 						float* buffer = _reservoir.getSampleData(i, offset);
