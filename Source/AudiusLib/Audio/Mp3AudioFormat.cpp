@@ -90,7 +90,7 @@ public:
 
 	inline float fixedToIEEEfloat(const short val) const
 	{
-		const double factor = 1.0/(1<<15);
+		const double factor = 1.0/0x7fff;
 		return (float)jlimit(-1.0, 1.0, (val * factor));
 	} 
 
@@ -98,7 +98,7 @@ public:
 	{
 		while(numSamples > 0)
 		{
-			const int numAvailable = _reservoirStart + _samplesInReservoir - startSampleInFile;
+			const int numAvailable = _reservoirStart + _samplesInReservoir - (int)startSampleInFile;
 
 			if (startSampleInFile >= _reservoirStart && numAvailable > 0)
 			{
@@ -162,28 +162,7 @@ public:
 					numToRead -= samps;
 					offset += samps;
 				}
-/*
-				while (numToRead > 0)
-				{
-					float** dataIn = 0;
 
-					const int samps = ov_read_float (&ovFile, &dataIn, numToRead, &bitStream);
-					if (samps == 0)
-						break;
-
-					jassert (samps <= numToRead);
-
-					for (int i = jmin (numChannels, reservoir.getNumChannels()); --i >= 0;)
-					{
-						memcpy (reservoir.getSampleData (i, offset),
-							dataIn[i],
-							sizeof (float) * samps);
-					}
-
-					numToRead -= samps;
-					offset += samps;
-				}
-*/
 				if (numToRead > 0)
 					_reservoir.clear(offset, numToRead);
 			}
@@ -209,13 +188,13 @@ public:
 	{
 		InputStream* const input = (InputStream*)fd;
 		if (whence == SEEK_CUR)
-			offset += input->getPosition();
+			offset += (off_t)input->getPosition();
 		else if (whence == SEEK_END)
-			offset += input->getTotalLength();
+			offset += (off_t)input->getTotalLength();
 
 		if(!input->setPosition(offset))
 			return -1;
-		return input->getPosition();
+		return (off_t)input->getPosition();
 	}
 };
 
