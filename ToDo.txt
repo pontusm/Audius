@@ -19,7 +19,7 @@ v0.4
 DONE -Show playlist
 
 v0.5
--Use Clodder service
+DONE -Use Clodder service
 -Replace mp3 lib
 -Use Juce sound output
 
