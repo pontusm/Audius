@@ -19,8 +19,7 @@ class AudiusApp : public JUCEApplication
 public:
 	AudiusApp() :
 	  _mainWindow(NULL),
-	  _logger(NULL),
-	  _player(NULL)
+	  _logger(NULL)
 	{}
 
 	~AudiusApp()
@@ -40,11 +39,10 @@ public:
 			ApplicationProperties::getInstance()->setStorageParameters(getApplicationName(), T("cfg"), String::empty, 3000, PropertiesFile::storeAsCompressedBinary);
 
 			// Create music player
-			_player = new MusicPlayer();
 			AudioPlayer::getInstance()->initialise();
 
 			// Initialize main window
-			_mainWindow = new MainWindow(_player);
+			_mainWindow = new MainWindow();
 			//_mainWindow->centreWithSize(350, 170);
 			//_mainWindow->setVisible(true);
 
@@ -66,14 +64,11 @@ public:
 		Logger::writeToLog(T("Shutting down..."));
 
 		DownloadManager::getInstance()->shutdown();
-
-		_player->shutdown();
 		AudioPlayer::getInstance()->shutdown();
 
 		// Release stuff
 		//deleteAndZero(_animator);
 		deleteAndZero(_mainWindow);
-		deleteAndZero(_player);
 
 		// Write final log entry before exiting
 		Logger::writeToLog(T("Successfully terminated."));
@@ -123,7 +118,7 @@ public:
 
 	void getCommandInfo(const CommandID commandID, ApplicationCommandInfo& result)
 	{
-		Player::Status status = _player->getPlayerStatus();
+		Player::Status status = AudioPlayer::getInstance()->getPlayerStatus();
 		switch(commandID)
 		{
 		case ApplicationCommandIDs::play:
@@ -163,32 +158,34 @@ public:
 				return true;
 			player->startPlaying();
 			return true;
-/*		case ApplicationCommandIDs::pause:
-			_player->pausePlaying();
+		case ApplicationCommandIDs::pause:
+			player->pausePlaying();
 			return true;
 		case ApplicationCommandIDs::next:
-			_player->goToNext();
+			player->goToNext();
 			return true;
 		case ApplicationCommandIDs::previous:
-			_player->goToPrevious();
+			player->goToPrevious();
 			return true;
 		case ApplicationCommandIDs::toggleplaypause:
-			if(_player->getPlayerStatus() != Player::Playing && !checkLogin())
+			if(player->getPlayerStatus() != Player::Playing && !checkLogin())
 				return true;
+			if(player->getPlaylist()->getCount() == 0)
+				player->refreshPlaylist();
 
-			_player->togglePlayPause();
+			player->togglePlayPause();
 			return true;
 		case ApplicationCommandIDs::refreshplaylist:
-			_player->refreshPlaylist();
+			player->refreshPlaylist();
 			AlertWindow::showMessageBox(AlertWindow::InfoIcon, T("Refresh playlist"), T("Your playlist has been refreshed from the server."));
 			return true;
-*/		}
+		}
 		return JUCEApplication::perform(info);
 	}
 
 	bool checkLogin()
 	{
-		if(_player->isLoggedIn())
+		if(ServiceManager::getInstance()->isLoggedIn())
 			return true;
 
 		// Show login dialog
@@ -197,7 +194,7 @@ public:
 		if(result == 0)
 			return false;	// User canceled
 
-		if(!_player->performLogin(lc.getLogin(), lc.getPassword()))
+		if(!ServiceManager::getInstance()->getClodder()->login(lc.getLogin(), lc.getPassword()))
 		{
 			// Login failed
 			Logger::writeToLog("Could not start playing. Login failed.");
@@ -211,8 +208,6 @@ public:
 private:
 	FileLogger*	_logger;
 	MainWindow*	_mainWindow;
-
-	MusicPlayer*	_player;
 
 	ComponentAnimator*	_animator;
 };

@@ -20,16 +20,20 @@ public:
 	@param userName		The account user name
 	@param password		The password for the account.
 
-	@returns			The user key for the session.
+	@returns			True if login successful.
 	*/
-	String login(const String & userName, const String & password);
+	bool login(const String & userName, const String & password);
 
-	String getCurrentPlaylistItem(const String & userKey);
-	String getSongUrl(const String & userKey, int songID);
+	String getCurrentPlaylistItem();
+	String getSongUrl(int songID);
 
-	String gotoNext(const String & userKey);
-	String gotoPrevious(const String & userKey);
+	String gotoNext();
+	String gotoPrevious();
+
+	String getUserKey() { return _userKey; }
+	bool isLoggedIn() { return _userKey.length() > 0; }
 
 private:
 	String	_baseUrl;
+	String	_userKey;
 };

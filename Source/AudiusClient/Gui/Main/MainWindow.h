@@ -11,12 +11,11 @@
 #include "juce.h"
 
 class AppTrayIconComponent;
-class MusicPlayer;
 
 class MainWindow : public DocumentWindow
 {
 public:
-	MainWindow(MusicPlayer* player);
+	MainWindow();
 	~MainWindow(void);
 
 	void closeButtonPressed()

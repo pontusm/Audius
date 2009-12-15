@@ -11,6 +11,7 @@
 
 #include "juce.h"
 
+#include "PlayerStatus.h"
 #include "Playlist.h"
 
 class AudioPlayer : public DeletedAtShutdown
@@ -26,12 +27,16 @@ public:
 	void shutdown();
 
 	void startPlaying();
-	//void pausePlaying();
-	//void togglePlayPause();
-	//void stopPlaying();
-	//void goToNext();
-	//void goToPrevious();
-	//void refreshPlaylist();
+	void pausePlaying();
+	void togglePlayPause();
+	void stopPlaying();
+	void goToNext();
+	void goToPrevious();
+	void refreshPlaylist();
+
+	Player::Status getPlayerStatus();
+
+	boost::shared_ptr<Playlist> getPlaylist();
 
 private:
 	class impl;

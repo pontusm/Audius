@@ -11,6 +11,8 @@
 
 #include "PlaylistAudioSource.h"
 
+#include "ClodderPlaylistFetcher.h"
+
 #include "../mpg123.h"
 
 using namespace libmpg123Namespace;
@@ -68,30 +70,7 @@ AudioPlayer::~AudioPlayer(void)
 	delete vars;
 }
 
-shared_ptr<PlaylistEntry> createPlaylistEntryFromServerXml(const String & userKey, const String& itemXml)
-{
-	ModelBuilder builder;
-	shared_ptr<SongInfo> songInfo = builder.createSongInfo(itemXml);
-	if(!songInfo)
-		return shared_ptr<PlaylistEntry>();
-
-	String url = ServiceManager::getInstance()->getClodder()->getSongUrl(userKey, songInfo->getSongID());
-	if(url.length() == 0)
-		return shared_ptr<PlaylistEntry>();
-
-	DBG(String(T("Scanned song '")) + songInfo->getTitle() + String(T("' - ") + songInfo->getArtist()));
-
-	return shared_ptr<PlaylistEntry>( new PlaylistEntry(songInfo, url) );
-}
-
-// Retrieves the current song from server and creates a PlaylistEntry for it
-shared_ptr<PlaylistEntry> getCurrentPlaylistEntryFromServer(const String & userKey)
-{
-	String itemXml = ServiceManager::getInstance()->getClodder()->getCurrentPlaylistItem(userKey);
-	return createPlaylistEntryFromServerXml(userKey, itemXml);
-}
-
-// *** Init/shutdown **************************************************
+// *** Init **************************************************
 
 void AudioPlayer::initialise()
 {
@@ -115,15 +94,15 @@ void AudioPlayer::initialise()
 
 	AudioDeviceManager::AudioDeviceSetup deviceSettings;
 	vars->deviceManager.getAudioDeviceSetup(deviceSettings);
-	deviceSettings.bufferSize = 4096;
+	deviceSettings.bufferSize = 2048;
 	err = vars->deviceManager.setAudioDeviceSetup(deviceSettings, true);
 	if(err.length() > 0)
 		throw Exception(T("Unable to setup audio device. ") + err);
 
 	// Setup audio chain
-	//vars->transportSource.setSource(&vars->playlistSource);
-	vars->sourcePlayer.setSource(&vars->transportSource);
 	vars->deviceManager.addAudioCallback(&vars->sourcePlayer);
+	vars->sourcePlayer.setSource(&vars->transportSource);
+	//vars->transportSource.setSource(&vars->playlistSource);
 
 	// *** Debug playlist
 	//vars->clodder = ServiceManager::getInstance()->getClodder();
@@ -135,9 +114,11 @@ void AudioPlayer::initialise()
 	Mp3AudioFormat mp3Format;
 	AudioFormatReader* reader = mp3Format.createReaderFor(input, false);
 	vars->formatReaderSource = new AudioFormatReaderSource(reader, true);
-	vars->transportSource.setSource(vars->formatReaderSource);
+	vars->transportSource.setSource(vars->formatReaderSource, 16384);
 
 }
+
+// *** Shutdown **************************************************
 
 void AudioPlayer::shutdown()
 {
@@ -154,6 +135,64 @@ void AudioPlayer::startPlaying()
 {
 	if(!vars->transportSource.isPlaying())
 		vars->transportSource.start();
+}
+
+void AudioPlayer::pausePlaying()
+{
+	if(vars->transportSource.isPlaying())
+		vars->transportSource.stop();
+}
+
+void AudioPlayer::togglePlayPause()
+{
+	if(vars->transportSource.isPlaying())
+		vars->transportSource.stop();
+	else
+		vars->transportSource.start();
+}
+
+void AudioPlayer::stopPlaying()
+{
+	if(vars->transportSource.isPlaying())
+		vars->transportSource.stop();
+	vars->transportSource.setPosition(0);
+}
+
+Player::Status AudioPlayer::getPlayerStatus()
+{
+	if(vars->transportSource.isPlaying())
+		return Player::Playing;
+	else if(vars->transportSource.hasStreamFinished())
+		return Player::Stopped;
+	else if(!vars->transportSource.isPlaying())
+		return Player::Paused;
+	else
+		return Player::Unknown;
+}
+
+// *** Playlist **************************************************
+
+shared_ptr<Playlist> AudioPlayer::getPlaylist()
+{
+	return vars->playlist;
+}
+
+void AudioPlayer::goToNext()
+{
+}
+
+void AudioPlayer::goToPrevious()
+{
+}
+
+void AudioPlayer::refreshPlaylist()
+{
+	ClodderPlaylistFetcher fetcher;
+
+	if(fetcher.runThread())
+	{
+		vars->playlist = fetcher.getPlaylist();
+	}
 }
 
 // Singleton impl

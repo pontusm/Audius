@@ -34,15 +34,14 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-MainComponent::MainComponent (MusicPlayer* musicplayer, ApplicationCommandManager* commandManager)
-    : _player(musicplayer),
-      playerComp (0),
+MainComponent::MainComponent(ApplicationCommandManager* commandManager)
+    : playerComp (0),
       playlistComp (0)
 {
-    addAndMakeVisible (playerComp = new PlayerComponent (musicplayer, commandManager));
+    addAndMakeVisible (playerComp = new PlayerComponent (commandManager));
     playerComp->setName (T("player"));
 
-    addAndMakeVisible (playlistComp = new PlaylistComponent (musicplayer));
+    addAndMakeVisible (playlistComp = new PlaylistComponent());
     playlistComp->setName (T("playlist"));
 
 
@@ -110,8 +109,8 @@ void MainComponent::resized()
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="MainComponent" componentName=""
-                 parentClasses="public Component" constructorParams="MusicPlayer* musicplayer, ApplicationCommandManager* commandManager"
-                 variableInitialisers="_player(musicplayer)" snapPixels="8" snapActive="1"
+                 parentClasses="public Component" constructorParams="ApplicationCommandManager* commandManager"
+                 variableInitialisers="" snapPixels="8" snapActive="1"
                  snapShown="1" overlayOpacity="0.330000013" fixedSize="0" initialWidth="600"
                  initialHeight="400">
   <BACKGROUND backgroundColour="ffffffff">
@@ -120,10 +119,10 @@ BEGIN_JUCER_METADATA
   </BACKGROUND>
   <GENERICCOMPONENT name="player" id="8288116db28ad9c9" memberName="playerComp" virtualName=""
                     explicitFocusOrder="0" pos="0 0Rr 100% 130" class="PlayerComponent"
-                    params="musicplayer, commandManager"/>
+                    params="commandManager"/>
   <GENERICCOMPONENT name="playlist" id="ae88366f48b8de1" memberName="playlistComp"
                     virtualName="" explicitFocusOrder="0" pos="0 0 100% 130M" class="PlaylistComponent"
-                    params="musicplayer"/>
+                    params=""/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

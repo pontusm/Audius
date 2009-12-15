@@ -15,15 +15,19 @@
 
 class ServiceManager : public DeletedAtShutdown
 {
-private:
-	ServiceManager(void);
-	~ServiceManager(void);
-
 public:
 	juce_DeclareSingleton(ServiceManager, true)
 
 	boost::shared_ptr<ClodderService> getClodder() { return _clodderService; }
 
+	bool isLoggedIn()
+	{
+		return _clodderService->isLoggedIn();
+	}
+
 private:
+	ServiceManager(void);
+	~ServiceManager(void);
+
 	boost::shared_ptr<ClodderService> _clodderService;
 };

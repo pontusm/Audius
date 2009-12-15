@@ -15,7 +15,7 @@ HHOOK g_hook = NULL;
 
 ApplicationCommandManager* g_commandManager = NULL;
 
-MainWindow::MainWindow(MusicPlayer* player) :
+MainWindow::MainWindow() :
 	DocumentWindow(T("Audius"),
 					Colours::azure,
 					DocumentWindow::minimiseButton | DocumentWindow::closeButton,
@@ -39,7 +39,7 @@ MainWindow::MainWindow(MusicPlayer* player) :
 
 	// Setup main window component (lifetime is managed by window)
 	//PlayerComponent* component = new PlayerComponent(player, _appCommandManager);
-	MainComponent* component = new MainComponent(player, _appCommandManager);
+	MainComponent* component = new MainComponent(_appCommandManager);
 	setContentComponent(component, true, true);
 
 	//setResizeLimits(200, 170, 1000, 170);

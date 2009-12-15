@@ -34,9 +34,8 @@ using namespace boost;
 //[/MiscUserDefs]
 
 //==============================================================================
-PlayerComponent::PlayerComponent (MusicPlayer* musicplayer, ApplicationCommandManager* commandManager)
-    : _player(musicplayer),
-      titleLabel (0),
+PlayerComponent::PlayerComponent (ApplicationCommandManager* commandManager)
+    : titleLabel (0),
       artistLabel (0),
       albumLabel (0),
       playButton (0),
@@ -123,7 +122,7 @@ PlayerComponent::PlayerComponent (MusicPlayer* musicplayer, ApplicationCommandMa
 	previousButton->setCommandToTrigger( commandManager, ApplicationCommandIDs::previous, false );
 
 	// Let component listen to player events so that it can update properly
-	_player->registerListener(this);
+	//_player->registerListener(this);
 
 	startTimer(100);
     //[/Constructor]
@@ -213,6 +212,7 @@ void PlayerComponent::mouseDrag (const MouseEvent& e)
 
 void PlayerComponent::actionListenerCallback( const String& message )
 {
+/*
 	DBG(T("Received message: ") + message);
 	if(message == PlayerNotifications::newSong)
 	{
@@ -234,10 +234,12 @@ void PlayerComponent::actionListenerCallback( const String& message )
 			albumLabel->setText(String::empty, false);
 		}
 	}
+*/
 }
 
 void PlayerComponent::timerCallback()
 {
+/*
 	shared_ptr<SongInfo> songInfo = _player->getCurrentSong();
 	if(!songInfo)
 		return;
@@ -253,15 +255,17 @@ void PlayerComponent::timerCallback()
 	// Only update slider if not being dragged
 	if(songPositionSlider->getThumbBeingDragged() == -1)
 		songPositionSlider->setValue(seconds);
+*/
 }
 
 void PlayerComponent::sliderDragEnded( Slider* slider )
 {
-	if(slider == songPositionSlider)
+/*	if(slider == songPositionSlider)
 	{
 		uint32 seconds = (uint32)slider->getValue();
 		_player->setCurrentSongTime(seconds);
 	}
+*/
 }
 //[/MiscUserCode]
 
@@ -276,8 +280,8 @@ BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="PlayerComponent" componentName=""
                  parentClasses="public Component, public ActionListener, public Timer"
-                 constructorParams="MusicPlayer* musicplayer, ApplicationCommandManager* commandManager"
-                 variableInitialisers="_player(musicplayer)" snapPixels="8" snapActive="1"
+                 constructorParams="ApplicationCommandManager* commandManager"
+                 variableInitialisers="" snapPixels="8" snapActive="1"
                  snapShown="1" overlayOpacity="0.330000013" fixedSize="0" initialWidth="350"
                  initialHeight="130">
   <METHODS>

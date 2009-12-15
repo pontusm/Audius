@@ -25,7 +25,6 @@
 //[Headers]     -- You can add your own extra header files here --
 #include "juce.h"
 
-class MusicPlayer;
 class PlaylistModel;
 //[/Headers]
 
@@ -45,7 +44,7 @@ class PlaylistComponent  : public Component,
 {
 public:
     //==============================================================================
-    PlaylistComponent (MusicPlayer* player);
+    PlaylistComponent ();
     ~PlaylistComponent();
 
     //==============================================================================
@@ -69,7 +68,6 @@ private:
 	Font _font;
 	Font _boldfont;
 
-	MusicPlayer*	_player;
     //[/UserVariables]
 
     //==============================================================================

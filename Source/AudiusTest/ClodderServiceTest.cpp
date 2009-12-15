@@ -29,15 +29,12 @@ BEGIN_TEST(Services_ClodderService_CanGetCurrent)
 	String password;
 	GetClodderCredentials(login, password);
 
-	String key = svc.login(login, password);
-	WIN_ASSERT_TRUE(key.length() == 36);
-	WIN_ASSERT_TRUE(key.indexOf(T("-")) >= 0);
+	bool ok = svc.login(login, password);
+	WIN_ASSERT_TRUE(ok);
 
-	String current = svc.getCurrentPlaylistItem(key);
+	String current = svc.getCurrentPlaylistItem();
 	WIN_ASSERT_TRUE(current.length() > 0);
 	WIN_ASSERT_TRUE(current.indexOf(T("<s")) >= 0);
-
-	//<?xml version="1.0" encoding="utf-8"?><s n="City on a Hill" a="Genghis Tron" l="5" i="3671" s="3972677" c="0" t="206" />
 }
 END_TEST
 
@@ -49,11 +46,10 @@ BEGIN_TEST(Services_ClodderService_CanGetSongUrl)
 	String password;
 	GetClodderCredentials(login, password);
 
-	String key = svc.login(login, password);
-	WIN_ASSERT_TRUE(key.length() == 36);
-	WIN_ASSERT_TRUE(key.indexOf(T("-")) >= 0);
+	bool ok = svc.login(login, password);
+	WIN_ASSERT_TRUE(ok);
 
-	String url = svc.getSongUrl(key, 1234);
+	String url = svc.getSongUrl(1234);
 	WIN_ASSERT_TRUE(url.length() > 0);
 	WIN_ASSERT_TRUE(url.indexOf(T("1234")) >= 0);
 	WIN_ASSERT_TRUE(url.indexOf(T("st.ashx")) >= 0);

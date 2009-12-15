@@ -10,10 +10,9 @@
 #include "System/Net/WebClientFactory.h"
 #include "System/Net/WebClient.h"
 
-#include "Services/ClodderService.h"
+#include "Services/ServiceManager.h"
 
 #include "Player/AudioPlayer.h"
-#include "Player/MusicPlayer.h"
 
 #include "Downloader/DownloadManager.h"
 

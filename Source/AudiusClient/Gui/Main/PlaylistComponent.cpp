@@ -33,9 +33,8 @@ using namespace boost;
 //[/MiscUserDefs]
 
 //==============================================================================
-PlaylistComponent::PlaylistComponent (MusicPlayer* player)
-    : _player(player),
-      _font(14.0f),
+PlaylistComponent::PlaylistComponent()
+    : _font(14.0f),
 	  _boldfont(14.0f, Font::bold),
       playlistTable (0)
 {
@@ -55,7 +54,7 @@ PlaylistComponent::PlaylistComponent (MusicPlayer* player)
 	playlistTable->getHeader()->addColumn(T("Length"), 2, 50, 30, -1, TableHeaderComponent::notSortable);
 	//playlistTable->getHeader()->setStretchToFitActive(true);
 
-	_player->registerListener(this);
+	//_player->registerListener(this);
     //[/Constructor]
 }
 
@@ -92,7 +91,8 @@ void PlaylistComponent::resized()
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 int PlaylistComponent::getNumRows()
 {
-	return _player->getPlaylistCount();
+	//return _player->getPlaylistCount();
+	return 0;
 }
 
 void PlaylistComponent::paintRowBackground( Graphics& g, int rowNumber, int width, int height, bool rowIsSelected )
@@ -103,7 +103,7 @@ void PlaylistComponent::paintRowBackground( Graphics& g, int rowNumber, int widt
 
 void PlaylistComponent::paintCell( Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected )
 {
-	g.setColour(Colours::black);
+/*	g.setColour(Colours::black);
 	if(_player->getPlaylistPosition() == rowNumber)
 		g.setFont(_boldfont);
 	else
@@ -126,14 +126,14 @@ void PlaylistComponent::paintCell( Graphics& g, int rowNumber, int columnId, int
 			break;
 		}
 	}
-
+*/
 	//g.setColour (Colours::black.withAlpha (0.2f));
 	//g.fillRect (width - 1, 0, 1, height);
 }
 
 void PlaylistComponent::cellDoubleClicked(int rowNumber, int columnId, const MouseEvent& e)
 {
-	_player->setPlaylistPosition(rowNumber);
+	//_player->setPlaylistPosition(rowNumber);
 }
 
 void PlaylistComponent::actionListenerCallback(const String& message)
@@ -159,7 +159,7 @@ void PlaylistComponent::actionListenerCallback(const String& message)
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="PlaylistComponent" componentName=""
-                 parentClasses="public Component, public TableListBoxModel" constructorParams="MusicPlayer* player"
+                 parentClasses="public Component, public TableListBoxModel" constructorParams=""
                  variableInitialisers="_player(player),&#10;_font(14.0f)" snapPixels="8"
                  snapActive="1" snapShown="1" overlayOpacity="0.330000013" fixedSize="0"
                  initialWidth="400" initialHeight="400">

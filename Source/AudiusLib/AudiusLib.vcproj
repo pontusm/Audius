@@ -182,7 +182,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)Libs&quot;;&quot;$(SolutionDir)Dependencies\juce&quot;;&quot;$(SolutionDir)Dependencies\libcurl\include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)Libs&quot;;&quot;$(SolutionDir)Dependencies\juce&quot;;&quot;$(SolutionDir)Dependencies\libcurl\include&quot;;&quot;$(SolutionDir)Dependencies&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;W_STATIC_LIB"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -343,10 +343,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Player\MusicPlayer.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Player\PlayerThread.cpp"
 				>
 			</File>
@@ -425,6 +421,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Player\ClodderPlaylistFetcher.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Services\ClodderService.h"
 				>
 			</File>
@@ -466,10 +466,6 @@
 			</File>
 			<File
 				RelativePath=".\mpg123.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Player\MusicPlayer.h"
 				>
 			</File>
 			<File

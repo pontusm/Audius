@@ -25,7 +25,6 @@
 //[Headers]     -- You can add your own extra header files here --
 #include "juce.h"
 
-class MusicPlayer;
 class PlayerComponent;
 class PlaylistComponent;
 //[/Headers]
@@ -44,7 +43,7 @@ class MainComponent  : public Component
 {
 public:
     //==============================================================================
-    MainComponent (MusicPlayer* musicplayer, ApplicationCommandManager* commandManager);
+    MainComponent (ApplicationCommandManager* commandManager);
     ~MainComponent();
 
     //==============================================================================
@@ -60,7 +59,6 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-	MusicPlayer*	_player;
     //[/UserVariables]
 
     //==============================================================================
