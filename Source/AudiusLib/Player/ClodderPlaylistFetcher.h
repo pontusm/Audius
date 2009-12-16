@@ -50,6 +50,11 @@ public:
 
 			playlistEntry = createPlaylistEntryFromServerXml( _clodder->gotoNext() );
 		}
+
+		setProgress(0.99);
+
+		_playlist = playlist;
+
 		// Step back to original position
 		for(int i = 0; i < (int)playlist->getCount() - 1; i++)
 			_clodder->gotoPrevious();
