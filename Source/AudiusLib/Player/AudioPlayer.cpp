@@ -192,6 +192,7 @@ void AudioPlayer::refreshPlaylist()
 	if(fetcher.runThread())
 	{
 		vars->playlist = fetcher.getPlaylist();
+		sendActionMessage(PlayerNotifications::playlistChanged);
 	}
 }
 

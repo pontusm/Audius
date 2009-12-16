@@ -14,7 +14,8 @@
 #include "PlayerStatus.h"
 #include "Playlist.h"
 
-class AudioPlayer : public DeletedAtShutdown
+class AudioPlayer : public DeletedAtShutdown,
+					public ActionBroadcaster
 {
 private:
 	AudioPlayer(void);

@@ -54,7 +54,7 @@ PlaylistComponent::PlaylistComponent()
 	playlistTable->getHeader()->addColumn(T("Length"), 2, 50, 30, -1, TableHeaderComponent::notSortable);
 	//playlistTable->getHeader()->setStretchToFitActive(true);
 
-	//_player->registerListener(this);
+	AudioPlayer::getInstance()->addActionListener(this);
     //[/Constructor]
 }
 
@@ -62,6 +62,8 @@ PlaylistComponent::~PlaylistComponent()
 {
     //[Destructor_pre]. You can add your own custom destruction code here..
     //[/Destructor_pre]
+
+	AudioPlayer::getInstance()->removeActionListener(this);
 
     deleteAndZero (playlistTable);
 
@@ -91,8 +93,7 @@ void PlaylistComponent::resized()
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
 int PlaylistComponent::getNumRows()
 {
-	//return _player->getPlaylistCount();
-	return 0;
+	return AudioPlayer::getInstance()->getPlaylist()->getCount();
 }
 
 void PlaylistComponent::paintRowBackground( Graphics& g, int rowNumber, int width, int height, bool rowIsSelected )
@@ -103,13 +104,16 @@ void PlaylistComponent::paintRowBackground( Graphics& g, int rowNumber, int widt
 
 void PlaylistComponent::paintCell( Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected )
 {
-/*	g.setColour(Colours::black);
-	if(_player->getPlaylistPosition() == rowNumber)
+	AudioPlayer* player = AudioPlayer::getInstance();
+
+	shared_ptr<Playlist> playlist = player->getPlaylist();
+	g.setColour(Colours::black);
+	if(playlist->getCurrentPosition() == rowNumber)
 		g.setFont(_boldfont);
 	else
 		g.setFont(_font);
 
-	shared_ptr<PlaylistEntry> playlistEntry = _player->getPlaylistEntry(rowNumber);
+	shared_ptr<PlaylistEntry> playlistEntry = playlist->getEntry(rowNumber);
 
 	if(playlistEntry)
 	{
@@ -126,14 +130,14 @@ void PlaylistComponent::paintCell( Graphics& g, int rowNumber, int columnId, int
 			break;
 		}
 	}
-*/
+
 	//g.setColour (Colours::black.withAlpha (0.2f));
 	//g.fillRect (width - 1, 0, 1, height);
 }
 
 void PlaylistComponent::cellDoubleClicked(int rowNumber, int columnId, const MouseEvent& e)
 {
-	//_player->setPlaylistPosition(rowNumber);
+	//AudioPlayer::getInstance()->getPlaylist()->setCurrentPosition(rowNumber);
 }
 
 void PlaylistComponent::actionListenerCallback(const String& message)
