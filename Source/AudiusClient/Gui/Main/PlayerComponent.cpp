@@ -122,7 +122,7 @@ PlayerComponent::PlayerComponent (ApplicationCommandManager* commandManager)
 	previousButton->setCommandToTrigger( commandManager, ApplicationCommandIDs::previous, false );
 
 	// Let component listen to player events so that it can update properly
-	//_player->registerListener(this);
+	AudioPlayer::getInstance()->addActionListener(this);
 
 	startTimer(100);
     //[/Constructor]
@@ -132,6 +132,8 @@ PlayerComponent::~PlayerComponent()
 {
     //[Destructor_pre]. You can add your own custom destruction code here..
     //[/Destructor_pre]
+
+	AudioPlayer::getInstance()->removeActionListener(this);
 
     deleteAndZero (titleLabel);
     deleteAndZero (artistLabel);
@@ -212,12 +214,10 @@ void PlayerComponent::mouseDrag (const MouseEvent& e)
 
 void PlayerComponent::actionListenerCallback( const String& message )
 {
-/*
-	DBG(T("Received message: ") + message);
 	if(message == PlayerNotifications::newSong)
 	{
 		songPositionSlider->setValue(0, false);
-		shared_ptr<SongInfo> songInfo = _player->getCurrentSong();
+		shared_ptr<SongInfo> songInfo = AudioPlayer::getInstance()->getCurrentSong();
 		if(songInfo)
 		{
 			titleLabel->setText(songInfo->getTitle(), false);
@@ -234,28 +234,26 @@ void PlayerComponent::actionListenerCallback( const String& message )
 			albumLabel->setText(String::empty, false);
 		}
 	}
-*/
 }
 
 void PlayerComponent::timerCallback()
 {
-/*
-	shared_ptr<SongInfo> songInfo = _player->getCurrentSong();
+	AudioPlayer* player = AudioPlayer::getInstance();
+	shared_ptr<SongInfo> songInfo = player->getCurrentSong();
 	if(!songInfo)
 		return;
 
 	// Prevent time from updating when no longer playing
-	if(_player->getPlayerStatus() != Player::Playing)
+	if(player->getPlayerStatus() != Player::Playing)
 		return;
 
-	uint32 seconds = _player->getCurrentSongTime();
-	String s = String::formatted(T("%d:%02d"), (seconds / 60), (seconds % 60) );
-	timeLabel->setText(s, false);
+	//uint32 seconds = player->getCurrentSongTime();
+	//String s = String::formatted(T("%d:%02d"), (seconds / 60), (seconds % 60) );
+	//timeLabel->setText(s, false);
 
 	// Only update slider if not being dragged
-	if(songPositionSlider->getThumbBeingDragged() == -1)
-		songPositionSlider->setValue(seconds);
-*/
+	//if(songPositionSlider->getThumbBeingDragged() == -1)
+	//	songPositionSlider->setValue(seconds);
 }
 
 void PlayerComponent::sliderDragEnded( Slider* slider )

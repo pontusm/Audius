@@ -14,6 +14,8 @@
 #include "PlayerStatus.h"
 #include "Playlist.h"
 
+class SongInfo;
+
 class AudioPlayer : public DeletedAtShutdown,
 					public ActionBroadcaster
 {
@@ -38,6 +40,7 @@ public:
 	Player::Status getPlayerStatus();
 
 	boost::shared_ptr<Playlist> getPlaylist();
+	boost::shared_ptr<SongInfo> getCurrentSong();
 
 private:
 	class impl;

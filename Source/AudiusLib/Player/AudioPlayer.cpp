@@ -172,6 +172,14 @@ Player::Status AudioPlayer::getPlayerStatus()
 
 // *** Playlist **************************************************
 
+shared_ptr<SongInfo> AudioPlayer::getCurrentSong()
+{
+	shared_ptr<PlaylistEntry> entry = vars->playlist->getCurrentEntry();
+	if(!entry)
+		return shared_ptr<SongInfo>();
+	return entry->getSongInfo();
+}
+
 shared_ptr<Playlist> AudioPlayer::getPlaylist()
 {
 	return vars->playlist;
