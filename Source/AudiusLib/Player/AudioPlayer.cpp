@@ -102,19 +102,14 @@ void AudioPlayer::initialise()
 	// Setup audio chain
 	vars->deviceManager.addAudioCallback(&vars->sourcePlayer);
 	vars->sourcePlayer.setSource(&vars->transportSource);
-	//vars->transportSource.setSource(&vars->playlistSource);
-
-	// *** Debug playlist
-	//vars->clodder = ServiceManager::getInstance()->getClodder();
-	//vars->clodderKey = vars->clodder->login(T("xx"), T("xx"));
+	vars->transportSource.setSource(&vars->playlistSource);
 
 	// *** Debug mp3 playing
-	FileInputStream* input = new FileInputStream(File(T("D:\\Music\\mp3\\Artists\\R\\Rammstein\\Rammstein - Sehnsucht (1997)\\rammstein-engel.mp3")));
 	//FileInputStream* input = new FileInputStream(File(T("D:\\Projects\\Current\\Audius\\test.mp3")));
-	Mp3AudioFormat mp3Format;
-	AudioFormatReader* reader = mp3Format.createReaderFor(input, false);
-	vars->formatReaderSource = new AudioFormatReaderSource(reader, true);
-	vars->transportSource.setSource(vars->formatReaderSource, 16384);
+	//Mp3AudioFormat mp3Format;
+	//AudioFormatReader* reader = mp3Format.createReaderFor(input, false);
+	//vars->formatReaderSource = new AudioFormatReaderSource(reader, true);
+	//vars->transportSource.setSource(vars->formatReaderSource, 16384);
 
 }
 
@@ -200,6 +195,7 @@ void AudioPlayer::refreshPlaylist()
 	if(fetcher.runThread())
 	{
 		vars->playlist = fetcher.getPlaylist();
+		vars->playlistSource.setCurrentPlaylist(vars->playlist);
 		sendActionMessage(PlayerNotifications::playlistChanged);
 	}
 }

@@ -21,12 +21,13 @@ DONE -Show playlist
 v0.5
 DONE -Use Clodder service
 DONE -Replace mp3 lib
--Use Juce sound output
+DONE -Use Juce sound output
+-Rewrite network streaming
 
 v0.x
 -Incorporate crash reporter
 -Improve login dialog
--Integrate with MSN
+-Integrate with Messenger
 -Scrobble to Last.fm
 -Capture audius: links
 -Auto upgrade

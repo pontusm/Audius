@@ -343,10 +343,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Player\PlayerThread.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Player\PlaylistAudioSource.cpp"
 				>
 			</File>
@@ -470,10 +466,6 @@
 			</File>
 			<File
 				RelativePath=".\Player\PlayerStatus.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Player\PlayerThread.h"
 				>
 			</File>
 			<File
