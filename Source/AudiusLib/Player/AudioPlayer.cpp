@@ -33,15 +33,10 @@ public:
 		playlist(shared_ptr<Playlist>( new Playlist() )),
 		formatReaderSource(NULL)
 	{
-		// Init mp3 lib
-		if(mpg123_init() != MPG123_OK)
-			Logger::writeToLog(T("Failed to initialize mp3 library."));
 	}
 	~impl()
 	{
 		deleteAndZero(formatReaderSource);
-
-		mpg123_exit();
 	}
 
 	shared_ptr<Playlist>	playlist;
@@ -63,10 +58,14 @@ public:
 AudioPlayer::AudioPlayer() :
 	vars( new impl() )
 {
+	// Init mp3 lib
+	if(mpg123_init() != MPG123_OK)
+		Logger::writeToLog(T("Failed to initialize mp3 library."));
 }
 
 AudioPlayer::~AudioPlayer(void)
 {
+	mpg123_exit();
 	delete vars;
 }
 
