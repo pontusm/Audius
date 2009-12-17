@@ -307,6 +307,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Downloader\DownloadBuffer.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Downloader\DownloadManager.cpp"
 				>
 			</File>
@@ -426,6 +430,10 @@
 			</File>
 			<File
 				RelativePath=".\System\Net\DataReceivedEventArgs.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Downloader\DownloadBuffer.h"
 				>
 			</File>
 			<File

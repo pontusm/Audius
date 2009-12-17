@@ -3,6 +3,9 @@
 
 #include "Playlist.h"
 
+#include "../Downloader/DownloadManager.h"
+#include "../Downloader/DownloadThread.h"
+
 using namespace boost;
 
 PlaylistAudioSource::PlaylistAudioSource(void)
@@ -11,6 +14,11 @@ PlaylistAudioSource::PlaylistAudioSource(void)
 
 PlaylistAudioSource::~PlaylistAudioSource(void)
 {
+}
+
+void PlaylistAudioSource::receiveData(shared_ptr<DownloadProgressEventArgs> args)
+{
+
 }
 
 void PlaylistAudioSource::prepareToPlay( int samplesPerBlockExpected, double sampleRate )
@@ -25,5 +33,6 @@ void PlaylistAudioSource::prepareToPlay( int samplesPerBlockExpected, double sam
 	if(!entry)
 		return;
 
-	//DownloadManager::getInstance()->downloadAsync(entry->getUrl())
+	DownloadProgressDelegate callback = boost::bind(&PlaylistAudioSource::receiveData, this, _1);
+	_downloadThread = DownloadManager::getInstance()->downloadAsync(entry->getUrl(), callback);
 }
