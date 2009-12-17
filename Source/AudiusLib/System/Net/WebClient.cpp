@@ -121,8 +121,8 @@ String WebClient::urlEncode( const String& str )
 			{
 				int ic = _TINT(c);
 				result += T('%');
-				result += toHex((BYTE)(ic>>4));
-				result += toHex((BYTE)(ic%16));
+				result += toHex((byte)(ic>>4));
+				result += toHex((byte)(ic%16));
 			}
 	}
 	return result;
