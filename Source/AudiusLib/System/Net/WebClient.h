@@ -39,5 +39,5 @@ public:
 
 private:
 	class impl;
-	impl* _pimpl;
+	impl* vars;
 };
