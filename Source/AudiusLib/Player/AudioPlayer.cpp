@@ -67,6 +67,7 @@ AudioPlayer::~AudioPlayer(void)
 {
 	mpg123_exit();
 	delete vars;
+	clearSingletonInstance();
 }
 
 // *** Init **************************************************

@@ -406,6 +406,10 @@
 				RelativePath=".\System\Net\WebClientFactory.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\System\Net\WebRequestManager.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -510,6 +514,10 @@
 			</File>
 			<File
 				RelativePath=".\System\Net\WebException.h"
+				>
+			</File>
+			<File
+				RelativePath=".\System\Net\WebRequestManager.h"
 				>
 			</File>
 		</Filter>

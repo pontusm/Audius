@@ -9,6 +9,7 @@
 #include "System/Net/DataReceivedEventArgs.h"
 #include "System/Net/WebClientFactory.h"
 #include "System/Net/WebClient.h"
+#include "System/Net/WebRequestManager.h"
 
 #include "Services/ServiceManager.h"
 
