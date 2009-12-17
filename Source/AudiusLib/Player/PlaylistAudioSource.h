@@ -12,7 +12,9 @@
 
 #include "juce.h"
 
+class DownloadProgressEventArgs;
 class Playlist;
+class DownloadThread;
 
 class PlaylistAudioSource :
 	public AudioTransportSource
@@ -29,5 +31,9 @@ public:
 	}
 
 private:
-	boost::shared_ptr<Playlist>		_playlist;
+	void receiveData(boost::shared_ptr<DownloadProgressEventArgs> args);
+
+private:
+	boost::shared_ptr<Playlist>			_playlist;
+	boost::shared_ptr<DownloadThread>	_downloadThread;
 };
