@@ -3,6 +3,8 @@
 
 #include "WebException.h"
 
+#include "WebRequestContext.h"
+
 #include <curl/curl.h>
 
 // *** Web request thread manages the currently active requests ***
