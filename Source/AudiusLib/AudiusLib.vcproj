@@ -407,6 +407,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\System\Net\WebRequest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\System\Net\WebRequestManager.cpp"
 				>
 			</File>
@@ -517,7 +521,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\System\Net\WebRequest.h"
+				>
+			</File>
+			<File
 				RelativePath=".\System\Net\WebRequestContext.h"
+				>
+			</File>
+			<File
+				RelativePath=".\System\Net\WebRequestController.h"
 				>
 			</File>
 			<File
