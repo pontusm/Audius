@@ -47,6 +47,7 @@ void ReceiveData(shared_ptr<DataReceivedEventArgs> args)
 
 BEGIN_TEST(SystemNet_WebRequest_CanDownloadChunks)
 {
+	shared_ptr<WebRequest> request = WebRequest::create(T("http://www.google.com"));
 	//WebRequestManager::getInstance()->beginDownload();
 	//shared_ptr<WebClient> client = WebClientFactory::getInstance()->createClient();
 

@@ -10,9 +10,14 @@
 
 #include "juce.h"
 
+#include "DataReceivedEventArgs.h"
+
 #include <curl/curl.h>
 
-class WebRequestContext
+struct WebRequestContext
 {
+	CURL*	handle;
+	char	errorBuffer[CURL_ERROR_SIZE];
 
+	//DataReceivedDelegate	callback;
 };

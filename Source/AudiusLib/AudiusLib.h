@@ -10,6 +10,7 @@
 #include "System/Net/WebClientFactory.h"
 #include "System/Net/WebClient.h"
 #include "System/Net/WebRequestManager.h"
+#include "System/Net/WebRequest.h"
 
 #include "Services/ServiceManager.h"
 
