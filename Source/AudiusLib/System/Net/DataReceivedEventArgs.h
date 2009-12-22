@@ -10,6 +10,11 @@
 
 #include "juce.h"
 
+class DataReceivedEventArgs;
+
+// Progress delegate
+typedef boost::function<void (boost::shared_ptr<DataReceivedEventArgs> args)> DataReceivedDelegate;
+
 class DataReceivedEventArgs
 {
 public:
