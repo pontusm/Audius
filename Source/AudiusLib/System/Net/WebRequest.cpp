@@ -22,6 +22,8 @@ WebRequest::WebRequest(const String & url) :
 
 WebRequest::~WebRequest(void)
 {
+	WebRequestManager::getInstance()->closeRequest(context);
+
 	if(context->handle)
 	{
 		// Close curl session
@@ -34,6 +36,11 @@ WebRequest::~WebRequest(void)
 shared_ptr<WebRequest> WebRequest::create( const String & url )
 {
 	return shared_ptr<WebRequest>(new WebRequest(url));
+}
+
+bool WebRequest::wait(const int timeOutMilliseconds)
+{
+	return context->completed.wait(timeOutMilliseconds);
 }
 
 void WebRequest::downloadAsync(DataReceivedDelegate callback)
@@ -53,6 +60,7 @@ void WebRequest::downloadAsync(DataReceivedDelegate callback)
 	if( curl_easy_setopt(context->handle, CURLOPT_WRITEDATA, this) != 0)
 		handleError();
 
+	WebRequestManager::getInstance()->beginRequest(context);
 }
 
 // Called when data is received

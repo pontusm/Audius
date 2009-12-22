@@ -14,6 +14,7 @@
 #include "juce.h"
 
 class WebRequest;
+struct WebRequestContext;
 
 class WebRequestManager : public DeletedAtShutdown
 {
@@ -21,6 +22,9 @@ public:
 	juce_DeclareSingleton(WebRequestManager, true)
 
 	boost::shared_ptr<WebRequest> createRequest(const String & url);
+
+	void beginRequest(WebRequestContext* request);
+	void closeRequest(WebRequestContext* request);
 
 private:
 	WebRequestManager(void);
