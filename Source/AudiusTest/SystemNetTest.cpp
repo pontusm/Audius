@@ -73,7 +73,7 @@ BEGIN_TEST(SystemNet_WebRequest_CanDownloadAsync)
 		request->downloadAsync(callback);
 
 		// Wait for request to complete
-		request->wait(5000);
+		//request->wait(5000);
 	}
 	catch(Exception & ex)
 	{

@@ -64,11 +64,5 @@ WebRequestManager::~WebRequestManager(void)
 	clearSingletonInstance();
 }
 
-boost::shared_ptr<WebRequest> WebRequestManager::createRequest( const String & url )
-{
-	shared_ptr<WebRequest> request( new WebRequest());
-	return request;
-}
-
 // Singleton impl
 juce_ImplementSingleton(WebRequestManager)
