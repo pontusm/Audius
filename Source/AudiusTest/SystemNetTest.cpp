@@ -40,14 +40,8 @@ BEGIN_TEST(SystemNet_WebClient_CanDownloadStream)
 }
 END_TEST
 
-void ReceiveData(shared_ptr<DataReceivedEventArgs> args)
-{
-	WIN_ASSERT_TRUE(args->getBytesReceived() > 0);
-}
-
 BEGIN_TEST(SystemNet_WebRequest_CanDownloadChunks)
 {
-	shared_ptr<WebRequest> request = WebRequest::create(T("http://www.google.com"));
 	//WebRequestManager::getInstance()->beginDownload();
 	//shared_ptr<WebClient> client = WebClientFactory::getInstance()->createClient();
 
@@ -62,5 +56,29 @@ BEGIN_TEST(SystemNet_WebRequest_CanDownloadChunks)
 	//	WIN_ASSERT_FAIL(msg);
 	//}
 	//client->close();
+}
+END_TEST
+
+void downloadAsync(shared_ptr<DataReceivedEventArgs> args)
+{
+	WIN_ASSERT_TRUE(args->getBytesReceived() > 0);
+}
+
+BEGIN_TEST(SystemNet_WebRequest_CanDownloadAsync)
+{
+	try
+	{
+		shared_ptr<WebRequest> request = WebRequest::create(T("http://www.google.com"));
+		DataReceivedDelegate callback = boost::bind(downloadAsync, _1);
+		request->downloadAsync(callback);
+
+		// Wait for request to complete
+		request->wait(5000);
+	}
+	catch(Exception & ex)
+	{
+		String msg = ex.getFullMessage();
+		WIN_ASSERT_FAIL(msg);
+	}
 }
 END_TEST
