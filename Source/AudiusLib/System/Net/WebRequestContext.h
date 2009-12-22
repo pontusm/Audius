@@ -19,5 +19,5 @@ struct WebRequestContext
 	CURL*	handle;
 	char	errorBuffer[CURL_ERROR_SIZE];
 
-	//DataReceivedDelegate	callback;
+	DataReceivedDelegate	callback;
 };

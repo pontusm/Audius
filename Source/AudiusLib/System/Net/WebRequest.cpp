@@ -5,7 +5,10 @@
 #include "WebRequestManager.h"
 #include "WebException.h"
 
-WebRequest::WebRequest()
+using namespace boost;
+
+WebRequest::WebRequest(const String & url) :
+	url(url)
 {
 	context = new WebRequestContext();
 	context->handle = curl_easy_init();
@@ -28,7 +31,40 @@ WebRequest::~WebRequest(void)
 	delete context;
 }
 
-boost::shared_ptr<WebRequest> WebRequest::create( const String & url )
+shared_ptr<WebRequest> WebRequest::create( const String & url )
 {
-	return WebRequestManager::getInstance()->createRequest(url);
+	return shared_ptr<WebRequest>(new WebRequest(url));
+}
+
+void WebRequest::downloadAsync(DataReceivedDelegate callback)
+{
+	jassert(callback != NULL);
+
+	context->callback = callback;
+
+	if( curl_easy_setopt(context->handle, CURLOPT_URL, (const char*)url) != 0)
+		handleError();
+
+	// Setup the read callback
+	if( curl_easy_setopt(context->handle, CURLOPT_WRITEFUNCTION, receiveData) != 0)
+		handleError();
+
+	// Set the custom data to be passed to the callback
+	if( curl_easy_setopt(context->handle, CURLOPT_WRITEDATA, this) != 0)
+		handleError();
+
+}
+
+// Called when data is received
+size_t WebRequest::receiveDataInternal(void* ptr, uint32 receivedBytes)
+{
+	// Return bytes handled to make curl continue
+	return receivedBytes;
+}
+
+void WebRequest::handleError()
+{
+	// Wrap up the error message and throw an exception with the error
+	String errmsg(context->errorBuffer);
+	throw WebException(errmsg);
 }
