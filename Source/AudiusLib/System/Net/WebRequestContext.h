@@ -20,4 +20,6 @@ struct WebRequestContext
 	char	errorBuffer[CURL_ERROR_SIZE];
 
 	DataReceivedDelegate	callback;
+
+	WaitableEvent completed;
 };

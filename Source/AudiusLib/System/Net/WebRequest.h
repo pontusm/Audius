@@ -28,6 +28,9 @@ public:
 
 	void downloadAsync(DataReceivedDelegate callback);
 
+	// Wait for the request to complete
+	bool wait(const int timeoutMilliseconds);
+
 	const String & getUrl() { return url; }
 
 private:

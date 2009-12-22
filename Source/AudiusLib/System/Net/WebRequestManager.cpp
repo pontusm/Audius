@@ -64,5 +64,30 @@ WebRequestManager::~WebRequestManager(void)
 	clearSingletonInstance();
 }
 
+// TODO: Consolidate curl error handling
+void handleError(CURLMcode err)
+{
+	String errmsg(curl_multi_strerror(err));
+	throw WebException(errmsg);
+}
+
+void WebRequestManager::beginRequest(WebRequestContext* request)
+{
+	CURLMcode result = curl_multi_add_handle(vars->controller.multiHandle, request->handle);
+	if(result != CURLM_OK)
+		handleError(result);
+
+	// Notify controller in case its asleep
+	vars->controller.signalPendingRequest();
+}
+
+void WebRequestManager::closeRequest(WebRequestContext* request)
+{
+	CURLMcode result = curl_multi_remove_handle(vars->controller.multiHandle, request->handle);
+	if(result != CURLM_OK)
+		handleError(result);
+}
+
+
 // Singleton impl
 juce_ImplementSingleton(WebRequestManager)

@@ -61,6 +61,7 @@ private:
 	{
 		CURLMcode result;
 		int transfersInProgress;
+		int lastInProgress = -1;
 		while(!threadShouldExit())
 		{
 			// Process transfers
@@ -70,14 +71,30 @@ private:
 			if(result != CURLM_OK)
 				handleError(result);
 
+			// Any transfers finished?
+			if(lastInProgress > transfersInProgress)
+				queryMessages();
+
+			lastInProgress = transfersInProgress;
+
 			// All transfers finished?
 			if(transfersInProgress == 0)
 				break;
 
-			//queryMessages();
 
 			waitForSocketActivity();
 		}
+	}
+
+	void queryMessages()
+	{
+		int queueLength;
+		CURLMsg* msg;
+		while( (msg = curl_multi_info_read(multiHandle, &queueLength)) != NULL)
+		{
+			// TODO: Signal request completed
+		}
+
 	}
 
 	void waitForSocketActivity()
