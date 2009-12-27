@@ -15,6 +15,7 @@
 
 // STL
 #include <vector>
+#include <list>
 
 #include "juce_AppConfig.h"
 #include "../../Dependencies/juce/src/juce_amalgamated_template.h"

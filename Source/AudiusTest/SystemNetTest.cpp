@@ -59,9 +59,10 @@ BEGIN_TEST(SystemNet_WebRequest_CanDownloadChunks)
 }
 END_TEST
 
+int bytesReceived = 0;
 void downloadAsync(shared_ptr<DataReceivedEventArgs> args)
 {
-	WIN_ASSERT_TRUE(args->getBytesReceived() > 0);
+	bytesReceived += args->getBytesReceived();
 }
 
 BEGIN_TEST(SystemNet_WebRequest_CanDownloadAsync)
@@ -73,8 +74,11 @@ BEGIN_TEST(SystemNet_WebRequest_CanDownloadAsync)
 		request->downloadAsync(callback);
 
 		// Wait for request to complete
-		//WIN_ASSERT_TRUE( request->wait(-1) );
+		//WIN_ASSERT_TRUE( request->wait(-1) );	// When debugging
 		WIN_ASSERT_TRUE( request->wait(5000) );
+
+		WIN_ASSERT_TRUE( request->getResponseCode() == 200 );
+		WIN_ASSERT_TRUE( bytesReceived > 0 );
 	}
 	catch(Exception & ex)
 	{

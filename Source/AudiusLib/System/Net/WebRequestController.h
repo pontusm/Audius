@@ -10,6 +10,8 @@
 
 #include "juce.h"
 
+#include "WebRequest.h"
+
 #include <curl/curl.h>
 
 class WebRequestController : public Thread
@@ -44,8 +46,16 @@ public:
 		DBG(T("WebRequestController shutdown"))
 	}
 
-	void signalPendingRequest()
+	void addRequest(WebRequestContext* request)
 	{
+		CURLMcode result = curl_multi_add_handle(multiHandle, request->handle);
+		if(result != CURLM_OK)
+			handleError(result);
+
+		lock.enter();
+		requests.push_back(request);
+		lock.exit();
+
 		if(!isThreadRunning())
 			startThread(0);
 
@@ -81,7 +91,6 @@ private:
 			if(transfersInProgress == 0)
 				break;
 
-
 			waitForSocketActivity();
 		}
 	}
@@ -92,7 +101,34 @@ private:
 		CURLMsg* msg;
 		while( (msg = curl_multi_info_read(multiHandle, &queueLength)) != NULL)
 		{
-			// TODO: Signal request completed
+			// Skip unknown messages
+			if(msg->msg != CURLMSG_DONE)
+				continue;
+
+			// Find request
+			const ScopedLock l(lock);
+			WebRequestContext* request = NULL;
+			std::list<WebRequestContext*>::iterator iterator = requests.begin();
+			while(iterator != requests.end())
+			{
+				if((*iterator)->handle == msg->easy_handle)
+				{
+					// Found it, no longer need to track it
+					request = (*iterator);
+					requests.erase(iterator);
+					break;
+				}
+				++iterator;
+			}
+
+			if(request)
+			{
+				// Signal request completed
+				//long responseCode = 0;
+				//CURLcode result = curl_easy_getinfo(request->handle, CURLINFO_RESPONSE_CODE, &responseCode);
+				
+				request->completed.signal();
+			}
 		}
 
 	}
@@ -133,5 +169,8 @@ private:
 	}
 
 private:
+	CriticalSection lock;
 	WaitableEvent pendingRequest;
+
+	std::list<WebRequestContext*> requests;
 };
