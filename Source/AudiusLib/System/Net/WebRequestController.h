@@ -124,9 +124,6 @@ private:
 			if(request)
 			{
 				// Signal request completed
-				//long responseCode = 0;
-				//CURLcode result = curl_easy_getinfo(request->handle, CURLINFO_RESPONSE_CODE, &responseCode);
-				
 				request->completed.signal();
 			}
 		}
