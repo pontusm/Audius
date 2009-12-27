@@ -75,10 +75,7 @@ void WebRequestManager::beginRequest(WebRequestContext* request)
 
 void WebRequestManager::closeRequest(WebRequestContext* request)
 {
-	// TODO: Move this into controller
-	CURLMcode result = curl_multi_remove_handle(vars->controller.multiHandle, request->handle);
-	if(result != CURLM_OK)
-		handleError(result);
+	vars->controller.removeRequest(request);
 }
 
 

@@ -62,6 +62,18 @@ public:
 		pendingRequest.signal();
 	}
 
+	void removeRequest(WebRequestContext* request)
+	{
+		// Locate request and remove it from our list of known requests
+		if( findRequest(request->handle, true) != NULL )
+		{
+			// Tell curl to cancel it
+			CURLMcode result = curl_multi_remove_handle(multiHandle, request->handle);
+			if(result != CURLM_OK)
+				handleError(result);
+		}
+	}
+
 public:
 	CURLM* multiHandle;
 
@@ -105,32 +117,35 @@ private:
 			if(msg->msg != CURLMSG_DONE)
 				continue;
 
-			// Find request
-			const ScopedLock l(lock);
-			WebRequestContext* request = NULL;
-			std::list<WebRequestContext*>::iterator iterator = requests.begin();
-			while(iterator != requests.end())
-			{
-				if((*iterator)->handle == msg->easy_handle)
-				{
-					// Found it, no longer need to track it
-					request = (*iterator);
-					requests.erase(iterator);
-					break;
-				}
-				++iterator;
-			}
-
+			// Notify request if known
+			WebRequestContext* request = findRequest(msg->easy_handle, true);
 			if(request)
 			{
 				// Signal request completed
-				//long responseCode = 0;
-				//CURLcode result = curl_easy_getinfo(request->handle, CURLINFO_RESPONSE_CODE, &responseCode);
-				
 				request->completed.signal();
 			}
 		}
+	}
 
+	// Searches the list of known requests and optionally removes it from the list
+	WebRequestContext* findRequest(CURL* handle, bool removeRequest)
+	{
+		const ScopedLock l(lock);
+		WebRequestContext* request = NULL;
+		std::list<WebRequestContext*>::iterator iterator = requests.begin();
+		while(iterator != requests.end())
+		{
+			if((*iterator)->handle == handle)
+			{
+				// Found it
+				request = (*iterator);
+				if(removeRequest)
+					requests.erase(iterator);
+				break;
+			}
+			++iterator;
+		}
+		return request;
 	}
 
 	void waitForSocketActivity()

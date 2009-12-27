@@ -25,9 +25,13 @@ public:
 
 	static boost::shared_ptr<WebRequest> create(const String & url);
 
+	// Abort an ongoing request
+	void abort();
+
+	// Begin downloading asynchronously
 	void downloadAsync(DataReceivedDelegate callback);
 
-	// Wait for the request to complete
+	// Wait for the request to complete (-1 = infinite)
 	bool wait(const int timeoutMilliseconds);
 
 	const String & getUrl() { return url; }

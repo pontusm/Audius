@@ -69,6 +69,7 @@ BEGIN_TEST(SystemNet_WebRequest_CanDownloadAsync)
 {
 	try
 	{
+		bytesReceived = 0;
 		shared_ptr<WebRequest> request = WebRequest::create(T("http://www.google.com"));
 		DataReceivedDelegate callback = boost::bind(downloadAsync, _1);
 		request->downloadAsync(callback);
@@ -87,3 +88,28 @@ BEGIN_TEST(SystemNet_WebRequest_CanDownloadAsync)
 	}
 }
 END_TEST
+
+void pausingCallback(shared_ptr<DataReceivedEventArgs> args)
+{
+	Sleep(500);
+}
+
+BEGIN_TEST(SystemNet_WebRequest_CanAbortDownload)
+{
+	try
+	{
+		shared_ptr<WebRequest> request = WebRequest::create(T("http://www.google.com"));
+		DataReceivedDelegate callback = boost::bind(pausingCallback, _1);
+		request->downloadAsync(callback);
+		request->abort();
+
+		Sleep(100);
+	}
+	catch(Exception & ex)
+	{
+		String msg = ex.getFullMessage();
+		WIN_ASSERT_FAIL(msg);
+	}
+}
+END_TEST
+

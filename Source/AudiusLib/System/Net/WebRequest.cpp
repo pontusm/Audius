@@ -44,6 +44,12 @@ bool WebRequest::wait(const int timeOutMilliseconds)
 	return context->completed.wait(timeOutMilliseconds);
 }
 
+void WebRequest::abort()
+{
+	// Closing it will effectively cancel the current request
+	WebRequestManager::getInstance()->closeRequest(context);
+}
+
 void WebRequest::downloadAsync(DataReceivedDelegate callback)
 {
 	jassert(callback != NULL);
@@ -108,3 +114,4 @@ int WebRequest::getResponseCode()
 		handleError();
 	return responseCode;
 }
+
