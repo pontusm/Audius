@@ -8,7 +8,8 @@
 using namespace boost;
 
 WebRequest::WebRequest(const String & url) :
-	url(url)
+	url(url),
+	totalBytes(-1)
 {
 	context = new WebRequestContext();
 	context->handle = curl_easy_init();
@@ -49,15 +50,19 @@ void WebRequest::downloadAsync(DataReceivedDelegate callback)
 
 	context->callback = callback;
 
-	if( curl_easy_setopt(context->handle, CURLOPT_URL, (const char*)url) != 0)
+	if( curl_easy_setopt(context->handle, CURLOPT_URL, (const char*)url) != CURLE_OK)
+		handleError();
+
+	// Follow redirects
+	if( curl_easy_setopt(context->handle, CURLOPT_FOLLOWLOCATION, 1) != CURLE_OK)
 		handleError();
 
 	// Setup the read callback
-	if( curl_easy_setopt(context->handle, CURLOPT_WRITEFUNCTION, receiveData) != 0)
+	if( curl_easy_setopt(context->handle, CURLOPT_WRITEFUNCTION, receiveData) != CURLE_OK)
 		handleError();
 
 	// Set the custom data to be passed to the callback
-	if( curl_easy_setopt(context->handle, CURLOPT_WRITEDATA, this) != 0)
+	if( curl_easy_setopt(context->handle, CURLOPT_WRITEDATA, this) != CURLE_OK)
 		handleError();
 
 	WebRequestManager::getInstance()->beginRequest(context);
@@ -66,6 +71,25 @@ void WebRequest::downloadAsync(DataReceivedDelegate callback)
 // Called when data is received
 size_t WebRequest::receiveDataInternal(void* ptr, uint32 receivedBytes)
 {
+	// Is total length not known?
+	if(totalBytes < 0)
+	{
+		// Determine content length
+		double length = -1;
+		if( curl_easy_getinfo(context->handle, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &length) != CURLE_OK )
+			handleError();
+		if(length >= receivedBytes)
+			totalBytes = (int64)length;
+	}
+
+	// Pass it on to the desired callback method
+	shared_ptr<DataReceivedEventArgs> args( new DataReceivedEventArgs( ptr, receivedBytes, totalBytes ) );
+	context->callback(args);
+
+	// If callback wants to cancel transfer we return 0 to curl to make it stop
+	if(args->cancelTransfer)
+		return 0;
+
 	// Return bytes handled to make curl continue
 	return receivedBytes;
 }
@@ -75,4 +99,12 @@ void WebRequest::handleError()
 	// Wrap up the error message and throw an exception with the error
 	String errmsg(context->errorBuffer);
 	throw WebException(errmsg);
+}
+
+int WebRequest::getResponseCode()
+{
+	long responseCode = 0;
+	if( curl_easy_getinfo(context->handle, CURLINFO_RESPONSE_CODE, &responseCode) != CURLE_OK )
+		handleError();
+	return responseCode;
 }

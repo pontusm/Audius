@@ -17,7 +17,6 @@ struct WebRequestContext;
 
 class WebRequest
 {
-	//friend class WebRequestManager;
 private:
 	WebRequest(const String & url);
 
@@ -32,6 +31,8 @@ public:
 	bool wait(const int timeoutMilliseconds);
 
 	const String & getUrl() { return url; }
+	
+	int getResponseCode();
 
 private:
 	// Generic callback for receiving data (had to make this static to get it working with Curl)
@@ -49,5 +50,6 @@ private:
 private:
 	WebRequestContext*	context;
 
-	String url;
+	String	url;
+	int64	totalBytes;
 };

@@ -11,7 +11,6 @@
 
 using namespace boost;
 
-
 // ********************
 // *** Private data ***
 // ********************
@@ -30,8 +29,6 @@ public:
 	}
 
 	WebRequestController controller;
-
-	//CURLM*	multiHandle;
 };
 
 // ******************************
@@ -73,16 +70,12 @@ void handleError(CURLMcode err)
 
 void WebRequestManager::beginRequest(WebRequestContext* request)
 {
-	CURLMcode result = curl_multi_add_handle(vars->controller.multiHandle, request->handle);
-	if(result != CURLM_OK)
-		handleError(result);
-
-	// Notify controller in case its asleep
-	vars->controller.signalPendingRequest();
+	vars->controller.addRequest(request);
 }
 
 void WebRequestManager::closeRequest(WebRequestContext* request)
 {
+	// TODO: Move this into controller
 	CURLMcode result = curl_multi_remove_handle(vars->controller.multiHandle, request->handle);
 	if(result != CURLM_OK)
 		handleError(result);
