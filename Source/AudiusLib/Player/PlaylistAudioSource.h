@@ -14,7 +14,7 @@
 
 class DownloadProgressEventArgs;
 class Playlist;
-class DownloadThread;
+class WebRequest;
 
 class PlaylistAudioSource :
 	public AudioTransportSource
@@ -24,6 +24,7 @@ public:
 	~PlaylistAudioSource(void);
 
 	void prepareToPlay(int samplesPerBlockExpected, double sampleRate);
+	void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill);
 
 	void setCurrentPlaylist(boost::shared_ptr<Playlist> playlist)
 	{
@@ -34,6 +35,6 @@ private:
 	void receiveData(boost::shared_ptr<DownloadProgressEventArgs> args);
 
 private:
-	boost::shared_ptr<Playlist>			_playlist;
-	boost::shared_ptr<DownloadThread>	_downloadThread;
+	boost::shared_ptr<Playlist>		_playlist;
+	boost::shared_ptr<WebRequest>	_request;
 };

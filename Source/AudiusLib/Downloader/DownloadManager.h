@@ -12,7 +12,7 @@
 
 #include "DownloadProgressEventArgs.h"
 
-class DownloadThread;
+class DownloadBuffer;
 
 class DownloadManager : public DeletedAtShutdown
 {
@@ -24,7 +24,7 @@ private:
 	~DownloadManager(void);
 
 public:
-	boost::shared_ptr<DownloadThread> downloadAsync(const String& url, DownloadProgressDelegate callback);
+	boost::shared_ptr<DownloadBuffer> downloadAsync(const String& url);
 
 	// Abort all current downloads
 	void abortAll();
@@ -38,6 +38,6 @@ private:
 
 	// Private variables
 private:
-	std::vector< boost::shared_ptr<DownloadThread> >	_downloadThreads;
+	//std::vector< boost::shared_ptr<DownloadThread> >	_downloadThreads;
 
 };

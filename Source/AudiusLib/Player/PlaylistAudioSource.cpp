@@ -4,7 +4,6 @@
 #include "Playlist.h"
 
 #include "../Downloader/DownloadManager.h"
-#include "../Downloader/DownloadThread.h"
 
 using namespace boost;
 
@@ -14,11 +13,6 @@ PlaylistAudioSource::PlaylistAudioSource(void)
 
 PlaylistAudioSource::~PlaylistAudioSource(void)
 {
-}
-
-void PlaylistAudioSource::receiveData(shared_ptr<DownloadProgressEventArgs> args)
-{
-
 }
 
 void PlaylistAudioSource::prepareToPlay( int samplesPerBlockExpected, double sampleRate )
@@ -33,6 +27,22 @@ void PlaylistAudioSource::prepareToPlay( int samplesPerBlockExpected, double sam
 	if(!entry)
 		return;
 
-	DownloadProgressDelegate callback = boost::bind(&PlaylistAudioSource::receiveData, this, _1);
-	_downloadThread = DownloadManager::getInstance()->downloadAsync(entry->getUrl(), callback);
+	//DownloadProgressDelegate callback = boost::bind(&PlaylistAudioSource::receiveData, this, _1);
+	//_downloadThread = DownloadManager::getInstance()->downloadAsync(entry->getUrl(), callback);
+}
+
+void PlaylistAudioSource::receiveData(shared_ptr<DownloadProgressEventArgs> args)
+{
+
+}
+
+void PlaylistAudioSource::getNextAudioBlock( const AudioSourceChannelInfo& bufferToFill )
+{
+	// Plocka från aktuell download buffert
+	// Om det inte finns någon buffert, starta download
+	// Om download är klar, starta eventuell nästa download
+
+	// StreamingSource laddar från en URL
+
+	AudioTransportSource::getNextAudioBlock(bufferToFill);
 }

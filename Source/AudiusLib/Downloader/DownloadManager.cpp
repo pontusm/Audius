@@ -1,7 +1,7 @@
 #include "Precompiled.h"
 #include "DownloadManager.h"
 
-#include "DownloadThread.h"
+#include "DownloadBuffer.h"
 #include "DownloadProgressEventArgs.h"
 
 using namespace std;
@@ -15,26 +15,26 @@ DownloadManager::~DownloadManager(void)
 {
 }
 
-shared_ptr<DownloadThread> DownloadManager::downloadAsync(const String& url, DownloadProgressDelegate callback)
+shared_ptr<DownloadBuffer> DownloadManager::downloadAsync(const String& url)
 {
-	// Create new thread and add it to thread list
-	shared_ptr<DownloadThread> t( new DownloadThread(url, callback) );
-	_downloadThreads.push_back(t);
-	t->startThread();
-	return t;
+	// Create buffer to fill
+	shared_ptr<DownloadBuffer> buffer( new DownloadBuffer() );
+	//_downloadThreads.push_back(t);
+	//t->startThread();
+	return buffer;
 }
 
 void DownloadManager::cleanUp()
 {
 	// Clean up threads that have stopped
-	vector< shared_ptr<DownloadThread> >::iterator iterator = _downloadThreads.begin();
-	while(iterator != _downloadThreads.end())
-	{
-		if(!(*iterator)->isThreadRunning())
-			iterator = _downloadThreads.erase(iterator);
-		else
-			++iterator;
-	}
+	//vector< shared_ptr<DownloadThread> >::iterator iterator = _downloadThreads.begin();
+	//while(iterator != _downloadThreads.end())
+	//{
+	//	if(!(*iterator)->isThreadRunning())
+	//		iterator = _downloadThreads.erase(iterator);
+	//	else
+	//		++iterator;
+	//}
 	
 }
 
@@ -53,14 +53,14 @@ void DownloadManager::abortAll()
 		}
 	}
 	*/
-	Thread::stopAllThreads(10000);
-	cleanUp();
+	//Thread::stopAllThreads(10000);
+	//cleanUp();
 }
 
 void DownloadManager::shutdown()
 {
-	Logger::writeToLog(T("Download manager closing"));
-	abortAll();
+	//Logger::writeToLog(T("Download manager closing"));
+	//abortAll();
 }
 
 // Singleton impl

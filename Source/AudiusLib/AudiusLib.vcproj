@@ -315,10 +315,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Downloader\DownloadThread.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\juce_lib.cpp"
 				>
 				<FileConfiguration
@@ -446,10 +442,6 @@
 			</File>
 			<File
 				RelativePath=".\Downloader\DownloadProgressEventArgs.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Downloader\DownloadThread.h"
 				>
 			</File>
 			<File
