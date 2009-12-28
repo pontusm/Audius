@@ -2,6 +2,7 @@
 #include "WebClient.h"
 
 #include "WebException.h"
+#include "WebRequest.h"
 #include "DataReceivedEventArgs.h"
 
 #include <curl/curl.h>
@@ -27,40 +28,60 @@ public:
 	{
 	}
 
-	CURL*	handle;
-	char	errorBuffer[CURL_ERROR_SIZE];
+	// Downloads data using the default chunk size in curl (16KB)
+	void downloadChunks(const String & url, DataReceivedDelegate callback)
+	{
+		//assert(callback != NULL);
 
-	int64	totalBytes;
+		//_callback = callback;
+		//_totalBytes = -1;
 
-	DataReceivedDelegate	callback;
+		//if( curl_easy_setopt(_handle, CURLOPT_URL, (const char*)url) != 0)
+		//	handleError();
+
+		//// Setup the read callback
+		//if( curl_easy_setopt(_handle, CURLOPT_WRITEFUNCTION, receiveData) != 0)
+		//	handleError();
+
+		//// Set the custom data to be passed to the callback
+		//if( curl_easy_setopt(_handle, CURLOPT_WRITEDATA, this) != 0)
+		//	handleError();
+
+		//if( curl_easy_perform(_handle) != 0)
+		//	handleError();
+	}
+
+	void downloadStringCallback(String * str, shared_ptr<DataReceivedEventArgs> args)
+	{
+		(*str) += String::fromUTF8((uint8*)args->getData(), args->getBytesReceived());
+	}
+
+	void downloadStreamCallback(OutputStream * stream, shared_ptr<DataReceivedEventArgs> args)
+	{
+		// Write data to output stream
+		if(!stream->write(args->getData(), args->getBytesReceived()))
+			args->cancelTransfer = true;
+	}
+
+public:
+	shared_ptr<WebRequest> request;
+
+private:
+	DataReceivedDelegate	_callback;
 };
 
 // ******************************
 // *** Constructor/destructor ***
 // ******************************
 WebClient::WebClient() :
-	vars( new impl() )
+	pimpl( new impl() ),
+	timeoutMilliseconds(10 * 1000)
 {
-	// Initialize curl session
-	vars->handle = curl_easy_init();
-	if(!vars->handle)
-		throw WebException(T("Failed to initialize Curl."));
-
-	// Setup error message buffer
-	memset(vars->errorBuffer, 0, CURL_ERROR_SIZE);
-	curl_easy_setopt(vars->handle, CURLOPT_ERRORBUFFER, vars->errorBuffer);
 }
 
 WebClient::~WebClient()
 {
-	if(vars->handle)
-	{
-		// Close curl session
-		curl_easy_cleanup(vars->handle);
-		vars->handle = NULL;
-	}
-
-	delete vars;
+	delete pimpl;
 }
 
 // ********************************
@@ -72,27 +93,30 @@ String WebClient::downloadString(const String & url)
 {
 	String str;
 
+	WebRequest request(url);
+
 	// Bind callback to our private impl class that will take care of filling the string
-	//DataReceivedDelegate callback = boost::bind(&impl::downloadStringCallback, vars, &str, _1);
-	//vars->downloadChunks(url, callback);
+	DataReceivedDelegate callback = boost::bind(&impl::downloadStringCallback, pimpl, &str, _1);
+	request.downloadAsync(callback);
+	if(!request.wait(timeoutMilliseconds))
+		throw WebException(T("Operation timed out"));
 
 	return str;
 }
 
-void WebClient::downloadStream(const String & url, OutputStream & stream )
-{
-	//DataReceivedDelegate callback = boost::bind(&impl::downloadStreamCallback, vars, &stream, _1);
-	//vars->downloadChunks(url, callback);
-}
-
 void WebClient::downloadChunks(const String & url, DataReceivedDelegate callback)
 {
-	//vars->downloadChunks(url, callback);
+	//_pimpl->downloadChunks(url, callback);
 }
 
-void WebClient::close()
+void WebClient::downloadStream(const String & url, OutputStream & stream )
 {
-	//vars->close();
+	WebRequest request(url);
+
+	DataReceivedDelegate callback = boost::bind(&impl::downloadStreamCallback, pimpl, &stream, _1);
+	request.downloadAsync(callback);
+	if(!request.wait(timeoutMilliseconds))
+		throw WebException(T("Operation timed out"));
 }
 
 /************************************************************************/

@@ -49,8 +49,12 @@ WebRequestManager::WebRequestManager(void) :
 
 WebRequestManager::~WebRequestManager(void)
 {
+	//DBG(T("Shutting down request controller"));
+
 	// Shutdown transfer thread
 	vars->controller.stopThread(5000);
+
+	//DBG(T("Shutting down curl"));
 
 	// Shutdown curl
 	if(vars->controller.multiHandle)

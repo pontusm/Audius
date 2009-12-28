@@ -7,7 +7,6 @@
 #include "AudiusLib/System/Exception.h"
 
 #include "System/Net/DataReceivedEventArgs.h"
-#include "System/Net/WebClientFactory.h"
 #include "System/Net/WebClient.h"
 #include "System/Net/WebRequestManager.h"
 #include "System/Net/WebRequest.h"

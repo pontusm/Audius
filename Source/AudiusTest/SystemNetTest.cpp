@@ -7,36 +7,34 @@ using namespace boost;
 
 BEGIN_TEST(SystemNet_WebClient_CanDownloadString)
 {
-	//shared_ptr<WebClient> client = WebClientFactory::getInstance()->createClient();
-	//try
-	//{
-	//	String str = client->downloadString(T("http://www.google.com"));
-	//	WIN_ASSERT_TRUE(str.indexOfIgnoreCase(T("<html>")) >= 0);
-	//}
-	//catch(Exception & ex)
-	//{
-	//	String msg = ex.getFullMessage();
-	//	WIN_ASSERT_FAIL(msg);
-	//}
-	//client->close();
+	WebClient client;
+	try
+	{
+		String str = client.downloadString(T("http://www.google.com"));
+		WIN_ASSERT_TRUE(str.indexOfIgnoreCase(T("<html>")) >= 0);
+	}
+	catch(Exception & ex)
+	{
+		String msg = ex.getFullMessage();
+		WIN_ASSERT_FAIL(msg);
+	}
 }
 END_TEST
 
 BEGIN_TEST(SystemNet_WebClient_CanDownloadStream)
 {
-	//shared_ptr<WebClient> client = WebClientFactory::getInstance()->createClient();
-	//try
-	//{
-	//	MemoryOutputStream stream;
-	//	client->downloadStream(T("http://www.google.com"), stream);
-	//	WIN_ASSERT_TRUE(stream.getDataSize() >= 0);
-	//}
-	//catch(Exception & ex)
-	//{
-	//	String msg = ex.getFullMessage();
-	//	WIN_ASSERT_FAIL(msg);
-	//}
-	//client->close();
+	WebClient client;
+	try
+	{
+		MemoryOutputStream stream;
+		client.downloadStream(T("http://www.google.com"), stream);
+		WIN_ASSERT_TRUE(stream.getDataSize() >= 0);
+	}
+	catch(Exception & ex)
+	{
+		String msg = ex.getFullMessage();
+		WIN_ASSERT_FAIL(msg);
+	}
 }
 END_TEST
 
@@ -70,15 +68,15 @@ BEGIN_TEST(SystemNet_WebRequest_CanDownloadAsync)
 	try
 	{
 		bytesReceived = 0;
-		shared_ptr<WebRequest> request = WebRequest::create(T("http://www.google.com"));
+		WebRequest request(T("http://www.google.com"));
 		DataReceivedDelegate callback = boost::bind(downloadAsync, _1);
-		request->downloadAsync(callback);
+		request.downloadAsync(callback);
 
 		// Wait for request to complete
-		//WIN_ASSERT_TRUE( request->wait(-1) );	// When debugging
-		WIN_ASSERT_TRUE( request->wait(5000) );
+		//WIN_ASSERT_TRUE( request.wait(-1) );	// When debugging
+		WIN_ASSERT_TRUE( request.wait(5000) );
 
-		WIN_ASSERT_TRUE( request->getResponseCode() == 200 );
+		WIN_ASSERT_TRUE( request.getResponseCode() == 200 );
 		WIN_ASSERT_TRUE( bytesReceived > 0 );
 	}
 	catch(Exception & ex)
@@ -98,10 +96,10 @@ BEGIN_TEST(SystemNet_WebRequest_CanAbortDownload)
 {
 	try
 	{
-		shared_ptr<WebRequest> request = WebRequest::create(T("http://www.google.com"));
+		WebRequest request(T("http://www.google.com"));
 		DataReceivedDelegate callback = boost::bind(pausingCallback, _1);
-		request->downloadAsync(callback);
-		request->abort();
+		request.downloadAsync(callback);
+		request.abort();
 
 		Sleep(100);
 	}

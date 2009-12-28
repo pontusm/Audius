@@ -48,13 +48,14 @@ public:
 
 	void addRequest(WebRequestContext* request)
 	{
-		CURLMcode result = curl_multi_add_handle(multiHandle, request->handle);
-		if(result != CURLM_OK)
-			handleError(result);
-
-		lock.enter();
-		requests.push_back(request);
-		lock.exit();
+		{	// Enter critical section
+			const ScopedLock l(lock);
+			CURLMcode result = curl_multi_add_handle(multiHandle, request->handle);
+			if(result != CURLM_OK)
+				handleError(result);
+	
+			requests.push_back(request);
+		}
 
 		if(!isThreadRunning())
 			startThread(0);
@@ -67,10 +68,16 @@ public:
 		// Locate request and remove it from our list of known requests
 		if( findRequest(request->handle, true) != NULL )
 		{
-			// Tell curl to cancel it
-			CURLMcode result = curl_multi_remove_handle(multiHandle, request->handle);
-			if(result != CURLM_OK)
-				handleError(result);
+			//DBG(T("Removing request"));
+
+			{	// Enter critical section
+				const ScopedLock l(lock);
+
+				// Tell curl to cancel request
+				CURLMcode result = curl_multi_remove_handle(multiHandle, request->handle);
+				if(result != CURLM_OK)
+					handleError(result);
+			}
 		}
 	}
 
@@ -86,16 +93,20 @@ private:
 		int lastInProgress = -1;
 		while(!threadShouldExit())
 		{
-			// Process transfers
-			result = curl_multi_perform(multiHandle, &transfersInProgress);
-			if(result == CURLM_CALL_MULTI_PERFORM)
-				continue;	// Need to call multi_perform again asap
-			if(result != CURLM_OK)
-				handleError(result);
+			{	// Enter critical section
+				const ScopedLock l(lock);
 
-			// Any transfers finished?
-			if(lastInProgress > transfersInProgress)
-				queryMessages();
+				// Process transfers
+				result = curl_multi_perform(multiHandle, &transfersInProgress);
+				if(result == CURLM_CALL_MULTI_PERFORM)
+					continue;	// Need to call multi_perform again asap
+				if(result != CURLM_OK)
+					handleError(result);
+	
+				// Any transfers finished?
+				if(lastInProgress > transfersInProgress)
+					queryMessages();
+			}
 
 			lastInProgress = transfersInProgress;
 

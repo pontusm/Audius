@@ -2,7 +2,6 @@
 #include "ClodderService.h"
 
 #include "../System/Net/WebException.h"
-#include "../System/Net/WebClientFactory.h"
 #include "../System/Net/WebClient.h"
 
 using namespace boost;
@@ -25,8 +24,8 @@ bool ClodderService::login( const String & userName, const String & password )
 
 	String url = _baseUrl + T("/lgin.aspx?u=") + encodedUserName + T("&p=") + encodedPassword;
 
-	shared_ptr<WebClient> client = WebClientFactory::getInstance()->createClient();
-	String key = client->downloadString(url);
+	WebClient client;
+	String key = client.downloadString(url);
 	if(key.length() != 36)
 		return false;
 
@@ -37,8 +36,8 @@ bool ClodderService::login( const String & userName, const String & password )
 String ClodderService::getCurrentPlaylistItem()
 {
 	String url = _baseUrl + T("/c.aspx?uk=") + _userKey;
-	shared_ptr<WebClient> client = WebClientFactory::getInstance()->createClient();
-	return client->downloadString(url);
+	WebClient client;
+	return client.downloadString(url);
 }
 
 String ClodderService::getSongUrl(int songID)
@@ -50,13 +49,13 @@ String ClodderService::getSongUrl(int songID)
 String ClodderService::gotoNext()
 {
 	String url = _baseUrl + T("/n.aspx?uk=") + _userKey;
-	shared_ptr<WebClient> client = WebClientFactory::getInstance()->createClient();
-	return client->downloadString(url);
+	WebClient client;
+	return client.downloadString(url);
 }
 
 String ClodderService::gotoPrevious()
 {
 	String url = _baseUrl + T("/p.aspx?uk=") + _userKey;
-	shared_ptr<WebClient> client = WebClientFactory::getInstance()->createClient();
-	return client->downloadString(url);
+	WebClient client;
+	return client.downloadString(url);
 }

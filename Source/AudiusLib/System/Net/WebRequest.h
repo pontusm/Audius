@@ -17,13 +17,9 @@ struct WebRequestContext;
 
 class WebRequest
 {
-private:
-	WebRequest(const String & url);
-
 public:
+	WebRequest(const String & url);
 	~WebRequest(void);
-
-	static boost::shared_ptr<WebRequest> create(const String & url);
 
 	// Abort an ongoing request
 	void abort();

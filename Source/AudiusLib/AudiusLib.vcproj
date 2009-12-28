@@ -403,10 +403,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\System\Net\WebClientFactory.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\System\Net\WebRequest.cpp"
 				>
 			</File>
@@ -510,10 +506,6 @@
 			</File>
 			<File
 				RelativePath=".\System\Net\WebClient.h"
-				>
-			</File>
-			<File
-				RelativePath=".\System\Net\WebClientFactory.h"
 				>
 			</File>
 			<File

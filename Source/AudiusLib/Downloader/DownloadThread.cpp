@@ -2,7 +2,6 @@
 #include "DownloadThread.h"
 
 #include "../System/Net/WebClient.h"
-#include "../System/Net/WebClientFactory.h"
 #include "../System/Net/DataReceivedEventArgs.h"
 
 #include "../System/Exception.h"
@@ -84,10 +83,11 @@ public:
 		_startTime = Time::currentTimeMillis();
 		_bytesRead = 0;
 
+		// TODO: Need rewrite
 		// Create web client and start downloading chunks
-		shared_ptr<WebClient> client = WebClientFactory::getInstance()->createClient();
-		DataReceivedDelegate callback = boost::bind(&impl::receiveData, this, _1);
-		client->downloadChunks(_downloadUrl, callback);
+		//shared_ptr<WebClient> client = WebClientFactory::getInstance()->createClient();
+		//DataReceivedDelegate callback = boost::bind(&impl::receiveData, this, _1);
+		//client->downloadChunks(_downloadUrl, callback);
 	}
 
 	const String& getUrl()

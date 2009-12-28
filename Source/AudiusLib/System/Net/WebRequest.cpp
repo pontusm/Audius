@@ -23,6 +23,8 @@ WebRequest::WebRequest(const String & url) :
 
 WebRequest::~WebRequest(void)
 {
+	//DBG(T("Closing request: ") + url);
+
 	WebRequestManager::getInstance()->closeRequest(context);
 
 	if(context->handle)
@@ -32,11 +34,6 @@ WebRequest::~WebRequest(void)
 		context->handle = NULL;
 	}
 	delete context;
-}
-
-shared_ptr<WebRequest> WebRequest::create( const String & url )
-{
-	return shared_ptr<WebRequest>(new WebRequest(url));
 }
 
 bool WebRequest::wait(const int timeOutMilliseconds)
