@@ -1,66 +1,51 @@
 #include "Precompiled.h"
 #include "DownloadManager.h"
 
-#include "DownloadBuffer.h"
+#include "DownloadStream.h"
 #include "DownloadProgressEventArgs.h"
 
 using namespace std;
 using namespace boost;
 
-DownloadManager::DownloadManager(void)
+DownloadManager::DownloadManager()
 {
 }
 
-DownloadManager::~DownloadManager(void)
+DownloadManager::~DownloadManager()
 {
+	shutdown();
+	clearSingletonInstance();
 }
 
-shared_ptr<DownloadBuffer> DownloadManager::downloadAsync(const String& url)
+shared_ptr<DownloadStream> DownloadManager::downloadAsync(const String& url)
 {
-	// Create buffer to fill
-	shared_ptr<DownloadBuffer> buffer( new DownloadBuffer() );
-	//_downloadThreads.push_back(t);
-	//t->startThread();
-	return buffer;
-}
-
-void DownloadManager::cleanUp()
-{
-	// Clean up threads that have stopped
-	//vector< shared_ptr<DownloadThread> >::iterator iterator = _downloadThreads.begin();
-	//while(iterator != _downloadThreads.end())
-	//{
-	//	if(!(*iterator)->isThreadRunning())
-	//		iterator = _downloadThreads.erase(iterator);
-	//	else
-	//		++iterator;
-	//}
-	
+	// Create stream and start downloading
+	shared_ptr<DownloadStream> stream( new DownloadStream(url) );
+	_downloadStreams.push_back(stream);
+	stream->start();
+	return stream;
 }
 
 void DownloadManager::abortAll()
 {
-	// Stop all threads
-	/*
-	vector< shared_ptr<DownloadThread> >::iterator iterator;
-	for(iterator = _downloadThreads.begin(); iterator != _downloadThreads.end(); iterator++)
+	// Abort all downloads
+	vector< shared_ptr<DownloadStream> >::iterator iterator = _downloadStreams.begin();
+	while(iterator != _downloadStreams.end())
 	{
-		if((*iterator)->isThreadRunning())
-		{
-			Logger::writeToLog(T("Aborting thread: ") + (*iterator)->getThreadName());
-			Sleep(5000);
-			(*iterator)->stopThread(10000);
-		}
+		(*iterator)->abort();
+		//if(!(*iterator)->isThreadRunning())
+		//	iterator = _downloadThreads.erase(iterator);
+		//else
+		//	++iterator;
+		iterator = _downloadStreams.erase(iterator);
 	}
-	*/
-	//Thread::stopAllThreads(10000);
-	//cleanUp();
 }
 
 void DownloadManager::shutdown()
 {
-	//Logger::writeToLog(T("Download manager closing"));
-	//abortAll();
+	Logger::writeToLog(T("Download manager closing"));
+	if(_downloadStreams.size() > 0)
+		abortAll();
 }
 
 // Singleton impl

@@ -72,12 +72,12 @@ void handleError(CURLMcode err)
 	throw WebException(errmsg);
 }
 
-void WebRequestManager::beginRequest(WebRequestContext* request)
+void WebRequestManager::beginRequest(WebRequest* request)
 {
 	vars->controller.addRequest(request);
 }
 
-void WebRequestManager::closeRequest(WebRequestContext* request)
+void WebRequestManager::closeRequest(WebRequest* request)
 {
 	vars->controller.removeRequest(request);
 }

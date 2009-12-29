@@ -9,7 +9,9 @@ using namespace boost;
 
 WebRequest::WebRequest(const String & url) :
 	url(url),
-	totalBytes(-1)
+	totalBytes(-1),
+	started(false),
+	completed(false)
 {
 	context = new WebRequestContext();
 	context->handle = curl_easy_init();
@@ -25,7 +27,7 @@ WebRequest::~WebRequest(void)
 {
 	//DBG(T("Closing request: ") + url);
 
-	WebRequestManager::getInstance()->closeRequest(context);
+	WebRequestManager::getInstance()->closeRequest(this);
 
 	if(context->handle)
 	{
@@ -38,18 +40,23 @@ WebRequest::~WebRequest(void)
 
 bool WebRequest::wait(const int timeOutMilliseconds)
 {
-	return context->completed.wait(timeOutMilliseconds);
+	jassert(started);	// Should not wait for non started request
+
+	if(completed)
+		return true;
+	return completeEvent.wait(timeOutMilliseconds);
 }
 
 void WebRequest::abort()
 {
 	// Closing it will effectively cancel the current request
-	WebRequestManager::getInstance()->closeRequest(context);
+	WebRequestManager::getInstance()->closeRequest(this);
 }
 
 void WebRequest::downloadAsync(DataReceivedDelegate callback)
 {
 	jassert(callback != NULL);
+	jassert(!started);			// Cannot reuse request
 
 	context->callback = callback;
 
@@ -68,7 +75,9 @@ void WebRequest::downloadAsync(DataReceivedDelegate callback)
 	if( curl_easy_setopt(context->handle, CURLOPT_WRITEDATA, this) != CURLE_OK)
 		handleError();
 
-	WebRequestManager::getInstance()->beginRequest(context);
+	started = true;
+
+	WebRequestManager::getInstance()->beginRequest(this);
 }
 
 // Called when data is received
@@ -112,3 +121,8 @@ int WebRequest::getResponseCode()
 	return responseCode;
 }
 
+void WebRequest::setComplete()
+{
+	completed = true;
+	completeEvent.signal();
+}

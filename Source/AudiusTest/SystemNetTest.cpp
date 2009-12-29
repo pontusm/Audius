@@ -71,6 +71,7 @@ BEGIN_TEST(SystemNet_WebRequest_CanDownloadAsync)
 		WebRequest request(T("http://www.google.com"));
 		DataReceivedDelegate callback = boost::bind(downloadAsync, _1);
 		request.downloadAsync(callback);
+		WIN_ASSERT_TRUE( request.isStarted() );
 
 		// Wait for request to complete
 		//WIN_ASSERT_TRUE( request.wait(-1) );	// When debugging
@@ -78,6 +79,7 @@ BEGIN_TEST(SystemNet_WebRequest_CanDownloadAsync)
 
 		WIN_ASSERT_TRUE( request.getResponseCode() == 200 );
 		WIN_ASSERT_TRUE( bytesReceived > 0 );
+		WIN_ASSERT_TRUE( request.isCompleted() );
 	}
 	catch(Exception & ex)
 	{

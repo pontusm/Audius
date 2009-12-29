@@ -111,6 +111,13 @@ void AudioPlayer::initialise()
 	//vars->formatReaderSource = new AudioFormatReaderSource(reader, true);
 	//vars->transportSource.setSource(vars->formatReaderSource, 16384);
 
+	// Streaming example:
+	//
+	//Mp3AudioFormat mp3Format;
+	//AudioFormatReader* reader = mp3Format.createReaderFor(input, false);
+	//vars->formatReaderSource = new AudioFormatReaderSource(reader, true);
+	//vars->transportSource.setSource(vars->formatReaderSource, 16384);
+
 }
 
 // *** Shutdown **************************************************

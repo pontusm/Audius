@@ -28,7 +28,7 @@ public:
 
 	void run()
 	{
-		DBG(T("WebRequestController started"))
+		//DBG(T("WebRequestController started"))
 		try
 		{
 			while(!threadShouldExit())
@@ -43,14 +43,14 @@ public:
 			if(!threadShouldExit())
 				Logger::writeToLog(T("Web request thread exception: ") + ex.getFullMessage());
 		}
-		DBG(T("WebRequestController shutdown"))
+		//DBG(T("WebRequestController shutdown"))
 	}
 
-	void addRequest(WebRequestContext* request)
+	void addRequest(WebRequest* request)
 	{
 		{	// Enter critical section
 			const ScopedLock l(lock);
-			CURLMcode result = curl_multi_add_handle(multiHandle, request->handle);
+			CURLMcode result = curl_multi_add_handle(multiHandle, request->context->handle);
 			if(result != CURLM_OK)
 				handleError(result);
 	
@@ -63,10 +63,10 @@ public:
 		pendingRequest.signal();
 	}
 
-	void removeRequest(WebRequestContext* request)
+	void removeRequest(WebRequest* request)
 	{
 		// Locate request and remove it from our list of known requests
-		if( findRequest(request->handle, true) != NULL )
+		if( findRequest(request->context->handle, true) != NULL )
 		{
 			//DBG(T("Removing request"));
 
@@ -74,7 +74,7 @@ public:
 				const ScopedLock l(lock);
 
 				// Tell curl to cancel request
-				CURLMcode result = curl_multi_remove_handle(multiHandle, request->handle);
+				CURLMcode result = curl_multi_remove_handle(multiHandle, request->context->handle);
 				if(result != CURLM_OK)
 					handleError(result);
 			}
@@ -129,24 +129,24 @@ private:
 				continue;
 
 			// Notify request if known
-			WebRequestContext* request = findRequest(msg->easy_handle, true);
+			WebRequest* request = findRequest(msg->easy_handle, true);
 			if(request)
 			{
 				// Signal request completed
-				request->completed.signal();
+				request->setComplete();
 			}
 		}
 	}
 
 	// Searches the list of known requests and optionally removes it from the list
-	WebRequestContext* findRequest(CURL* handle, bool removeRequest)
+	WebRequest* findRequest(CURL* handle, bool removeRequest)
 	{
 		const ScopedLock l(lock);
-		WebRequestContext* request = NULL;
-		std::list<WebRequestContext*>::iterator iterator = requests.begin();
+		WebRequest* request = NULL;
+		std::list<WebRequest*>::iterator iterator = requests.begin();
 		while(iterator != requests.end())
 		{
-			if((*iterator)->handle == handle)
+			if((*iterator)->context->handle == handle)
 			{
 				// Found it
 				request = (*iterator);
@@ -198,5 +198,5 @@ private:
 	CriticalSection lock;
 	WaitableEvent pendingRequest;
 
-	std::list<WebRequestContext*> requests;
+	std::list<WebRequest*> requests;
 };

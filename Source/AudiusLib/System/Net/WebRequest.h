@@ -31,8 +31,11 @@ public:
 	bool wait(const int timeoutMilliseconds);
 
 	const String & getUrl() { return url; }
-	
+
 	int getResponseCode();
+
+	bool isStarted() { return started; }
+	bool isCompleted() { return completed; }
 
 private:
 	// Generic callback for receiving data (had to make this static to get it working with Curl)
@@ -47,9 +50,18 @@ private:
 
 	void handleError();
 
+	// Methods called by the WebRequestController for signaling
+private:
+	friend class WebRequestController;
+	void setComplete();
+
 private:
 	WebRequestContext*	context;
 
+	bool	started;
+	bool	completed;
 	String	url;
 	int64	totalBytes;
+
+	WaitableEvent	completeEvent;
 };

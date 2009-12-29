@@ -391,6 +391,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\DownloaderTest.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\ModelBuilderTest.cpp"
 				>
 			</File>

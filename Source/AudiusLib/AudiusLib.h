@@ -16,5 +16,6 @@
 #include "Player/AudioPlayer.h"
 
 #include "Downloader/DownloadManager.h"
+#include "Downloader/DownloadStream.h"
 
 #include "Model/SongInfo.h"

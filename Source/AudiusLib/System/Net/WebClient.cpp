@@ -28,29 +28,6 @@ public:
 	{
 	}
 
-	// Downloads data using the default chunk size in curl (16KB)
-	void downloadChunks(const String & url, DataReceivedDelegate callback)
-	{
-		//assert(callback != NULL);
-
-		//_callback = callback;
-		//_totalBytes = -1;
-
-		//if( curl_easy_setopt(_handle, CURLOPT_URL, (const char*)url) != 0)
-		//	handleError();
-
-		//// Setup the read callback
-		//if( curl_easy_setopt(_handle, CURLOPT_WRITEFUNCTION, receiveData) != 0)
-		//	handleError();
-
-		//// Set the custom data to be passed to the callback
-		//if( curl_easy_setopt(_handle, CURLOPT_WRITEDATA, this) != 0)
-		//	handleError();
-
-		//if( curl_easy_perform(_handle) != 0)
-		//	handleError();
-	}
-
 	void downloadStringCallback(String * str, shared_ptr<DataReceivedEventArgs> args)
 	{
 		(*str) += String::fromUTF8((uint8*)args->getData(), args->getBytesReceived());

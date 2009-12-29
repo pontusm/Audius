@@ -5,6 +5,8 @@
 // Description:
 //
 // Used internally for storing information about a web request.
+// This class is intended to hide implementation details to avoid exposing curl
+// datatypes to clients that are including the normal WebRequest header.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -16,10 +18,14 @@
 
 struct WebRequestContext
 {
+	WebRequestContext() :
+		handle(NULL)
+	{
+	}
+
 	CURL*	handle;
 	char	errorBuffer[CURL_ERROR_SIZE];
 
 	DataReceivedDelegate	callback;
 
-	WaitableEvent completed;
 };

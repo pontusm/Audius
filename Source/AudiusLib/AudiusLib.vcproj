@@ -307,11 +307,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Downloader\DownloadBuffer.cpp"
+				RelativePath=".\Downloader\DownloadManager.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\Downloader\DownloadManager.cpp"
+				RelativePath=".\Downloader\DownloadStream.cpp"
 				>
 			</File>
 			<File
@@ -395,6 +395,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Player\StreamingAudioSource.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\System\Net\WebClient.cpp"
 				>
 			</File>
@@ -433,15 +437,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Downloader\DownloadBuffer.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Downloader\DownloadManager.h"
 				>
 			</File>
 			<File
 				RelativePath=".\Downloader\DownloadProgressEventArgs.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Downloader\DownloadStream.h"
 				>
 			</File>
 			<File
@@ -494,6 +498,10 @@
 			</File>
 			<File
 				RelativePath=".\Model\SongInfo.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Player\StreamingAudioSource.h"
 				>
 			</File>
 			<File
