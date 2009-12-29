@@ -13,7 +13,6 @@ DownloadManager::DownloadManager()
 
 DownloadManager::~DownloadManager()
 {
-	shutdown();
 	clearSingletonInstance();
 }
 
@@ -29,7 +28,7 @@ shared_ptr<DownloadStream> DownloadManager::downloadAsync(const String& url)
 void DownloadManager::abortAll()
 {
 	// Abort all downloads
-	vector< shared_ptr<DownloadStream> >::iterator iterator = _downloadStreams.begin();
+	list< shared_ptr<DownloadStream> >::iterator iterator = _downloadStreams.begin();
 	while(iterator != _downloadStreams.end())
 	{
 		(*iterator)->abort();
@@ -39,6 +38,12 @@ void DownloadManager::abortAll()
 		//	++iterator;
 		iterator = _downloadStreams.erase(iterator);
 	}
+}
+
+void DownloadManager::abort( shared_ptr<DownloadStream> stream )
+{
+	stream->abort();
+	_downloadStreams.remove(stream);
 }
 
 void DownloadManager::shutdown()

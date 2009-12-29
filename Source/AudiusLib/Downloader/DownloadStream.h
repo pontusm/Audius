@@ -15,7 +15,7 @@
 
 class WebRequest;
 
-class DownloadStream
+class DownloadStream : public InputStream
 {
 	// Only download manager can create download streams
 	friend class DownloadManager;
@@ -24,6 +24,12 @@ private:
 
 public:
 	~DownloadStream(void);
+
+	int64 getTotalLength() { return jmax(_bytesRead, _bytesTotal); }
+	int64 getPosition() { return _readPosition; }
+	bool isExhausted();
+	bool setPosition(int64 newPosition);
+	int read(void* destBuffer, int maxBytesToRead);
 
 	int64 getCurrentLength() { return _bytesRead; }
 	int getEstimatedSecondsLeft() { return _secondsLeft; }
@@ -48,6 +54,8 @@ private:
 
 	MemoryBlock		_buffer;
 
+	int64	_readPosition;
+	int64	_bytesTotal;
 	int64	_bytesRead;
 	int64	_startTime;
 	int		_secondsLeft;

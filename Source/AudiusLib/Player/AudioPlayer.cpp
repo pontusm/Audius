@@ -9,6 +9,9 @@
 
 #include "../Audio/Mp3AudioFormat.h"
 
+#include "../Downloader/DownloadManager.h"
+#include "../Downloader/DownloadStream.h"
+
 #include "PlaylistAudioSource.h"
 
 #include "ClodderPlaylistFetcher.h"
@@ -47,9 +50,6 @@ public:
 	PlaylistAudioSource		playlistSource;
 	
 	AudioFormatReaderSource*	formatReaderSource;
-
-	String						clodderKey;
-	shared_ptr<ClodderService>	clodder;
 };
 
 // ******************************
@@ -111,12 +111,13 @@ void AudioPlayer::initialise()
 	//vars->formatReaderSource = new AudioFormatReaderSource(reader, true);
 	//vars->transportSource.setSource(vars->formatReaderSource, 16384);
 
-	// Streaming example:
-	//
-	//Mp3AudioFormat mp3Format;
-	//AudioFormatReader* reader = mp3Format.createReaderFor(input, false);
-	//vars->formatReaderSource = new AudioFormatReaderSource(reader, true);
-	//vars->transportSource.setSource(vars->formatReaderSource, 16384);
+	// *** Debug streaming:
+	String url = ServiceManager::getInstance()->getClodder()->getSongUrl(1234);
+	shared_ptr<DownloadStream> stream = DownloadManager::getInstance()->downloadAsync(url);
+	Mp3AudioFormat mp3Format;
+	AudioFormatReader* reader = mp3Format.createReaderFor(stream.get(), false);
+	vars->formatReaderSource = new AudioFormatReaderSource(reader, false);
+	vars->transportSource.setSource(vars->formatReaderSource, 16384);
 
 }
 

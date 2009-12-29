@@ -26,6 +26,9 @@ private:
 public:
 	boost::shared_ptr<DownloadStream> downloadAsync(const String& url);
 
+	// Cancels the specified download
+	void abort(boost::shared_ptr<DownloadStream> stream);
+
 	// Abort all current downloads
 	void abortAll();
 
@@ -37,6 +40,6 @@ private:
 
 	// Private variables
 private:
-	std::vector< boost::shared_ptr<DownloadStream> >	_downloadStreams;
+	std::list< boost::shared_ptr<DownloadStream> >	_downloadStreams;
 
 };
