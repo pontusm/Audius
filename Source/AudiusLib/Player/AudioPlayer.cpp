@@ -48,7 +48,7 @@ public:
 	AudioDeviceManager		deviceManager;
 	AudioSourcePlayer		sourcePlayer;
 	AudioTransportSource	transportSource;
-	PlaylistAudioSource		playlistSource;
+	//PlaylistAudioSource		playlistSource;
 	
 	StreamingAudioSource*	streamingAudioSource;
 	//AudioFormatReaderSource*	formatReaderSource;
@@ -108,6 +108,8 @@ void AudioPlayer::initialise()
 	vars->sourcePlayer.setSource(&vars->transportSource);
 	//vars->transportSource.setSource(&vars->playlistSource);
 
+	vars->transportSource.addChangeListener(this);
+
 	// *** Debug mp3 playing
 	//FileInputStream* input = new FileInputStream(File(T("D:\\Projects\\Current\\Audius\\test.mp3")));
 	//Mp3AudioFormat mp3Format;
@@ -159,7 +161,19 @@ void AudioPlayer::togglePlayPause()
 	if(vars->transportSource.isPlaying())
 		vars->transportSource.stop();
 	else
+	{
+		if(!vars->streamingAudioSource)
+		{
+			shared_ptr<SongInfo> songInfo = getCurrentSong();
+			if(!songInfo)
+				return;
+
+			String url = ServiceManager::getInstance()->getClodder()->getSongUrl(songInfo->getSongID());
+			vars->streamingAudioSource = new StreamingAudioSource(url, vars->mp3Format);
+			vars->transportSource.setSource(vars->streamingAudioSource);
+		}
 		vars->transportSource.start();
+	}
 }
 
 void AudioPlayer::stopPlaying()
@@ -211,8 +225,37 @@ void AudioPlayer::refreshPlaylist()
 	if(fetcher.runThread())
 	{
 		vars->playlist = fetcher.getPlaylist();
-		vars->playlistSource.setCurrentPlaylist(vars->playlist);
+		//vars->playlistSource.setCurrentPlaylist(vars->playlist);
 		sendActionMessage(PlayerNotifications::playlistChanged);
+	}
+}
+
+// *** Change listener **************************************************
+
+void AudioPlayer::changeListenerCallback( void* objectThatHasChanged )
+{
+	DBG(T("Transport changed"));
+	if(vars->transportSource.hasStreamFinished())
+	{
+		DBG(T("Stream finished"));
+
+		// Detach current stream and discard it
+		vars->transportSource.setSource(0);
+		deleteAndZero(vars->streamingAudioSource);
+
+		if(!vars->playlist->gotoNextEntry())
+			return;
+
+		shared_ptr<SongInfo> songInfo = getCurrentSong();
+		if(!songInfo)
+			return;
+
+		String url = ServiceManager::getInstance()->getClodder()->getSongUrl(songInfo->getSongID());
+		vars->streamingAudioSource = new StreamingAudioSource(url, vars->mp3Format);
+		vars->transportSource.setSource(vars->streamingAudioSource);
+		vars->transportSource.start();
+
+		sendActionMessage(PlayerNotifications::newSong);
 	}
 }
 

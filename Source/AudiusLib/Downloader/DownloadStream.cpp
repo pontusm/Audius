@@ -47,7 +47,7 @@ void DownloadStream::receiveData( boost::shared_ptr<DataReceivedEventArgs> recei
 	_bytesTotal = received->getTotalBytes();
 	_bytesRead += bytesReceived;
 
-	DBG_PRINTF((T("Bytes received: %lld (%lld / %lld)"), bytesReceived, _bytesRead, _bytesTotal));
+	//DBG_PRINTF((T("Bytes received: %lld (%lld / %lld)"), bytesReceived, _bytesRead, _bytesTotal));
 
 	// Need to resize buffer?
 	int64 bufferSize = getTotalLength();

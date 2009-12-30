@@ -5,7 +5,7 @@
 #include "../Downloader/DownloadStream.h"
 
 StreamingAudioSource::StreamingAudioSource(const String & url, AudioFormat & format) :
-	_buffering(true)
+	_buffering(false)
 {
 	// Start download. The stream is freed by the AudioFormatReader.
 	_stream = DownloadManager::getInstance()->downloadAsync(url);
@@ -44,7 +44,7 @@ void StreamingAudioSource::getNextAudioBlock( const AudioSourceChannelInfo& info
 	bool needBuffering = false;
 
 	// Run out of data? (TODO: Need to calculate bytes/sample here)
-	if(_stream->getBytesAvailable() < info.numSamples)
+	if(!_stream->isExhausted() && _stream->getBytesAvailable() == 0)
 		needBuffering = true;
 	//else
 	//{
@@ -93,13 +93,12 @@ int StreamingAudioSource::getNextReadPosition() const
 
 int StreamingAudioSource::getTotalLength() const
 {
-	int length = _readerSource->getTotalLength();
-	if(length >= 0)
-		return length;
+	// A bit of a hack to correctly stop the source once it has run out of data
+	if(_stream->isExhausted() && _stream->getBytesAvailable() == 0)
+		return _readerSource->getNextReadPosition() - 2;
 
-	// Correct length is unknown so we try to estimate it
-	// Since the stream is encoded this will be less than the decoded length
-	//return _stream->getTotalLength() / _bytesPerSample;
-	// ******* Test - TODO: Return something more intelligent
-	return _readerSource->getNextReadPosition() + 16384;
+	// This forces audio to go on until entire stream is exhausted
+	// Had to use this because estimated mp3 length was incorrect sometimes
+	return _readerSource->getNextReadPosition();
+	//return _readerSource->getTotalLength();
 }

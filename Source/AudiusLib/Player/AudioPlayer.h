@@ -17,7 +17,8 @@
 class SongInfo;
 
 class AudioPlayer : public DeletedAtShutdown,
-					public ActionBroadcaster
+					public ActionBroadcaster,
+					private ChangeListener
 {
 private:
 	AudioPlayer(void);
@@ -41,6 +42,8 @@ public:
 
 	boost::shared_ptr<Playlist> getPlaylist();
 	boost::shared_ptr<SongInfo> getCurrentSong();
+
+	void changeListenerCallback(void* objectThatHasChanged);
 
 private:
 	class impl;

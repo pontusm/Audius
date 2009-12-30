@@ -75,7 +75,9 @@ public:
 		//	if(result != MPG123_OK)
 		//		Logger::writeToLog(T("Failed to set mp3 output format."));
 		//}
-		//mpg123_set_filesize(_handle, input->getTotalLength());
+		int64 totalBytes = input->getTotalLength();
+		if(totalBytes > 0)
+			mpg123_set_filesize(_handle, (off_t)totalBytes);
 		lengthInSamples = mpg123_length(_handle);
 	}
 
@@ -172,10 +174,6 @@ public:
 				if (destSamples[i] != 0)
 					zeromem (destSamples[i] + startOffsetInDestBuffer, sizeof(int) * numSamples);
 		}
-
-		// Try to find out length if not yet known (does not seem to work)
-		//if(lengthInSamples < 0 && input->getTotalLength() >= 0)
-		//	lengthInSamples = mpg123_length(_handle);
 
 		return true;
 	}
