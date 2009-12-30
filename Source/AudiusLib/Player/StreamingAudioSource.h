@@ -10,13 +10,29 @@
 
 #include "juce.h"
 
-class StreamingAudioSource : AudioSource
+class DownloadStream;
+
+class StreamingAudioSource : public PositionableAudioSource
 {
 public:
-	StreamingAudioSource(void);
+	StreamingAudioSource(const String & url, AudioFormat & format);
 	~StreamingAudioSource(void);
 
 	void prepareToPlay(int samplesPerBlockExpected, double sampleRate);
 	void releaseResources();
 	void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill);
+
+	int getNextReadPosition() const;
+	int getTotalLength() const;
+	void setNextReadPosition(int newPosition);
+	bool isLooping() const { return false; }
+
+private:
+	DownloadStream* _stream;
+
+	AudioFormatReaderSource* _readerSource;
+
+	bool _buffering;
+
+	int _bytesPerSample;
 };

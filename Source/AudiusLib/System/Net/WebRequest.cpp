@@ -27,7 +27,9 @@ WebRequest::~WebRequest(void)
 {
 	//DBG(T("Closing request: ") + url);
 
-	WebRequestManager::getInstance()->closeRequest(this);
+	WebRequestManager* mgr = WebRequestManager::getInstanceWithoutCreating();
+	if(mgr)
+		mgr->closeRequest(this);
 
 	if(context->handle)
 	{

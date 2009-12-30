@@ -13,6 +13,7 @@
 #include "../Downloader/DownloadStream.h"
 
 #include "PlaylistAudioSource.h"
+#include "StreamingAudioSource.h"
 
 #include "ClodderPlaylistFetcher.h"
 
@@ -34,12 +35,12 @@ private:
 public:
 	impl() :
 		playlist(shared_ptr<Playlist>( new Playlist() )),
-		formatReaderSource(NULL)
+		streamingAudioSource(NULL)
 	{
 	}
 	~impl()
 	{
-		deleteAndZero(formatReaderSource);
+		deleteAndZero(streamingAudioSource);
 	}
 
 	shared_ptr<Playlist>	playlist;
@@ -49,7 +50,10 @@ public:
 	AudioTransportSource	transportSource;
 	PlaylistAudioSource		playlistSource;
 	
-	AudioFormatReaderSource*	formatReaderSource;
+	StreamingAudioSource*	streamingAudioSource;
+	//AudioFormatReaderSource*	formatReaderSource;
+	
+	Mp3AudioFormat	mp3Format;
 };
 
 // ******************************
@@ -102,7 +106,7 @@ void AudioPlayer::initialise()
 	// Setup audio chain
 	vars->deviceManager.addAudioCallback(&vars->sourcePlayer);
 	vars->sourcePlayer.setSource(&vars->transportSource);
-	vars->transportSource.setSource(&vars->playlistSource);
+	//vars->transportSource.setSource(&vars->playlistSource);
 
 	// *** Debug mp3 playing
 	//FileInputStream* input = new FileInputStream(File(T("D:\\Projects\\Current\\Audius\\test.mp3")));
@@ -112,13 +116,17 @@ void AudioPlayer::initialise()
 	//vars->transportSource.setSource(vars->formatReaderSource, 16384);
 
 	// *** Debug streaming:
-	String url = ServiceManager::getInstance()->getClodder()->getSongUrl(1234);
-	shared_ptr<DownloadStream> stream = DownloadManager::getInstance()->downloadAsync(url);
-	Mp3AudioFormat mp3Format;
-	AudioFormatReader* reader = mp3Format.createReaderFor(stream.get(), false);
-	vars->formatReaderSource = new AudioFormatReaderSource(reader, false);
-	vars->transportSource.setSource(vars->formatReaderSource, 16384);
+	//ServiceManager::getInstance()->getClodder()->login(T("xx"), T("xx"));
+	//String url = ServiceManager::getInstance()->getClodder()->getSongUrl(1234);
+	//DownloadStream* stream = DownloadManager::getInstance()->downloadAsync(url);
+	//Mp3AudioFormat mp3Format;
+	//AudioFormatReader* reader = mp3Format.createReaderFor(stream, true);
+	//vars->formatReaderSource = new AudioFormatReaderSource(reader, false);
 
+	// *** Test streaming chain
+	//vars->streamingAudioSource = new StreamingAudioSource(url, vars->mp3Format);
+	//vars->transportSource.setSource(vars->streamingAudioSource, 16384);
+	//vars->transportSource.start();
 }
 
 // *** Shutdown **************************************************

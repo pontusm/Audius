@@ -3,6 +3,8 @@
 
 #include "../System/Net/WebRequest.h"
 
+#include "DownloadManager.h"
+
 using namespace boost;
 
 DownloadStream::DownloadStream(const String & url) :
@@ -16,6 +18,10 @@ DownloadStream::DownloadStream(const String & url) :
 
 DownloadStream::~DownloadStream(void)
 {
+	// Ensure it is no longer held by the download manager (will generate a call to abort() )
+	DownloadManager* mgr = DownloadManager::getInstanceWithoutCreating();
+	if(mgr)
+		mgr->abort(this);
 }
 
 void DownloadStream::start()
@@ -40,6 +46,8 @@ void DownloadStream::receiveData( boost::shared_ptr<DataReceivedEventArgs> recei
 	int64 bytesReceived = received->getBytesReceived();
 	_bytesTotal = received->getTotalBytes();
 	_bytesRead += bytesReceived;
+
+	DBG_PRINTF((T("Bytes received: %lld (%lld / %lld)"), bytesReceived, _bytesRead, _bytesTotal));
 
 	// Need to resize buffer?
 	int64 bufferSize = getTotalLength();

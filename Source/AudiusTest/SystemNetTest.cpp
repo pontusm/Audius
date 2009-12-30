@@ -91,7 +91,7 @@ END_TEST
 
 void pausingCallback(shared_ptr<DataReceivedEventArgs> args)
 {
-	Sleep(500);
+	Thread::sleep(500);
 }
 
 BEGIN_TEST(SystemNet_WebRequest_CanAbortDownload)
@@ -103,7 +103,7 @@ BEGIN_TEST(SystemNet_WebRequest_CanAbortDownload)
 		request.downloadAsync(callback);
 		request.abort();
 
-		Sleep(100);
+		Thread::sleep(100);
 	}
 	catch(Exception & ex)
 	{

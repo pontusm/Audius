@@ -31,6 +31,7 @@ public:
 	bool setPosition(int64 newPosition);
 	int read(void* destBuffer, int maxBytesToRead);
 
+	int64 getBytesAvailable() { return _bytesRead - _readPosition; }
 	int64 getCurrentLength() { return _bytesRead; }
 	int getEstimatedSecondsLeft() { return _secondsLeft; }
 

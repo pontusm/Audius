@@ -4,7 +4,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 // Description:
 //
-// Handles all ongoing downloads.
+// Handles all ongoing downloads. Raw pointers are used for the streams to work better
+// with Juce since AudioFormatReader wants to delete pointers.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -24,10 +25,11 @@ private:
 	~DownloadManager(void);
 
 public:
-	boost::shared_ptr<DownloadStream> downloadAsync(const String& url);
+	// Starts a new download. The caller is responsible for freeing the stream.
+	DownloadStream* downloadAsync(const String& url);
 
 	// Cancels the specified download
-	void abort(boost::shared_ptr<DownloadStream> stream);
+	void abort(DownloadStream* stream);
 
 	// Abort all current downloads
 	void abortAll();
@@ -40,6 +42,6 @@ private:
 
 	// Private variables
 private:
-	std::list< boost::shared_ptr<DownloadStream> >	_downloadStreams;
+	std::list< DownloadStream* >	_downloadStreams;
 
 };

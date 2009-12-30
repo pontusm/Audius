@@ -41,9 +41,6 @@ public:
 		int result = MPG123_OK;
 		while(result != MPG123_ERR && result != MPG123_DONE && !inp->isExhausted())
 		{
-			//size_t decodedbytes;
-			//int bytesread = inp->read(buffer, sizeof(buffer));
-			//result = mpg123_decode(_handle, buffer, bytesread, NULL, 0, &decodedbytes);
 			off_t frameNum;
 			byte* audiobuffer;
 			size_t bytesread;
@@ -175,6 +172,10 @@ public:
 				if (destSamples[i] != 0)
 					zeromem (destSamples[i] + startOffsetInDestBuffer, sizeof(int) * numSamples);
 		}
+
+		// Try to find out length if not yet known (does not seem to work)
+		//if(lengthInSamples < 0 && input->getTotalLength() >= 0)
+		//	lengthInSamples = mpg123_length(_handle);
 
 		return true;
 	}

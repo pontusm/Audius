@@ -84,7 +84,7 @@ private:
 		if(url.length() == 0)
 			return shared_ptr<PlaylistEntry>();
 
-		DBG(String(T("Scanned song '")) + songInfo->getTitle() + String(T("' - ") + songInfo->getArtist()));
+		DBG(String(T("Scanned song '")) + songInfo->getArtist() + String(T("' - ") + songInfo->getTitle()));
 
 		return shared_ptr<PlaylistEntry>( new PlaylistEntry(songInfo, url) );
 	}
