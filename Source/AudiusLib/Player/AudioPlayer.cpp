@@ -212,10 +212,18 @@ shared_ptr<Playlist> AudioPlayer::getPlaylist()
 
 void AudioPlayer::goToNext()
 {
+	if(!vars->playlist->gotoNextEntry())
+		return;
+
+	refreshStream();
 }
 
 void AudioPlayer::goToPrevious()
 {
+	if(!vars->playlist->gotoPreviousEntry())
+		return;
+
+	refreshStream();
 }
 
 void AudioPlayer::refreshPlaylist()
@@ -230,32 +238,42 @@ void AudioPlayer::refreshPlaylist()
 	}
 }
 
+void AudioPlayer::refreshStream()
+{
+	bool playing = getPlayerStatus() == Player::Playing;
+
+	// Detach current stream and discard it
+	if(vars->streamingAudioSource)
+	{
+		vars->transportSource.setSource(0);
+		deleteAndZero(vars->streamingAudioSource);
+	}
+
+	shared_ptr<SongInfo> songInfo = getCurrentSong();
+	if(!songInfo)
+		return;
+
+	String url = ServiceManager::getInstance()->getClodder()->getSongUrl(songInfo->getSongID());
+	vars->streamingAudioSource = new StreamingAudioSource(url, vars->mp3Format);
+	vars->transportSource.setSource(vars->streamingAudioSource);
+
+	if(playing)
+		vars->transportSource.start();
+
+	sendActionMessage(PlayerNotifications::newSong);
+}
+
 // *** Change listener **************************************************
 
 void AudioPlayer::changeListenerCallback( void* objectThatHasChanged )
 {
-	DBG(T("Transport changed"));
+	//DBG(T("Transport changed"));
 	if(vars->transportSource.hasStreamFinished())
 	{
-		DBG(T("Stream finished"));
+		// Stream is completed so it's time for the next track
+		//DBG(T("Stream finished"));
 
-		// Detach current stream and discard it
-		vars->transportSource.setSource(0);
-		deleteAndZero(vars->streamingAudioSource);
-
-		if(!vars->playlist->gotoNextEntry())
-			return;
-
-		shared_ptr<SongInfo> songInfo = getCurrentSong();
-		if(!songInfo)
-			return;
-
-		String url = ServiceManager::getInstance()->getClodder()->getSongUrl(songInfo->getSongID());
-		vars->streamingAudioSource = new StreamingAudioSource(url, vars->mp3Format);
-		vars->transportSource.setSource(vars->streamingAudioSource);
-		vars->transportSource.start();
-
-		sendActionMessage(PlayerNotifications::newSong);
+		goToNext();
 	}
 }
 

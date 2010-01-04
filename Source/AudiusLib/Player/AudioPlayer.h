@@ -43,7 +43,10 @@ public:
 	boost::shared_ptr<Playlist> getPlaylist();
 	boost::shared_ptr<SongInfo> getCurrentSong();
 
+private:
 	void changeListenerCallback(void* objectThatHasChanged);
+
+	void refreshStream();
 
 private:
 	class impl;
