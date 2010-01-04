@@ -17,7 +17,7 @@ ApplicationCommandManager* g_commandManager = NULL;
 
 MainWindow::MainWindow() :
 	DocumentWindow(T("Audius"),
-					Colours::azure,
+					Colour(0xffbee6c8),
 					DocumentWindow::minimiseButton | DocumentWindow::closeButton,
 					true),
 	_appCommandManager(NULL),

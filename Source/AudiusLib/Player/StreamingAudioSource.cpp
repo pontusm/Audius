@@ -17,9 +17,6 @@ StreamingAudioSource::StreamingAudioSource(const String & url, AudioFormat & for
 	// Create decoder
 	AudioFormatReader* reader = format.createReaderFor(_stream, false);
 	_readerSource = new AudioFormatReaderSource(reader, true);
-
-	// Estimate of how many bytes taken by one sample (all channels included)
-	_bytesPerSample = reader->bitsPerSample / 8 * reader->numChannels;
 }
 
 StreamingAudioSource::~StreamingAudioSource(void)

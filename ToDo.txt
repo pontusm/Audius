@@ -22,9 +22,12 @@ v0.5
 DONE -Use Clodder service
 DONE -Replace mp3 lib
 DONE -Use Juce sound output
--Rewrite network streaming
+DONE -Rewrite network streaming
 
 v0.x
+-Last.fm support
+-Local song cache
+-Implement new skin
 -Incorporate crash reporter
 -Improve login dialog
 -Integrate with Messenger

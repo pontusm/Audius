@@ -33,6 +33,4 @@ private:
 	AudioFormatReaderSource* _readerSource;
 
 	bool _buffering;
-
-	int _bytesPerSample;
 };
