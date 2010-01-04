@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  27 Nov 2009 8:49:11 am
+  Creation date:  4 Jan 2010 3:08:25 pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -33,13 +33,13 @@ using namespace boost;
 //[/MiscUserDefs]
 
 //==============================================================================
-PlaylistComponent::PlaylistComponent()
+PlaylistComponent::PlaylistComponent ()
     : _font(14.0f),
-	  _boldfont(14.0f, Font::bold),
       playlistTable (0)
 {
     addAndMakeVisible (playlistTable = new TableListBox (T("playlist"), this));
     playlistTable->setName (T("playlist"));
+
 
     //[UserPreSize]
     //[/UserPreSize]
@@ -63,8 +63,6 @@ PlaylistComponent::~PlaylistComponent()
     //[Destructor_pre]. You can add your own custom destruction code here..
     //[/Destructor_pre]
 
-	AudioPlayer::getInstance()->removeActionListener(this);
-
     deleteAndZero (playlistTable);
 
     //[Destructor]. You can add your own custom destruction code here..
@@ -83,7 +81,7 @@ void PlaylistComponent::paint (Graphics& g)
 
 void PlaylistComponent::resized()
 {
-    playlistTable->setBounds (8, 8, getWidth() - 16, getHeight() - 16);
+    playlistTable->setBounds (8, 8, getWidth() - 16, getHeight() - 55);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -163,8 +161,8 @@ void PlaylistComponent::actionListenerCallback(const String& message)
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="PlaylistComponent" componentName=""
-                 parentClasses="public Component, public TableListBoxModel" constructorParams=""
-                 variableInitialisers="_player(player),&#10;_font(14.0f)" snapPixels="8"
+                 parentClasses="public Component, public TableListBoxModel, public ActionListener"
+                 constructorParams="" variableInitialisers="_font(14.0f)" snapPixels="8"
                  snapActive="1" snapShown="1" overlayOpacity="0.330000013" fixedSize="0"
                  initialWidth="400" initialHeight="400">
   <BACKGROUND backgroundColour="ffffff"/>

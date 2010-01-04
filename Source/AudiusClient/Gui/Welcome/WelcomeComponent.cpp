@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  25 Aug 2009 9:38:27 am
+  Creation date:  4 Jan 2010 2:58:41 pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -106,12 +106,12 @@ void WelcomeComponent::paint (Graphics& g)
 
     g.fillAll (Colours::white);
 
-    GradientBrush gradient_1 (Colours::white,
+    ColourGradient gradient_1 (Colours::white,
                               152.0f, 24.0f,
                               Colour (0xffbee6c8),
                               240.0f, 280.0f,
                               false);
-    g.setBrush (&gradient_1);
+    g.setGradientFill(gradient_1);
     g.fillRect (0, 0, proportionOfWidth (1.0000f), proportionOfHeight (1.0000f));
 
     g.setColour (Colour (0xff2aa581));

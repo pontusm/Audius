@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  22 Nov 2009 12:52:22 pm
+  Creation date:  4 Jan 2010 2:55:48 pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -34,7 +34,7 @@
 //[/MiscUserDefs]
 
 //==============================================================================
-MainComponent::MainComponent(ApplicationCommandManager* commandManager)
+MainComponent::MainComponent (ApplicationCommandManager* commandManager)
     : playerComp (0),
       playlistComp (0)
 {
@@ -74,13 +74,22 @@ void MainComponent::paint (Graphics& g)
 
     g.fillAll (Colours::white);
 
+    //GradientBrush gradient_1 (Colours::white,
+    //                          208.0f, 32.0f,
+    //                          Colour (0xffbee6c8),
+    //                          240.0f, 280.0f,
+    //                          false);
+    //g.setBrush (&gradient_1);
+    //g.fillRect (0, 0, proportionOfWidth (1.0000f), proportionOfHeight (1.0000f));
+
     //[UserPaint] Add your own custom painting code here..
-	GradientBrush gradient_1 (Colours::white,
+	ColourGradient gradient_1 (Colours::white,
 		208.0f, getHeight() - 140.0f,
 		Colour (0xffbee6c8),
 		240.0f, getHeight() - 20.0f,
 		false);
-	g.setBrush (&gradient_1);
+	g.setGradientFill(gradient_1);
+	//g.setBrush (&gradient_1);
 	g.fillRect (0, 0, proportionOfWidth (1.0000f), proportionOfHeight (1.0000f));
     //[/UserPaint]
 }
@@ -110,8 +119,8 @@ BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="MainComponent" componentName=""
                  parentClasses="public Component" constructorParams="ApplicationCommandManager* commandManager"
-                 variableInitialisers="" snapPixels="8" snapActive="1"
-                 snapShown="1" overlayOpacity="0.330000013" fixedSize="0" initialWidth="600"
+                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
+                 overlayOpacity="0.330000013" fixedSize="0" initialWidth="600"
                  initialHeight="400">
   <BACKGROUND backgroundColour="ffffffff">
     <RECT pos="0 0 100% 100%" fill="linear: 208 32, 240 280, 0=ffffffff, 1=ffbee6c8"

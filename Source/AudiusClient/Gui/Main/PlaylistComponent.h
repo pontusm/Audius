@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  27 Nov 2009 8:49:11 am
+  Creation date:  4 Jan 2010 3:08:25 pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -19,8 +19,8 @@
   ==============================================================================
 */
 
-#ifndef __JUCER_HEADER_PLAYLISTCOMPONENT_PLAYLISTCOMPONENT_8091E318__
-#define __JUCER_HEADER_PLAYLISTCOMPONENT_PLAYLISTCOMPONENT_8091E318__
+#ifndef __JUCER_HEADER_PLAYLISTCOMPONENT_PLAYLISTCOMPONENT_11B266D8__
+#define __JUCER_HEADER_PLAYLISTCOMPONENT_PLAYLISTCOMPONENT_11B266D8__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "juce.h"
@@ -39,8 +39,8 @@ class PlaylistModel;
                                                                     //[/Comments]
 */
 class PlaylistComponent  : public Component,
-						   public ActionListener,
-                           public TableListBoxModel
+                           public TableListBoxModel,
+                           public ActionListener
 {
 public:
     //==============================================================================
@@ -80,4 +80,4 @@ private:
 };
 
 
-#endif   // __JUCER_HEADER_PLAYLISTCOMPONENT_PLAYLISTCOMPONENT_8091E318__
+#endif   // __JUCER_HEADER_PLAYLISTCOMPONENT_PLAYLISTCOMPONENT_11B266D8__

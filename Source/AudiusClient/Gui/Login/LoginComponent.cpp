@@ -3,13 +3,13 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  9 Jul 2009 4:37:37 pm
+  Creation date:  4 Jan 2010 2:57:21 pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
   and re-saved.
 
-  Jucer version: 1.11
+  Jucer version: 1.12
 
   ------------------------------------------------------------------------------
 

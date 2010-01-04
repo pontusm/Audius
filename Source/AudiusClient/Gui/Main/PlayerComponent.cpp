@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  22 Nov 2009 12:55:32 pm
+  Creation date:  4 Jan 2010 2:57:31 pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -132,8 +132,6 @@ PlayerComponent::~PlayerComponent()
 {
     //[Destructor_pre]. You can add your own custom destruction code here..
     //[/Destructor_pre]
-
-	AudioPlayer::getInstance()->removeActionListener(this);
 
     deleteAndZero (titleLabel);
     deleteAndZero (artistLabel);
@@ -279,8 +277,8 @@ BEGIN_JUCER_METADATA
 <JUCER_COMPONENT documentType="Component" className="PlayerComponent" componentName=""
                  parentClasses="public Component, public ActionListener, public Timer"
                  constructorParams="ApplicationCommandManager* commandManager"
-                 variableInitialisers="" snapPixels="8" snapActive="1"
-                 snapShown="1" overlayOpacity="0.330000013" fixedSize="0" initialWidth="350"
+                 variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
+                 overlayOpacity="0.330000013" fixedSize="0" initialWidth="350"
                  initialHeight="130">
   <METHODS>
     <METHOD name="mouseDown (const MouseEvent&amp; e)"/>
