@@ -131,7 +131,8 @@ PlayerComponent::PlayerComponent (ApplicationCommandManager* commandManager)
 PlayerComponent::~PlayerComponent()
 {
     //[Destructor_pre]. You can add your own custom destruction code here..
-    //[/Destructor_pre]
+	AudioPlayer::getInstance()->removeActionListener(this);
+	//[/Destructor_pre]
 
     deleteAndZero (titleLabel);
     deleteAndZero (artistLabel);

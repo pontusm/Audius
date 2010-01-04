@@ -81,7 +81,7 @@ void PlaylistComponent::paint (Graphics& g)
 
 void PlaylistComponent::resized()
 {
-    playlistTable->setBounds (8, 8, getWidth() - 16, getHeight() - 55);
+    playlistTable->setBounds (8, 8, getWidth() - 16, getHeight() - 16);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -167,7 +167,7 @@ BEGIN_JUCER_METADATA
                  initialWidth="400" initialHeight="400">
   <BACKGROUND backgroundColour="ffffff"/>
   <GENERICCOMPONENT name="playlist" id="13011219828ab88e" memberName="playlistTable"
-                    virtualName="" explicitFocusOrder="0" pos="8 8 16M 55M" class="TableListBox"
+                    virtualName="" explicitFocusOrder="0" pos="8 8 16M 16M" class="TableListBox"
                     params="T(&quot;playlist&quot;), this"/>
 </JUCER_COMPONENT>
 
