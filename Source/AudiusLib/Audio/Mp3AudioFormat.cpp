@@ -128,9 +128,14 @@ public:
 				_reservoirStart = jmax (0, (int) startSampleInFile);
 				_samplesInReservoir = _reservoir.getNumSamples();
 
-				off_t input_offset;
 				if (_reservoirStart != mpg123_tell(_handle))
-					mpg123_feedseek(_handle, _reservoirStart, SEEK_SET, &input_offset);
+				{
+					off_t input_offset;
+					off_t result = mpg123_feedseek(_handle, _reservoirStart, SEEK_SET, &input_offset);
+					//if(result < 0)
+					//	Logger::writeToLog(T("Failed to seek mp3 stream. Error code: " + String(result) ));
+					input->setPosition(input_offset);
+				}
 
 				int offset = 0;
 				int numToRead = _samplesInReservoir;

@@ -38,7 +38,12 @@ public:
 	void goToPrevious();
 	void refreshPlaylist();
 
+	void setCurrentPlaylistPosition(int position);
+
 	Player::Status getPlayerStatus();
+
+	double getCurrentSongPosition();
+	void setCurrentSongPosition(double position);
 
 	boost::shared_ptr<Playlist> getPlaylist();
 	boost::shared_ptr<SongInfo> getCurrentSong();

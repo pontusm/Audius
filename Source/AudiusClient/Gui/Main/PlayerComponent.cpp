@@ -246,23 +246,23 @@ void PlayerComponent::timerCallback()
 	if(player->getPlayerStatus() != Player::Playing)
 		return;
 
-	//uint32 seconds = player->getCurrentSongTime();
-	//String s = String::formatted(T("%d:%02d"), (seconds / 60), (seconds % 60) );
-	//timeLabel->setText(s, false);
+	int seconds = (int)player->getCurrentSongPosition();
+	String s = String::formatted(T("%d:%02d"), (seconds / 60), (seconds % 60) );
+	timeLabel->setText(s, false);
 
 	// Only update slider if not being dragged
-	//if(songPositionSlider->getThumbBeingDragged() == -1)
-	//	songPositionSlider->setValue(seconds);
+	if(songPositionSlider->getThumbBeingDragged() == -1)
+		songPositionSlider->setValue(seconds);
 }
 
 void PlayerComponent::sliderDragEnded( Slider* slider )
 {
-/*	if(slider == songPositionSlider)
+	if(slider == songPositionSlider)
 	{
-		uint32 seconds = (uint32)slider->getValue();
-		_player->setCurrentSongTime(seconds);
+		double pos = slider->getValue();
+		AudioPlayer::getInstance()->setCurrentSongPosition(pos);
 	}
-*/
+
 }
 //[/MiscUserCode]
 

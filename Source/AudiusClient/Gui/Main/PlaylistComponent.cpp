@@ -35,6 +35,7 @@ using namespace boost;
 //==============================================================================
 PlaylistComponent::PlaylistComponent ()
     : _font(14.0f),
+	_boldfont(14.0f, Font::bold),
       playlistTable (0)
 {
     addAndMakeVisible (playlistTable = new TableListBox (T("playlist"), this));
@@ -105,16 +106,15 @@ void PlaylistComponent::paintCell( Graphics& g, int rowNumber, int columnId, int
 	AudioPlayer* player = AudioPlayer::getInstance();
 
 	shared_ptr<Playlist> playlist = player->getPlaylist();
-	g.setColour(Colours::black);
-	if(playlist->getCurrentPosition() == rowNumber)
-		g.setFont(_boldfont);
-	else
-		g.setFont(_font);
-
 	shared_ptr<PlaylistEntry> playlistEntry = playlist->getEntry(rowNumber);
-
 	if(playlistEntry)
 	{
+		g.setColour(Colours::black);
+		if(playlist->getCurrentPosition() == rowNumber)
+			g.setFont(_boldfont);
+		else
+			g.setFont(_font);
+
 		shared_ptr<SongInfo> songInfo = playlistEntry->getSongInfo();
 		switch(columnId)
 		{
@@ -135,7 +135,7 @@ void PlaylistComponent::paintCell( Graphics& g, int rowNumber, int columnId, int
 
 void PlaylistComponent::cellDoubleClicked(int rowNumber, int columnId, const MouseEvent& e)
 {
-	//AudioPlayer::getInstance()->getPlaylist()->setCurrentPosition(rowNumber);
+	AudioPlayer::getInstance()->setCurrentPlaylistPosition(rowNumber);
 }
 
 void PlaylistComponent::actionListenerCallback(const String& message)
@@ -143,6 +143,7 @@ void PlaylistComponent::actionListenerCallback(const String& message)
 	if(message == PlayerNotifications::playlistChanged)
 	{
 		playlistTable->updateContent();
+		playlistTable->repaint();
 	}
 	else if(message == PlayerNotifications::newSong)
 	{
@@ -162,7 +163,7 @@ BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="PlaylistComponent" componentName=""
                  parentClasses="public Component, public TableListBoxModel, public ActionListener"
-                 constructorParams="" variableInitialisers="_font(14.0f)" snapPixels="8"
+				 constructorParams="" variableInitialisers="_font(14.0f), _boldfont(14.0f, Font::bold)" snapPixels="8"
                  snapActive="1" snapShown="1" overlayOpacity="0.330000013" fixedSize="0"
                  initialWidth="400" initialHeight="400">
   <BACKGROUND backgroundColour="ffffff"/>

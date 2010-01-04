@@ -163,15 +163,7 @@ void AudioPlayer::togglePlayPause()
 	else
 	{
 		if(!vars->streamingAudioSource)
-		{
-			shared_ptr<SongInfo> songInfo = getCurrentSong();
-			if(!songInfo)
-				return;
-
-			String url = ServiceManager::getInstance()->getClodder()->getSongUrl(songInfo->getSongID());
-			vars->streamingAudioSource = new StreamingAudioSource(url, vars->mp3Format);
-			vars->transportSource.setSource(vars->streamingAudioSource);
-		}
+			refreshStream();
 		vars->transportSource.start();
 	}
 }
@@ -195,6 +187,16 @@ Player::Status AudioPlayer::getPlayerStatus()
 		return Player::Unknown;
 }
 
+double AudioPlayer::getCurrentSongPosition()
+{
+	return vars->transportSource.getCurrentPosition();
+}
+
+void AudioPlayer::setCurrentSongPosition( double position )
+{
+	vars->transportSource.setPosition(position);
+}
+
 // *** Playlist **************************************************
 
 shared_ptr<SongInfo> AudioPlayer::getCurrentSong()
@@ -208,6 +210,14 @@ shared_ptr<SongInfo> AudioPlayer::getCurrentSong()
 shared_ptr<Playlist> AudioPlayer::getPlaylist()
 {
 	return vars->playlist;
+}
+
+void AudioPlayer::setCurrentPlaylistPosition( int position )
+{
+	if(!vars->playlist->setCurrentPosition(position))
+		return;
+
+	refreshStream();
 }
 
 void AudioPlayer::goToNext()
@@ -273,7 +283,13 @@ void AudioPlayer::changeListenerCallback( void* objectThatHasChanged )
 		// Stream is completed so it's time for the next track
 		//DBG(T("Stream finished"));
 
-		goToNext();
+		// Switch to next track
+		if(!vars->playlist->gotoNextEntry())
+			return;
+
+		// Setup track and start playing
+		refreshStream();
+		vars->transportSource.start();
 	}
 }
 
