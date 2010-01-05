@@ -98,7 +98,8 @@ void AudioPlayer::initialise()
 
 	AudioDeviceManager::AudioDeviceSetup deviceSettings;
 	vars->deviceManager.getAudioDeviceSetup(deviceSettings);
-	deviceSettings.bufferSize = 2048;
+	//deviceSettings.bufferSize = 2048;
+	//deviceSettings.bufferSize = 8192;
 	err = vars->deviceManager.setAudioDeviceSetup(deviceSettings, true);
 	if(err.length() > 0)
 		throw Exception(T("Unable to setup audio device. ") + err);
