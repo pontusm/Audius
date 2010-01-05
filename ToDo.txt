@@ -24,9 +24,12 @@ DONE -Replace mp3 lib
 DONE -Use Juce sound output
 DONE -Rewrite network streaming
 
+v0.6
+-Implement simple search
+-Local song cache
+
 v0.x
 -Last.fm support
--Local song cache
 -Implement new skin
 -Incorporate crash reporter
 -Improve login dialog
