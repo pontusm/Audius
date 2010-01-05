@@ -113,3 +113,25 @@ BEGIN_TEST(SystemNet_WebRequest_CanAbortDownload)
 }
 END_TEST
 
+BEGIN_TEST(SystemNet_WebRequest_CanPostAsync)
+{
+	try
+	{
+		bytesReceived = 0;
+		WebRequest request(T("http://www.google.com"));
+		DataReceivedDelegate callback = boost::bind(downloadAsync, _1);
+		StringPairArray params;
+		params.set("q", "test");
+		request.postAsync(params, callback);
+		WIN_ASSERT_TRUE( request.isStarted() );
+		WIN_ASSERT_TRUE( request.wait(5000) );
+		WIN_ASSERT_TRUE( request.getResponseCode() == 405 );	// Post not allowed to Google
+		WIN_ASSERT_TRUE( request.isCompleted() );
+	}
+	catch(Exception & ex)
+	{
+		String msg = ex.getFullMessage();
+		WIN_ASSERT_FAIL(msg);
+	}
+}
+END_TEST

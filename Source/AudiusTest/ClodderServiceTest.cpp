@@ -55,3 +55,20 @@ BEGIN_TEST(Services_ClodderService_CanGetSongUrl)
 	WIN_ASSERT_TRUE(url.indexOf(T("st.ashx")) >= 0);
 }
 END_TEST
+
+BEGIN_TEST(Services_ClodderService_CanSearch)
+{
+	ClodderService svc;
+
+	String login;
+	String password;
+	GetClodderCredentials(login, password);
+
+	bool ok = svc.login(login, password);
+	WIN_ASSERT_TRUE(ok);
+
+	String result = svc.searchRaw(T("rage"));
+	WIN_ASSERT_TRUE(result.length() > 0);
+	WIN_ASSERT_TRUE(result.indexOf(T("Rage Against The Machine")) >= 0);
+}
+END_TEST

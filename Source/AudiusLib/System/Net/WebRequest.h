@@ -27,6 +27,9 @@ public:
 	// Begin downloading asynchronously
 	void downloadAsync(DataReceivedDelegate callback);
 
+	// Begin posting asynchronously
+	void postAsync(const StringPairArray & parameters, DataReceivedDelegate callback);
+
 	// Wait for the request to complete (-1 = infinite)
 	bool wait(const int timeoutMilliseconds);
 
@@ -36,6 +39,9 @@ public:
 
 	bool isStarted() { return started; }
 	bool isCompleted() { return completed; }
+
+	StringPairArray & getCookies() { return cookies; }
+	void setCookies(StringPairArray & cookies_) { cookies = cookies_; }
 
 private:
 	// Generic callback for receiving data (had to make this static to get it working with Curl)
@@ -50,6 +56,8 @@ private:
 
 	void handleError();
 
+	void setupRequest();
+
 	// Methods called by the WebRequestController for signaling
 private:
 	friend class WebRequestController;
@@ -62,6 +70,11 @@ private:
 	bool	completed;
 	String	url;
 	int64	totalBytes;
+
+	uint8*	postdataBuffer;
+	char*	cookieBuffer;
+
+	StringPairArray	cookies;
 
 	WaitableEvent	completeEvent;
 };

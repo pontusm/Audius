@@ -4,6 +4,7 @@
 #include "WebRequestContext.h"
 #include "WebRequestManager.h"
 #include "WebException.h"
+#include "HttpUtility.h"
 
 using namespace boost;
 
@@ -11,7 +12,9 @@ WebRequest::WebRequest(const String & url) :
 	url(url),
 	totalBytes(-1),
 	started(false),
-	completed(false)
+	completed(false),
+	postdataBuffer(NULL),
+	cookieBuffer(NULL)
 {
 	context = new WebRequestContext();
 	context->handle = curl_easy_init();
@@ -38,6 +41,9 @@ WebRequest::~WebRequest(void)
 		context->handle = NULL;
 	}
 	delete context;
+
+	deleteAndZero(postdataBuffer);
+	deleteAndZero(cookieBuffer);
 }
 
 bool WebRequest::wait(const int timeOutMilliseconds)
@@ -62,24 +68,52 @@ void WebRequest::downloadAsync(DataReceivedDelegate callback)
 
 	context->callback = callback;
 
-	if( curl_easy_setopt(context->handle, CURLOPT_URL, (const char*)url) != CURLE_OK)
+	setupRequest();
+
+	started = true;
+
+	WebRequestManager::getInstance()->beginRequest(this);
+}
+
+void WebRequest::postAsync( const StringPairArray & parameters, DataReceivedDelegate callback )
+{
+	jassert(callback != NULL);
+	jassert(!started);			// Cannot reuse request
+	jassert(postdataBuffer == NULL);
+
+	// Build parameter list
+	String postdata;
+	StringArray keys = parameters.getAllKeys();
+	for(int i = 0; i < keys.size(); i++)
+	{
+		if(i > 0)
+			postdata += '&';
+		postdata += keys[i];
+		postdata += '=';
+		postdata += HttpUtility::urlEncode( parameters[keys[i]] );
+	}
+
+	// Determine utf8 length and then copy to buffer
+	int bufflen = strlen( postdata.toUTF8() ) + 1;
+	postdataBuffer = new uint8[bufflen];
+	postdata.copyToUTF8(postdataBuffer, bufflen);
+
+	context->callback = callback;
+
+	setupRequest();
+
+	// Use POST
+	if( curl_easy_setopt(context->handle, CURLOPT_POST, 1) != CURLE_OK)
 		handleError();
 
-	// Follow redirects
-	if( curl_easy_setopt(context->handle, CURLOPT_FOLLOWLOCATION, 1) != CURLE_OK)
-		handleError();
-
-	// Setup the read callback
-	if( curl_easy_setopt(context->handle, CURLOPT_WRITEFUNCTION, receiveData) != CURLE_OK)
-		handleError();
-
-	// Set the custom data to be passed to the callback
-	if( curl_easy_setopt(context->handle, CURLOPT_WRITEDATA, this) != CURLE_OK)
+	// Setup data to post
+	if( curl_easy_setopt(context->handle, CURLOPT_POSTFIELDS, postdataBuffer) != CURLE_OK)
 		handleError();
 
 	started = true;
 
 	WebRequestManager::getInstance()->beginRequest(this);
+
 }
 
 // Called when data is received
@@ -127,4 +161,49 @@ void WebRequest::setComplete()
 {
 	completed = true;
 	completeEvent.signal();
+}
+
+
+void WebRequest::setupRequest()
+{
+	if( curl_easy_setopt(context->handle, CURLOPT_URL, (const char*)url) != CURLE_OK)
+		handleError();
+
+	// Follow redirects
+	if( curl_easy_setopt(context->handle, CURLOPT_FOLLOWLOCATION, 1) != CURLE_OK)
+		handleError();
+
+	// Setup the read callback
+	if( curl_easy_setopt(context->handle, CURLOPT_WRITEFUNCTION, receiveData) != CURLE_OK)
+		handleError();
+
+	// Set the custom data to be passed to the callback
+	if( curl_easy_setopt(context->handle, CURLOPT_WRITEDATA, this) != CURLE_OK)
+		handleError();
+
+	// Add cookies
+	if(cookies.size() > 0)
+	{
+		deleteAndZero(cookieBuffer);
+
+		// Build cookie list
+		String cookielist;
+		StringArray keys = cookies.getAllKeys();
+		for(int i = 0; i < keys.size(); i++)
+		{
+			if(i > 0)
+				cookielist += "; ";
+			cookielist += keys[i];
+			cookielist += '=';
+			cookielist += cookies[keys[i]];
+		}
+
+		// Determine utf8 length and then copy to buffer
+		int bufflen = cookielist.length();
+		cookieBuffer = new char[bufflen + 1];
+		cookielist.copyToBuffer(cookieBuffer, bufflen);
+
+		if( curl_easy_setopt(context->handle, CURLOPT_COOKIE, cookieBuffer) != CURLE_OK)
+			handleError();
+	}
 }

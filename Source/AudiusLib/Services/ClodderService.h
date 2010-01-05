@@ -30,6 +30,8 @@ public:
 	String gotoNext();
 	String gotoPrevious();
 
+	String searchRaw(const String & text);
+
 	String getUserKey() { return _userKey; }
 	bool isLoggedIn() { return _userKey.length() > 0; }
 

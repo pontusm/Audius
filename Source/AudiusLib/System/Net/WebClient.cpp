@@ -7,8 +7,6 @@
 
 #include <curl/curl.h>
 
-#include <tchar.h>
-
 using namespace boost;
 
 // ******************************
@@ -69,7 +67,6 @@ WebClient::~WebClient()
 String WebClient::downloadString(const String & url)
 {
 	String str;
-
 	WebRequest request(url);
 
 	// Bind callback to our private impl class that will take care of filling the string
@@ -81,10 +78,10 @@ String WebClient::downloadString(const String & url)
 	return str;
 }
 
-void WebClient::downloadChunks(const String & url, DataReceivedDelegate callback)
-{
-	//_pimpl->downloadChunks(url, callback);
-}
+//void WebClient::downloadChunks(const String & url, DataReceivedDelegate callback)
+//{
+//	//_pimpl->downloadChunks(url, callback);
+//}
 
 void WebClient::downloadStream(const String & url, OutputStream & stream )
 {
@@ -96,35 +93,17 @@ void WebClient::downloadStream(const String & url, OutputStream & stream )
 		throw WebException(T("Operation timed out"));
 }
 
-/************************************************************************/
-/* URL encoding
-/************************************************************************/
-inline TCHAR toHex(const BYTE &x)
+String WebClient::post( const String & url, const StringPairArray & parameters )
 {
-	return x > 9 ? _T('A') + x-10: _T('0') + x;
-}
+	String str;
+	WebRequest request(url);
+	request.setCookies(cookies);
 
-String WebClient::urlEncode( const String& str )
-{
-	String result;
+	// Bind callback to our private impl class that will take care of filling the string
+	DataReceivedDelegate callback = boost::bind(&impl::downloadStringCallback, pimpl, &str, _1);
+	request.postAsync(parameters, callback);
+	if(!request.wait(timeoutMilliseconds))
+		throw WebException(T("Operation timed out"));
 
-	const int length = str.length();
-	for (int i = 0; i < length; i++)
-	{
-		tchar c = str[i];
-
-		if(_istalnum(c))
-			result += c;
-		else
-			if(_istspace(c))
-				result += T('+');
-			else
-			{
-				int ic = _TINT(c);
-				result += T('%');
-				result += toHex((byte)(ic>>4));
-				result += toHex((byte)(ic%16));
-			}
-	}
-	return result;
+	return str;
 }

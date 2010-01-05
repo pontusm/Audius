@@ -453,6 +453,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\System\Net\HttpUtility.h"
+				>
+			</File>
+			<File
 				RelativePath=".\juce_AppConfig.h"
 				>
 			</File>
