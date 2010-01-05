@@ -13,12 +13,13 @@
 class SongInfo
 {
 public:
-	SongInfo(uint32 songID, uint32 sizeBytes, uint32 lengthSeconds, const String & title, const String & artist) :
+	SongInfo(uint32 songID, uint32 sizeBytes, uint32 lengthSeconds, const String & title, const String & artist, const String & album) :
 	  _songID(songID),
 	  _sizeBytes(sizeBytes),
 	  _lengthSeconds(lengthSeconds),
 	  _title(title),
-	  _artist(artist)
+	  _artist(artist),
+	  _album(album)
 	{}
 	~SongInfo(void)
 	{}
@@ -37,4 +38,5 @@ private:
 
 	String	_title;
 	String	_artist;
+	String	_album;
 };

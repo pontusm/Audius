@@ -5,6 +5,7 @@
 #include "AudiusLib/Model/SongInfo.h"
 
 using namespace boost;
+using namespace std;
 
 BEGIN_TEST(Model_ModelBuilder_CanCreateSongInfo)
 {
@@ -19,5 +20,23 @@ BEGIN_TEST(Model_ModelBuilder_CanCreateSongInfo)
 	WIN_ASSERT_TRUE(songInfo->getSizeBytes() == 3972677);
 	WIN_ASSERT_TRUE(songInfo->getLengthSeconds() == 206);
 
+}
+END_TEST
+
+BEGIN_TEST(Model_ModelBuilder_CanParseSearchResult)
+{
+	ModelBuilder builder;
+
+	String fname(File::getCurrentWorkingDirectory().getFullPathName() + T("/../../Source/AudiusTest/Files/ClodderSearch.txt"));
+	File file(fname);
+	WIN_ASSERT_TRUE(file.existsAsFile());
+
+	String txt = file.loadFileAsString();
+	vector< shared_ptr<SongInfo> > songs = builder.createFromSearchResult(txt);
+
+	WIN_ASSERT_TRUE(songs.size() == 20);
+
+	shared_ptr<SongInfo> song = songs.at(0);
+	WIN_ASSERT_TRUE(song->getTitle() == T("Bombtrack"));
 }
 END_TEST

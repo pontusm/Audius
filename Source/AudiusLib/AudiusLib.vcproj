@@ -315,6 +315,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\System\Html\HtmlScraper.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\juce_lib.cpp"
 				>
 				<FileConfiguration
@@ -450,6 +454,10 @@
 			</File>
 			<File
 				RelativePath=".\System\Exception.h"
+				>
+			</File>
+			<File
+				RelativePath=".\System\Html\HtmlScraper.h"
 				>
 			</File>
 			<File
