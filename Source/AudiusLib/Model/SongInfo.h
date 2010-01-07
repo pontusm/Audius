@@ -13,7 +13,7 @@
 class SongInfo
 {
 public:
-	SongInfo(uint32 songID, uint32 sizeBytes, uint32 lengthSeconds, const String & title, const String & artist, const String & album) :
+	SongInfo(int songID, int sizeBytes, int lengthSeconds, const String & title, const String & artist, const String & album) :
 	  _songID(songID),
 	  _sizeBytes(sizeBytes),
 	  _lengthSeconds(lengthSeconds),
@@ -24,17 +24,20 @@ public:
 	~SongInfo(void)
 	{}
 
-	uint32 getSongID() const { return _songID; }
-	uint32 getSizeBytes() const { return _sizeBytes; }
-	uint32 getLengthSeconds() const { return _lengthSeconds; }
+	int getSongID() const { return _songID; }
+	int getSizeBytes() const { return _sizeBytes; }
+	int getLengthSeconds() const { return _lengthSeconds; }
+
+	void setLengthSeconds(int seconds) { _lengthSeconds = seconds; }
 
 	String getTitle() const { return _title; }
 	String getArtist() const { return _artist; }
+	String getAlbum() const { return _album; }
 
 private:
-	uint32	_songID;
-	uint32	_sizeBytes;
-	uint32	_lengthSeconds;
+	int	_songID;
+	int	_sizeBytes;
+	int	_lengthSeconds;
 
 	String	_title;
 	String	_artist;

@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  4 Jan 2010 2:55:48 pm
+  Creation date:  7 Jan 2010 12:53:02 pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -24,6 +24,8 @@
 
 #include "PlayerComponent.h"
 #include "PlaylistComponent.h"
+#include "SearchComponent.h"
+
 #include "../../../AudiusLib/AudiusLib.h"
 //[/Headers]
 
@@ -36,13 +38,18 @@
 //==============================================================================
 MainComponent::MainComponent (ApplicationCommandManager* commandManager)
     : playerComp (0),
-      playlistComp (0)
+      playlistComp (0),
+	  searchComp(0),
+      toolbar (0)
 {
     addAndMakeVisible (playerComp = new PlayerComponent (commandManager));
     playerComp->setName (T("player"));
 
     addAndMakeVisible (playlistComp = new PlaylistComponent());
     playlistComp->setName (T("playlist"));
+
+    addAndMakeVisible (toolbar = new Toolbar());
+    toolbar->setName (T("toolbar"));
 
 
     //[UserPreSize]
@@ -51,6 +58,8 @@ MainComponent::MainComponent (ApplicationCommandManager* commandManager)
     setSize (600, 400);
 
     //[Constructor] You can add your own custom stuff here..
+	toolbar->addDefaultItems(toolbarFactory);
+	toolbarFactory.searchButton->addButtonListener(this);
     //[/Constructor]
 }
 
@@ -61,8 +70,10 @@ MainComponent::~MainComponent()
 
     deleteAndZero (playerComp);
     deleteAndZero (playlistComp);
+    deleteAndZero (toolbar);
 
     //[Destructor]. You can add your own custom destruction code here..
+	deleteAndZero(searchComp);
     //[/Destructor]
 }
 
@@ -71,16 +82,6 @@ void MainComponent::paint (Graphics& g)
 {
     //[UserPrePaint] Add your own custom painting code here..
     //[/UserPrePaint]
-
-    g.fillAll (Colours::white);
-
-    //GradientBrush gradient_1 (Colours::white,
-    //                          208.0f, 32.0f,
-    //                          Colour (0xffbee6c8),
-    //                          240.0f, 280.0f,
-    //                          false);
-    //g.setBrush (&gradient_1);
-    //g.fillRect (0, 0, proportionOfWidth (1.0000f), proportionOfHeight (1.0000f));
 
     //[UserPaint] Add your own custom painting code here..
 	ColourGradient gradient_1 (Colours::white,
@@ -97,15 +98,34 @@ void MainComponent::paint (Graphics& g)
 void MainComponent::resized()
 {
     playerComp->setBounds (0, getHeight() - 130, proportionOfWidth (1.0000f), 130);
-    playlistComp->setBounds (0, 0, proportionOfWidth (1.0000f), getHeight() - 130);
+    playlistComp->setBounds (0, 32, proportionOfWidth (1.0000f), getHeight() - 162);
+    toolbar->setBounds (0, 0, proportionOfWidth (1.0000f), 32);
     //[UserResized] Add your own custom resize handling here..
-	//playerComp->setBounds (0, getHeight() - playerComp->getHeight(), proportionOfWidth (1.0000f), playerComp->getHeight());
+	if(searchComp)
+		searchComp->setBounds(playlistComp->getBounds());
     //[/UserResized]
 }
 
 
-
 //[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
+
+void MainComponent::buttonClicked( Button* button )
+{
+	if(button == toolbarFactory.searchButton)
+	{
+		if(!searchComp)
+		{
+			addChildComponent( searchComp = new SearchComponent() );
+			searchComp->setBounds(playlistComp->getBounds());
+		}
+
+		bool shown = searchComp->isVisible();
+		searchComp->setVisible(!shown);
+		playlistComp->setVisible(shown);
+		repaint();
+	}
+}
+
 //[/MiscUserCode]
 
 
@@ -118,20 +138,19 @@ void MainComponent::resized()
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="MainComponent" componentName=""
-                 parentClasses="public Component" constructorParams="ApplicationCommandManager* commandManager"
+                 parentClasses="public Component, public ButtonListener" constructorParams="ApplicationCommandManager* commandManager"
                  variableInitialisers="" snapPixels="8" snapActive="1" snapShown="1"
                  overlayOpacity="0.330000013" fixedSize="0" initialWidth="600"
                  initialHeight="400">
-  <BACKGROUND backgroundColour="ffffffff">
-    <RECT pos="0 0 100% 100%" fill="linear: 208 32, 240 280, 0=ffffffff, 1=ffbee6c8"
-          hasStroke="0"/>
-  </BACKGROUND>
+  <BACKGROUND backgroundColour="ffffff"/>
   <GENERICCOMPONENT name="player" id="8288116db28ad9c9" memberName="playerComp" virtualName=""
                     explicitFocusOrder="0" pos="0 0Rr 100% 130" class="PlayerComponent"
                     params="commandManager"/>
   <GENERICCOMPONENT name="playlist" id="ae88366f48b8de1" memberName="playlistComp"
-                    virtualName="" explicitFocusOrder="0" pos="0 0 100% 130M" class="PlaylistComponent"
+                    virtualName="" explicitFocusOrder="0" pos="0 32 100% 162M" class="PlaylistComponent"
                     params=""/>
+  <GENERICCOMPONENT name="toolbar" id="f44217262a6b99c9" memberName="toolbar" virtualName=""
+                    explicitFocusOrder="0" pos="0 0 100% 32" class="Toolbar" params=""/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA

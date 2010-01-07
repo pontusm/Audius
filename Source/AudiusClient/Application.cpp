@@ -41,6 +41,8 @@ public:
 			// Create music player
 			AudioPlayer::getInstance()->initialise();
 
+			checkLogin();
+
 			// Initialize main window
 			_mainWindow = new MainWindow();
 			//_mainWindow->centreWithSize(350, 170);

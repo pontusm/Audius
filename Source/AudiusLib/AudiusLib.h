@@ -18,4 +18,5 @@
 #include "Downloader/DownloadManager.h"
 #include "Downloader/DownloadStream.h"
 
+#include "Model/ModelBuilder.h"
 #include "Model/SongInfo.h"

@@ -123,8 +123,11 @@ void PlaylistComponent::paintCell( Graphics& g, int rowNumber, int columnId, int
 			break;
 		case 2:
 			int seconds = songInfo->getLengthSeconds();
-			const String s = String::formatted(T("%d:%02d"), (seconds / 60), (seconds % 60) );
-			g.drawText(s, 2, 0, width - 4, height, Justification::centredRight, true);
+			if(seconds > 0)
+			{
+				const String s = String::formatted(T("%d:%02d"), (seconds / 60), (seconds % 60) );
+				g.drawText(s, 2, 0, width - 4, height, Justification::centredRight, true);
+			}
 			break;
 		}
 	}

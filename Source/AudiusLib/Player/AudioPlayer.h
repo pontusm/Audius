@@ -48,6 +48,8 @@ public:
 	boost::shared_ptr<Playlist> getPlaylist();
 	boost::shared_ptr<SongInfo> getCurrentSong();
 
+	void setPlaylist(boost::shared_ptr<Playlist> playlist);
+
 private:
 	void changeListenerCallback(void* objectThatHasChanged);
 

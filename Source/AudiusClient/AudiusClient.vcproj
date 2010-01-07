@@ -7,7 +7,6 @@
 	RootNamespace="Audius"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
-	ShowAllFiles="true"
 	>
 	<Platforms>
 		<Platform
@@ -440,6 +439,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\Gui\Main\SearchComponent.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Gui\Welcome\WelcomeComponent.cpp"
 				>
 			</File>
@@ -490,6 +493,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Gui\Main\SearchComponent.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Gui\Welcome\WelcomeComponent.h"
 				>
 			</File>
@@ -509,6 +516,10 @@
 			</File>
 			<File
 				RelativePath=".\ResourceFiles\Eket_Mask.png"
+				>
+			</File>
+			<File
+				RelativePath=".\ResourceFiles\view.png"
 				>
 			</File>
 		</Filter>

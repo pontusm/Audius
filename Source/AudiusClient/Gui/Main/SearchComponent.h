@@ -3,7 +3,7 @@
 
   This is an automatically generated file created by the Jucer!
 
-  Creation date:  7 Jan 2010 12:53:02 pm
+  Creation date:  7 Jan 2010 1:49:29 pm
 
   Be careful when adding custom code to these files, as only the code within
   the "//[xyz]" and "//[/xyz]" sections will be retained when the file is loaded
@@ -19,17 +19,13 @@
   ==============================================================================
 */
 
-#ifndef __JUCER_HEADER_MAINCOMPONENT_MAINCOMPONENT_2BB1072D__
-#define __JUCER_HEADER_MAINCOMPONENT_MAINCOMPONENT_2BB1072D__
+#ifndef __JUCER_HEADER_SEARCHCOMPONENT_SEARCHCOMPONENT_FF7F3F47__
+#define __JUCER_HEADER_SEARCHCOMPONENT_SEARCHCOMPONENT_FF7F3F47__
 
 //[Headers]     -- You can add your own extra header files here --
 #include "juce.h"
 
-#include "../../Resources/ResourceFiles.h"
-
-class PlayerComponent;
-class PlaylistComponent;
-class SearchComponent;
+class SongInfo;
 //[/Headers]
 
 
@@ -42,21 +38,35 @@ class SearchComponent;
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class MainComponent  : public Component,
-                       public ButtonListener
+class SearchComponent  : public Component,
+                         public TableListBoxModel,
+                         public TextEditorListener,
+                         public ButtonListener
 {
 public:
     //==============================================================================
-    MainComponent (ApplicationCommandManager* commandManager);
-    ~MainComponent();
+    SearchComponent ();
+    ~SearchComponent();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
-	void buttonClicked(Button* button);
+
+	// TableListBoxModel
+	virtual int getNumRows();
+	virtual void paintRowBackground(Graphics& g, int rowNumber, int width, int height, bool rowIsSelected);
+	virtual void paintCell(Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected);
+	virtual void cellDoubleClicked(int rowNumber, int columnId, const MouseEvent& e);
+
+	// TextEditorListener
+	virtual void textEditorTextChanged(TextEditor & editor);
+	virtual void textEditorReturnKeyPressed(TextEditor & editor);
+	virtual void textEditorEscapeKeyPressed(TextEditor & editor);
+	virtual void textEditorFocusLost(TextEditor & editor);
     //[/UserMethods]
 
     void paint (Graphics& g);
     void resized();
+    void buttonClicked (Button* buttonThatWasClicked);
 
 
     //==============================================================================
@@ -64,56 +74,23 @@ public:
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
-	class MainToolbarFactory : public ToolbarItemFactory
-	{
-	public:
-		MainToolbarFactory() {}
-		~MainToolbarFactory() {}
+	Font _font;
 
-		enum ToolbarItemIds
-		{
-			search	= 1
-		};
+	std::vector< boost::shared_ptr<SongInfo> > _searchResult;
 
-		void getAllToolbarItemIds(Array<int>& ids)
-		{
-			ids.add(search);
-		}
-
-		void getDefaultItemSet(Array<int>& ids)
-		{
-			ids.add(search);
-		}
-
-		ToolbarItemComponent* createItem(const int itemId)
-		{
-			switch(itemId)
-			{
-			case search:
-				searchButton = new ToolbarButton(itemId, T("Search"), Drawable::createFromImageData(ResourceFiles::view_png, ResourceFiles::view_pngSize), 0);
-				return searchButton;
-			}
-			return NULL;
-		}
-
-		ToolbarButton* searchButton;
-	};
-
-	MainToolbarFactory toolbarFactory;
-
-	SearchComponent* searchComp;
+	void doSearch();
     //[/UserVariables]
 
     //==============================================================================
-    PlayerComponent* playerComp;
-    PlaylistComponent* playlistComp;
-    Toolbar* toolbar;
+    TextButton* searchButton;
+    TextEditor* textEditor;
+    TableListBox* searchlistTable;
 
     //==============================================================================
     // (prevent copy constructor and operator= being generated..)
-    MainComponent (const MainComponent&);
-    const MainComponent& operator= (const MainComponent&);
+    SearchComponent (const SearchComponent&);
+    const SearchComponent& operator= (const SearchComponent&);
 };
 
 
-#endif   // __JUCER_HEADER_MAINCOMPONENT_MAINCOMPONENT_2BB1072D__
+#endif   // __JUCER_HEADER_SEARCHCOMPONENT_SEARCHCOMPONENT_FF7F3F47__

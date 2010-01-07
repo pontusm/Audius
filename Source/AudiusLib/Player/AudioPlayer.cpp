@@ -213,6 +213,14 @@ shared_ptr<Playlist> AudioPlayer::getPlaylist()
 	return vars->playlist;
 }
 
+
+void AudioPlayer::setPlaylist( boost::shared_ptr<Playlist> playlist )
+{
+	vars->playlist = playlist;
+	refreshStream();
+	sendActionMessage(PlayerNotifications::playlistChanged);
+}
+
 void AudioPlayer::setCurrentPlaylistPosition( int position )
 {
 	if(!vars->playlist->setCurrentPosition(position))
@@ -271,6 +279,13 @@ void AudioPlayer::refreshStream()
 	if(playing)
 		vars->transportSource.start();
 
+	// Need to update song length?
+	//if(songInfo->getLengthSeconds() < 0)
+	//{
+	//	double samplerate = vars->deviceManager.getCurrentAudioDevice()->getCurrentSampleRate();
+	//	double seconds = vars->streamingAudioSource->getTotalLength() / samplerate;
+	//	songInfo->setLengthSeconds(seconds);
+	//}
 	sendActionMessage(PlayerNotifications::newSong);
 }
 
