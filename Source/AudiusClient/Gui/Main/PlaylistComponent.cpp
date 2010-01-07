@@ -52,7 +52,8 @@ PlaylistComponent::PlaylistComponent ()
 	playlistTable->setOutlineThickness(1);
 
 	playlistTable->getHeader()->addColumn(T("Track"), 1, 250, 30, -1, TableHeaderComponent::notSortable);
-	playlistTable->getHeader()->addColumn(T("Length"), 2, 50, 30, -1, TableHeaderComponent::notSortable);
+	playlistTable->getHeader()->addColumn(T("Artist"), 2, 150, 30, -1, TableHeaderComponent::notSortable);
+	playlistTable->getHeader()->addColumn(T("Length"), 3, 50, 30, -1, TableHeaderComponent::notSortable);
 	//playlistTable->getHeader()->setStretchToFitActive(true);
 
 	AudioPlayer::getInstance()->addActionListener(this);
@@ -122,6 +123,9 @@ void PlaylistComponent::paintCell( Graphics& g, int rowNumber, int columnId, int
 			g.drawText(songInfo->getTitle(), 2, 0, width - 4, height, Justification::centredLeft, true);
 			break;
 		case 2:
+			g.drawText(songInfo->getArtist(), 2, 0, width - 4, height, Justification::centredLeft, true);
+			break;
+		case 3:
 			int seconds = songInfo->getLengthSeconds();
 			if(seconds > 0)
 			{

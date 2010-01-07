@@ -15,7 +15,8 @@
 
 class WebRequest;
 
-class DownloadStream : public InputStream
+class DownloadStream : public InputStream,
+					   public ChangeBroadcaster
 {
 	// Only download manager can create download streams
 	friend class DownloadManager;
@@ -27,7 +28,13 @@ public:
 
 	int64 getTotalLength() { return jmax(_bytesRead, _bytesTotal); }
 	int64 getPosition() { return _readPosition; }
+
+	// Returns true if the data is completely downloaded
+	bool isDownloadComplete();
+
+	// Returns true if the download is complete and we have read all of the data
 	bool isExhausted();
+
 	bool setPosition(int64 newPosition);
 	int read(void* destBuffer, int maxBytesToRead);
 

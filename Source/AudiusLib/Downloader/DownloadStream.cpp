@@ -68,6 +68,9 @@ void DownloadStream::receiveData( boost::shared_ptr<DataReceivedEventArgs> recei
 		double ticksLeft = (_bytesTotal - _bytesRead) / bytesPerTick;
 		_secondsLeft = (int)ceil(ticksLeft / 1000);
 	}
+
+	// Notify listeners about progress
+	sendChangeMessage(this);
 }
 
 bool DownloadStream::wait( int timeoutMilliseconds )
@@ -105,4 +108,10 @@ int DownloadStream::read( void* destBuffer, int maxBytesToRead )
 		_readPosition += bytesToRead;
 	}
 	return bytesToRead;
+}
+
+bool DownloadStream::isDownloadComplete()
+{
+	const ScopedLock l(_lock);
+	return _request->isCompleted();
 }

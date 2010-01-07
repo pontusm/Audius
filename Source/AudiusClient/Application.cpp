@@ -192,7 +192,7 @@ public:
 
 		// Show login dialog
 		LoginComponent lc;
-		int result = DialogWindow::showModalDialog(T("Login"), &lc, NULL, Colours::azure, true);
+		int result = DialogWindow::showModalDialog(T("Clodder Login"), &lc, NULL, Colours::azure, true);
 		if(result == 0)
 			return false;	// User canceled
 

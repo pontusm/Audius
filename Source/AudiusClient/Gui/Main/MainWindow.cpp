@@ -46,7 +46,7 @@ MainWindow::MainWindow() :
 	setResizable(true, false);
 
 	//centreWithSize(350, 170);
-	centreWithSize(350, 500);
+	centreWithSize(500, 500);
 
 	//centreWithSize(getWidth(), getHeight());
 

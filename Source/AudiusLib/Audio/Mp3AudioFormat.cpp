@@ -79,6 +79,7 @@ public:
 		if(totalBytes > 0)
 			mpg123_set_filesize(_handle, (off_t)totalBytes);
 		lengthInSamples = mpg123_length(_handle);
+
 	}
 
 	~Mp3Reader()
@@ -178,6 +179,17 @@ public:
 			for (int i = numDestChannels; --i >= 0;)
 				if (destSamples[i] != 0)
 					zeromem (destSamples[i] + startOffsetInDestBuffer, sizeof(int) * numSamples);
+		}
+
+		// Extract extra mp3 info
+		mpg123_frameinfo frameInfo;
+		int result = mpg123_info(_handle, &frameInfo);
+		if(result == MPG123_OK)
+		{
+			metadataValues.set(T("samplerate"), String(frameInfo.rate));
+			metadataValues.set(T("bitrate"), String(frameInfo.bitrate));
+
+			lengthInSamples = mpg123_length(_handle);
 		}
 
 		return true;

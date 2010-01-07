@@ -53,6 +53,9 @@ MainComponent::MainComponent (ApplicationCommandManager* commandManager)
 
 
     //[UserPreSize]
+	// For testing, show search by default
+	addAndMakeVisible( searchComp = new SearchComponent() );
+	playlistComp->setVisible(false);
     //[/UserPreSize]
 
     setSize (600, 400);
@@ -113,12 +116,6 @@ void MainComponent::buttonClicked( Button* button )
 {
 	if(button == toolbarFactory.searchButton)
 	{
-		if(!searchComp)
-		{
-			addChildComponent( searchComp = new SearchComponent() );
-			searchComp->setBounds(playlistComp->getBounds());
-		}
-
 		bool shown = searchComp->isVisible();
 		searchComp->setVisible(!shown);
 		playlistComp->setVisible(shown);

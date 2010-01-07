@@ -69,9 +69,9 @@ SearchComponent::SearchComponent ()
 	searchlistTable->setColour(ListBox::outlineColourId, Colours::grey);
 	searchlistTable->setOutlineThickness(1);
 
-	searchlistTable->getHeader()->addColumn(T("Track"), 1, 200, 30, -1, TableHeaderComponent::notSortable);
-	searchlistTable->getHeader()->addColumn(T("Artist"), 2, 50, 30, -1, TableHeaderComponent::notSortable);
-	searchlistTable->getHeader()->addColumn(T("Album"), 3, 50, 30, -1, TableHeaderComponent::notSortable);
+	searchlistTable->getHeader()->addColumn(T("Track"), 1, 150, 30, -1, TableHeaderComponent::notSortable);
+	searchlistTable->getHeader()->addColumn(T("Artist"), 2, 150, 30, -1, TableHeaderComponent::notSortable);
+	searchlistTable->getHeader()->addColumn(T("Album"), 3, 150, 30, -1, TableHeaderComponent::notSortable);
 
     //[/Constructor]
 }
@@ -168,7 +168,7 @@ void SearchComponent::cellDoubleClicked( int rowNumber, int columnId, const Mous
 	// Submit a new playlist
 	// TODO: This plumbing should be done in lower layers
 	shared_ptr<Playlist> playlist( new Playlist() );
-	for(int i = rowNumber; i < _searchResult.size(); i++)
+	for(int i = rowNumber; i < (int)_searchResult.size(); i++)
 	{
 		shared_ptr<SongInfo> songInfo = _searchResult.at(i);
 		String url = ServiceManager::getInstance()->getClodder()->getSongUrl(songInfo->getSongID());

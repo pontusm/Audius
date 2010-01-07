@@ -110,26 +110,6 @@ void AudioPlayer::initialise()
 	//vars->transportSource.setSource(&vars->playlistSource);
 
 	vars->transportSource.addChangeListener(this);
-
-	// *** Debug mp3 playing
-	//FileInputStream* input = new FileInputStream(File(T("D:\\Projects\\Current\\Audius\\test.mp3")));
-	//Mp3AudioFormat mp3Format;
-	//AudioFormatReader* reader = mp3Format.createReaderFor(input, false);
-	//vars->formatReaderSource = new AudioFormatReaderSource(reader, true);
-	//vars->transportSource.setSource(vars->formatReaderSource, 16384);
-
-	// *** Debug streaming:
-	//ServiceManager::getInstance()->getClodder()->login(T("xx"), T("xx"));
-	//String url = ServiceManager::getInstance()->getClodder()->getSongUrl(1234);
-	//DownloadStream* stream = DownloadManager::getInstance()->downloadAsync(url);
-	//Mp3AudioFormat mp3Format;
-	//AudioFormatReader* reader = mp3Format.createReaderFor(stream, true);
-	//vars->formatReaderSource = new AudioFormatReaderSource(reader, false);
-
-	// *** Test streaming chain
-	//vars->streamingAudioSource = new StreamingAudioSource(url, vars->mp3Format);
-	//vars->transportSource.setSource(vars->streamingAudioSource, 16384);
-	//vars->transportSource.start();
 }
 
 // *** Shutdown **************************************************
