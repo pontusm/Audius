@@ -213,9 +213,11 @@ void PlayerComponent::mouseDrag (const MouseEvent& e)
 
 void PlayerComponent::actionListenerCallback( const String& message )
 {
-	if(message == PlayerNotifications::newSong)
+	if(message == PlayerNotifications::newSong || message == PlayerNotifications::songInfoChanged)
 	{
-		songPositionSlider->setValue(0, false);
+		if(message == PlayerNotifications::newSong)
+			songPositionSlider->setValue(0, false);
+
 		shared_ptr<SongInfo> songInfo = AudioPlayer::getInstance()->getCurrentSong();
 		if(songInfo)
 		{
@@ -224,7 +226,11 @@ void PlayerComponent::actionListenerCallback( const String& message )
 			artistLabel->setText(songInfo->getArtist(), false);
 			//albumLabel->setText(songInfo->getAlbum(), false);
 			albumLabel->setText(String::empty, false);
-			songPositionSlider->setRange(0, songInfo->getLengthSeconds());
+
+			if(songInfo->getLengthSeconds() > 0)
+				songPositionSlider->setRange(0, songInfo->getLengthSeconds());
+			else
+				songPositionSlider->setRange(0, 0);
 		}
 		else
 		{
@@ -232,6 +238,10 @@ void PlayerComponent::actionListenerCallback( const String& message )
 			artistLabel->setText(String::empty, false);
 			albumLabel->setText(String::empty, false);
 		}
+	}
+	else if(message == PlayerNotifications::songInfoChanged)
+	{
+
 	}
 }
 

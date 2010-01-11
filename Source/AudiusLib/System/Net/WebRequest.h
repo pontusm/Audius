@@ -13,6 +13,9 @@
 
 #include "DataReceivedEventArgs.h"
 
+// Complete delegate
+typedef boost::function<void()> RequestCompleteDelegate;
+
 struct WebRequestContext;
 
 class WebRequest
@@ -25,10 +28,10 @@ public:
 	void abort();
 
 	// Begin downloading asynchronously
-	void downloadAsync(DataReceivedDelegate callback);
+	void downloadAsync(DataReceivedDelegate receiveCallback, RequestCompleteDelegate completeCallback = NULL);
 
 	// Begin posting asynchronously
-	void postAsync(const StringPairArray & parameters, DataReceivedDelegate callback);
+	void postAsync(const StringPairArray & parameters, DataReceivedDelegate receiveCallback, RequestCompleteDelegate completeCallback = NULL);
 
 	// Wait for the request to complete (-1 = infinite)
 	bool wait(const int timeoutMilliseconds);
@@ -66,8 +69,6 @@ private:
 private:
 	WebRequestContext*	context;
 
-	bool	started;
-	bool	completed;
 	String	url;
 	int64	totalBytes;
 
@@ -76,5 +77,7 @@ private:
 
 	StringPairArray	cookies;
 
+	volatile bool	started;
+	volatile bool	completed;
 	WaitableEvent	completeEvent;
 };

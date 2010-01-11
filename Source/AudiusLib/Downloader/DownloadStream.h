@@ -42,6 +42,9 @@ public:
 	int64 getCurrentLength() { return _bytesRead; }
 	int getEstimatedSecondsLeft() { return _secondsLeft; }
 
+	// Get a raw pointer to the downloaded data
+	void* getData() { return _buffer.getData(); }
+
 	// Waits until the download is complete (-1 = infinite)
 	bool wait(int timeoutMilliseconds);
 
@@ -54,6 +57,7 @@ private:
 	void abort();
 
 	void receiveData(boost::shared_ptr<DataReceivedEventArgs> args);
+	void completed();
 
 private:
 	CriticalSection	_lock;

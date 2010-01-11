@@ -44,14 +44,13 @@ public:
 	}
 
 	shared_ptr<Playlist>	playlist;
+	shared_ptr<SongInfo>	currentSong;
 
 	AudioDeviceManager		deviceManager;
 	AudioSourcePlayer		sourcePlayer;
 	AudioTransportSource	transportSource;
-	//PlaylistAudioSource		playlistSource;
 	
 	StreamingAudioSource*	streamingAudioSource;
-	//AudioFormatReaderSource*	formatReaderSource;
 	
 	Mp3AudioFormat	mp3Format;
 };
@@ -182,10 +181,7 @@ void AudioPlayer::setCurrentSongPosition( double position )
 
 shared_ptr<SongInfo> AudioPlayer::getCurrentSong()
 {
-	shared_ptr<PlaylistEntry> entry = vars->playlist->getCurrentEntry();
-	if(!entry)
-		return shared_ptr<SongInfo>();
-	return entry->getSongInfo();
+	return vars->currentSong;
 }
 
 shared_ptr<Playlist> AudioPlayer::getPlaylist()
@@ -248,24 +244,24 @@ void AudioPlayer::refreshStream()
 		deleteAndZero(vars->streamingAudioSource);
 	}
 
-	shared_ptr<SongInfo> songInfo = getCurrentSong();
-	if(!songInfo)
+	// Update current song from playlist
+	shared_ptr<PlaylistEntry> entry = vars->playlist->getCurrentEntry();
+	if(!entry)
+		return;
+	vars->currentSong = entry->getSongInfo();
+	if(!vars->currentSong)
 		return;
 
-	String url = ServiceManager::getInstance()->getClodder()->getSongUrl(songInfo->getSongID());
+	Logger::writeToLog(T("Playing song: ") + vars->currentSong->getArtist() + T(" \"") + vars->currentSong->getTitle() + T("\""));
+
+	String url = ServiceManager::getInstance()->getClodder()->getSongUrl(vars->currentSong->getSongID());
 	vars->streamingAudioSource = new StreamingAudioSource(url, vars->mp3Format);
+	vars->streamingAudioSource->getStream()->addChangeListener(this);
 	vars->transportSource.setSource(vars->streamingAudioSource);
 
 	if(playing)
 		vars->transportSource.start();
 
-	// Need to update song length?
-	//if(songInfo->getLengthSeconds() < 0)
-	//{
-	//	double samplerate = vars->deviceManager.getCurrentAudioDevice()->getCurrentSampleRate();
-	//	double seconds = vars->streamingAudioSource->getTotalLength() / samplerate;
-	//	songInfo->setLengthSeconds(seconds);
-	//}
 	sendActionMessage(PlayerNotifications::newSong);
 }
 
@@ -273,19 +269,43 @@ void AudioPlayer::refreshStream()
 
 void AudioPlayer::changeListenerCallback( void* objectThatHasChanged )
 {
-	//DBG(T("Transport changed"));
-	if(vars->transportSource.hasStreamFinished())
+	// Transport changed?
+	if(objectThatHasChanged == &vars->transportSource)
 	{
-		// Stream is completed so it's time for the next track
-		//DBG(T("Stream finished"));
+		if(vars->transportSource.hasStreamFinished())
+		{
+			// Stream is completed so it's time for the next track
+			if(!vars->playlist->gotoNextEntry())
+			{
+				Logger::writeToLog(T("End of playlist reached."));
+				return;
+			}
 
-		// Switch to next track
-		if(!vars->playlist->gotoNextEntry())
-			return;
+			// Setup track and start playing
+			refreshStream();
+			vars->transportSource.start();
+		}
+	}
+	else if(objectThatHasChanged == vars->streamingAudioSource->getStream())
+	{
+		DownloadStream* stream = vars->streamingAudioSource->getStream();
+		//if(stream->isDownloadComplete() && vars->currentSong->getLengthSeconds() <= 0)
+		if(stream->isDownloadComplete())
+		{
+			// Length is unknown so we need to analyze the song and determine the true length
+			AudioFormatReader* reader = vars->mp3Format.createReaderFor(
+											new MemoryInputStream(stream->getData(), stream->getTotalLength(), false), true);
+			if(reader)
+			{
+				double samplerate = vars->deviceManager.getCurrentAudioDevice()->getCurrentSampleRate();
+				double seconds = reader->lengthInSamples / samplerate;
+				vars->currentSong->setLengthSeconds(seconds);
+				delete reader;
 
-		// Setup track and start playing
-		refreshStream();
-		vars->transportSource.start();
+				// Signal to UI that song updated
+				sendActionMessage(PlayerNotifications::songInfoChanged);
+			}
+		}
 	}
 }
 

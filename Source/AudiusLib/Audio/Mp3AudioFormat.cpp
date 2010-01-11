@@ -75,11 +75,18 @@ public:
 		//	if(result != MPG123_OK)
 		//		Logger::writeToLog(T("Failed to set mp3 output format."));
 		//}
-		int64 totalBytes = input->getTotalLength();
-		if(totalBytes > 0)
-			mpg123_set_filesize(_handle, (off_t)totalBytes);
-		lengthInSamples = mpg123_length(_handle);
+		result = mpg123_scan(_handle);
+		if(result == MPG123_OK)
+		{
+			int64 totalBytes = input->getTotalLength();
+			if(totalBytes > 0)
+				mpg123_set_filesize(_handle, (off_t)totalBytes);
+			lengthInSamples = mpg123_length(_handle);
+		}
+		else
+			lengthInSamples = -1;
 
+		//DBG(T("Length in samples: ") + String(lengthInSamples));
 	}
 
 	~Mp3Reader()
@@ -189,7 +196,7 @@ public:
 			metadataValues.set(T("samplerate"), String(frameInfo.rate));
 			metadataValues.set(T("bitrate"), String(frameInfo.bitrate));
 
-			lengthInSamples = mpg123_length(_handle);
+			//lengthInSamples = mpg123_length(_handle);
 		}
 
 		return true;

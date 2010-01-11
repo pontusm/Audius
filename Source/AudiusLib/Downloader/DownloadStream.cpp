@@ -28,8 +28,9 @@ void DownloadStream::start()
 {
 	_startTime = Time::currentTimeMillis();
 
-	DataReceivedDelegate callback = boost::bind(&DownloadStream::receiveData, this, _1);
-	_request->downloadAsync(callback);
+	DataReceivedDelegate receiveCallback = boost::bind(&DownloadStream::receiveData, this, _1);
+	RequestCompleteDelegate completeCallback = boost::bind(&DownloadStream::completed, this);
+	_request->downloadAsync(receiveCallback, completeCallback);
 }
 
 void DownloadStream::abort()
@@ -70,6 +71,12 @@ void DownloadStream::receiveData( boost::shared_ptr<DataReceivedEventArgs> recei
 	}
 
 	// Notify listeners about progress
+	sendChangeMessage(this);
+}
+
+void DownloadStream::completed()
+{
+	// Notify listeners that we are done
 	sendChangeMessage(this);
 }
 

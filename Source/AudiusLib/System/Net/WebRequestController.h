@@ -132,6 +132,8 @@ private:
 			WebRequest* request = findRequest(msg->easy_handle, true);
 			if(request)
 			{
+				//DBG(T("Request completed: ") + request->getUrl());
+
 				// Signal request completed
 				request->setComplete();
 			}

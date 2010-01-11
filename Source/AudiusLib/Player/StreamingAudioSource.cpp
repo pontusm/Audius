@@ -99,3 +99,4 @@ int StreamingAudioSource::getTotalLength() const
 	return _readerSource->getNextReadPosition();
 	//return _readerSource->getTotalLength();
 }
+

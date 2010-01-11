@@ -61,12 +61,13 @@ void WebRequest::abort()
 	WebRequestManager::getInstance()->closeRequest(this);
 }
 
-void WebRequest::downloadAsync(DataReceivedDelegate callback)
+void WebRequest::downloadAsync(DataReceivedDelegate receiveCallback, RequestCompleteDelegate completeCallback)
 {
-	jassert(callback != NULL);
+	jassert(receiveCallback != NULL);
 	jassert(!started);			// Cannot reuse request
 
-	context->callback = callback;
+	context->receiveCallback = receiveCallback;
+	context->completeCallback = completeCallback;
 
 	setupRequest();
 
@@ -75,9 +76,9 @@ void WebRequest::downloadAsync(DataReceivedDelegate callback)
 	WebRequestManager::getInstance()->beginRequest(this);
 }
 
-void WebRequest::postAsync( const StringPairArray & parameters, DataReceivedDelegate callback )
+void WebRequest::postAsync( const StringPairArray & parameters, DataReceivedDelegate receiveCallback, RequestCompleteDelegate completeCallback )
 {
-	jassert(callback != NULL);
+	jassert(receiveCallback != NULL);
 	jassert(!started);			// Cannot reuse request
 	jassert(postdataBuffer == NULL);
 
@@ -98,7 +99,8 @@ void WebRequest::postAsync( const StringPairArray & parameters, DataReceivedDele
 	postdataBuffer = new uint8[bufflen];
 	postdata.copyToUTF8(postdataBuffer, bufflen);
 
-	context->callback = callback;
+	context->receiveCallback = receiveCallback;
+	context->completeCallback = completeCallback;
 
 	setupRequest();
 
@@ -132,7 +134,7 @@ size_t WebRequest::receiveDataInternal(void* ptr, uint32 receivedBytes)
 
 	// Pass it on to the desired callback method
 	shared_ptr<DataReceivedEventArgs> args( new DataReceivedEventArgs( ptr, receivedBytes, totalBytes ) );
-	context->callback(args);
+	context->receiveCallback(args);
 
 	// If callback wants to cancel transfer we return 0 to curl to make it stop
 	if(args->cancelTransfer)
@@ -160,6 +162,8 @@ int WebRequest::getResponseCode()
 void WebRequest::setComplete()
 {
 	completed = true;
+	if(context->completeCallback)
+		context->completeCallback();
 	completeEvent.signal();
 }
 

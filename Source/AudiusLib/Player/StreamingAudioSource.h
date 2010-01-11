@@ -27,6 +27,9 @@ public:
 	void setNextReadPosition(int newPosition);
 	bool isLooping() const { return false; }
 
+	// Retrieves the current download stream. Do not delete it!
+	DownloadStream* getStream() { return _stream; }
+
 private:
 	DownloadStream* _stream;
 
