@@ -177,6 +177,28 @@ void AudioPlayer::setCurrentSongPosition( double position )
 	vars->transportSource.setPosition(position);
 }
 
+double AudioPlayer::getCurrentSongPositionPercent()
+{
+	shared_ptr<SongInfo> songInfo = getCurrentSong();
+	int seconds = songInfo->getLengthSeconds();
+	if(seconds <= 0)
+		return 0;
+
+	return vars->transportSource.getCurrentPosition() / (double)seconds;
+}
+
+void AudioPlayer::setCurrentSongPositionPercent( double percent )
+{
+	jassert(percent >= 0 && percent <= 1);
+
+	shared_ptr<SongInfo> songInfo = getCurrentSong();
+	int seconds = songInfo->getLengthSeconds();
+	if(seconds <= 0)
+		return;
+
+	vars->transportSource.setPosition(seconds * percent);
+}
+
 // *** Playlist **************************************************
 
 shared_ptr<SongInfo> AudioPlayer::getCurrentSong()

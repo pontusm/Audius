@@ -43,7 +43,9 @@ public:
 	Player::Status getPlayerStatus();
 
 	double getCurrentSongPosition();
+	double getCurrentSongPositionPercent();
 	void setCurrentSongPosition(double position);
+	void setCurrentSongPositionPercent(double percent);
 
 	boost::shared_ptr<Playlist> getPlaylist();
 	boost::shared_ptr<SongInfo> getCurrentSong();

@@ -100,7 +100,7 @@ PlayerComponent::PlayerComponent (ApplicationCommandManager* commandManager)
     timeLabel->setColour (TextEditor::backgroundColourId, Colour (0x0));
 
     addAndMakeVisible (songPositionSlider = new Slider (T("songPosition")));
-    songPositionSlider->setRange (0, 10, 0);
+    songPositionSlider->setRange (0, 1, 0);
     songPositionSlider->setSliderStyle (Slider::LinearHorizontal);
     songPositionSlider->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
     songPositionSlider->setColour (Slider::thumbColourId, Colour (0xff8f717f));
@@ -215,22 +215,23 @@ void PlayerComponent::actionListenerCallback( const String& message )
 {
 	if(message == PlayerNotifications::newSong || message == PlayerNotifications::songInfoChanged)
 	{
-		if(message == PlayerNotifications::newSong)
-			songPositionSlider->setValue(0, false);
+		AudioPlayer* player = AudioPlayer::getInstance();
 
-		shared_ptr<SongInfo> songInfo = AudioPlayer::getInstance()->getCurrentSong();
+		songPositionSlider->setValue(player->getCurrentSongPositionPercent());
+
+		shared_ptr<SongInfo> songInfo = player->getCurrentSong();
 		if(songInfo)
 		{
 			titleLabel->setText(songInfo->getTitle(), false);
 			titleLabel->setTooltip(songInfo->getTitle());
 			artistLabel->setText(songInfo->getArtist(), false);
-			//albumLabel->setText(songInfo->getAlbum(), false);
-			albumLabel->setText(String::empty, false);
+			albumLabel->setText(songInfo->getAlbum(), false);
+			//albumLabel->setText(String::empty, false);
 
-			if(songInfo->getLengthSeconds() > 0)
-				songPositionSlider->setRange(0, songInfo->getLengthSeconds());
-			else
-				songPositionSlider->setRange(0, 0);
+			//if(songInfo->getLengthSeconds() > 0)
+			//	songPositionSlider->setRange(0, songInfo->getLengthSeconds());
+			//else
+			//	songPositionSlider->setRange(0, 1);
 		}
 		else
 		{
@@ -238,10 +239,6 @@ void PlayerComponent::actionListenerCallback( const String& message )
 			artistLabel->setText(String::empty, false);
 			albumLabel->setText(String::empty, false);
 		}
-	}
-	else if(message == PlayerNotifications::songInfoChanged)
-	{
-
 	}
 }
 
@@ -262,7 +259,7 @@ void PlayerComponent::timerCallback()
 
 	// Only update slider if not being dragged
 	if(songPositionSlider->getThumbBeingDragged() == -1)
-		songPositionSlider->setValue(seconds);
+		songPositionSlider->setValue(player->getCurrentSongPositionPercent());
 }
 
 void PlayerComponent::sliderDragEnded( Slider* slider )
@@ -270,7 +267,7 @@ void PlayerComponent::sliderDragEnded( Slider* slider )
 	if(slider == songPositionSlider)
 	{
 		double pos = slider->getValue();
-		AudioPlayer::getInstance()->setCurrentSongPosition(pos);
+		AudioPlayer::getInstance()->setCurrentSongPositionPercent(pos);
 	}
 
 }
