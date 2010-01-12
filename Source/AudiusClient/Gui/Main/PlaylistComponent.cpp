@@ -63,6 +63,7 @@ PlaylistComponent::PlaylistComponent ()
 PlaylistComponent::~PlaylistComponent()
 {
     //[Destructor_pre]. You can add your own custom destruction code here..
+	AudioPlayer::getInstance()->removeActionListener(this);
     //[/Destructor_pre]
 
     deleteAndZero (playlistTable);
@@ -111,12 +112,13 @@ void PlaylistComponent::paintCell( Graphics& g, int rowNumber, int columnId, int
 	if(playlistEntry)
 	{
 		g.setColour(Colours::black);
-		if(playlist->getCurrentPosition() == rowNumber)
+
+		shared_ptr<SongInfo> songInfo = playlistEntry->getSongInfo();
+		if(songInfo == player->getCurrentSong())
 			g.setFont(_boldfont);
 		else
 			g.setFont(_font);
 
-		shared_ptr<SongInfo> songInfo = playlistEntry->getSongInfo();
 		switch(columnId)
 		{
 		case 1:
@@ -147,7 +149,7 @@ void PlaylistComponent::cellDoubleClicked(int rowNumber, int columnId, const Mou
 
 void PlaylistComponent::actionListenerCallback(const String& message)
 {
-	if(message == PlayerNotifications::playlistChanged)
+	if(message == PlayerNotifications::playlistChanged || message == PlayerNotifications::songInfoChanged)
 	{
 		playlistTable->updateContent();
 		playlistTable->repaint();

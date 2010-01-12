@@ -41,7 +41,8 @@ class SongInfo;
 class SearchComponent  : public Component,
                          public TableListBoxModel,
                          public TextEditorListener,
-                         public ButtonListener
+                         public ButtonListener,
+						 public ActionListener
 {
 public:
     //==============================================================================
@@ -62,6 +63,9 @@ public:
 	virtual void textEditorReturnKeyPressed(TextEditor & editor);
 	virtual void textEditorEscapeKeyPressed(TextEditor & editor);
 	virtual void textEditorFocusLost(TextEditor & editor);
+
+	// ActionListener
+	virtual void actionListenerCallback(const String& message);
     //[/UserMethods]
 
     void paint (Graphics& g);
@@ -75,6 +79,7 @@ public:
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
 	Font _font;
+	Font _boldfont;
 
 	std::vector< boost::shared_ptr<SongInfo> > _searchResult;
 

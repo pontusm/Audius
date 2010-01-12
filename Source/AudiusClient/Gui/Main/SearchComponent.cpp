@@ -35,6 +35,7 @@ using namespace boost;
 //==============================================================================
 SearchComponent::SearchComponent ()
     : _font(14.0f),
+	  _boldfont(14.0f, Font::bold),
       searchButton (0),
       textEditor (0),
       searchlistTable (0)
@@ -73,12 +74,14 @@ SearchComponent::SearchComponent ()
 	searchlistTable->getHeader()->addColumn(T("Artist"), 2, 150, 30, -1, TableHeaderComponent::notSortable);
 	searchlistTable->getHeader()->addColumn(T("Album"), 3, 150, 30, -1, TableHeaderComponent::notSortable);
 
+	AudioPlayer::getInstance()->addActionListener(this);
     //[/Constructor]
 }
 
 SearchComponent::~SearchComponent()
 {
     //[Destructor_pre]. You can add your own custom destruction code here..
+	AudioPlayer::getInstance()->removeActionListener(this);
     //[/Destructor_pre]
 
     deleteAndZero (searchButton);
@@ -142,9 +145,13 @@ void SearchComponent::paintRowBackground( Graphics& g, int rowNumber, int width,
 void SearchComponent::paintCell( Graphics& g, int rowNumber, int columnId, int width, int height, bool rowIsSelected )
 {
 	g.setColour(Colours::black);
-	g.setFont(_font);
 
 	shared_ptr<SongInfo> songInfo = _searchResult.at(rowNumber);
+	if(songInfo == AudioPlayer::getInstance()->getCurrentSong())
+		g.setFont(_boldfont);
+	else
+		g.setFont(_font);
+
 	switch(columnId)
 	{
 	case 1:
@@ -217,6 +224,14 @@ void SearchComponent::doSearch()
 	searchlistTable->updateContent();
 	searchlistTable->repaint();
 }
+
+void SearchComponent::actionListenerCallback( const String& message )
+{
+	if(message == PlayerNotifications::newSong)
+	{
+		searchlistTable->repaint();
+	}
+}
 //[/MiscUserCode]
 
 
@@ -229,8 +244,8 @@ void SearchComponent::doSearch()
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="SearchComponent" componentName=""
-                 parentClasses="public Component, public TableListBoxModel, public TextEditorListener"
-                 constructorParams="" variableInitialisers="_font(14.0f)" snapPixels="8"
+                 parentClasses="public Component, public TableListBoxModel, public TextEditorListener, public ActionListener"
+                 constructorParams="" variableInitialisers="_font(14.0f), _boldfont(14.0f, Font::bold)" snapPixels="8"
                  snapActive="1" snapShown="1" overlayOpacity="0.330000013" fixedSize="0"
                  initialWidth="400" initialHeight="400">
   <BACKGROUND backgroundColour="ffffff"/>
