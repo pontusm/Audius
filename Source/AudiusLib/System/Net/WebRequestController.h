@@ -41,7 +41,7 @@ public:
 		catch (Exception& ex)
 		{
 			if(!threadShouldExit())
-				Logger::writeToLog(T("Web request thread exception: ") + ex.getFullMessage());
+				Log::write(T("Web request thread exception: ") + ex.getFullMessage());
 		}
 		//DBG(T("WebRequestController shutdown"))
 	}

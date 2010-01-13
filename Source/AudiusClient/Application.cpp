@@ -34,7 +34,7 @@ public:
 
 		try
 		{
-			Logger::writeToLog(T("Initializing..."));
+			Log::write(T("Initializing..."));
 
 			ApplicationProperties::getInstance()->setStorageParameters(getApplicationName(), T("cfg"), String::empty, 3000, PropertiesFile::storeAsCompressedBinary);
 
@@ -52,18 +52,18 @@ public:
 			//_animator = new ComponentAnimator();
 			//_animator->animateComponent(_mainWindow, Rectangle(_mainWindow->getX(), _mainWindow->getY(), 500, 600), 1000, 3, 0);
 
-			Logger::writeToLog(T("Entering main loop"));
+			Log::write(T("Entering main loop"));
 		}
 		catch(Exception& ex)
 		{
-			Logger::writeToLog(ex.getFullMessage());
+			Log::write(ex.getFullMessage());
 			quit();
 		}
 	}
 
 	void shutdown()
 	{
-		Logger::writeToLog(T("Shutting down..."));
+		Log::write(T("Shutting down..."));
 
 		DownloadManager::getInstance()->shutdown();
 		AudioPlayer::getInstance()->shutdown();
@@ -73,7 +73,7 @@ public:
 		deleteAndZero(_mainWindow);
 
 		// Write final log entry before exiting
-		Logger::writeToLog(T("Successfully terminated."));
+		Log::write(T("Successfully terminated."));
 		deleteAndZero(_logger);
 	}
 
@@ -98,11 +98,12 @@ public:
 
 	virtual void unhandledException(const std::exception* e, const String& sourceFilename, const int lineNumber)
 	{
+		Log::write(T("Fatal error!"));
+
 		if(!e)
 			return;
 
-		Logger::writeToLog(T("Fatal error!"));
-		Logger::writeToLog(T("Unexpected exception: ") + String(e->what()) + T("(") + sourceFilename + T(", line ") + String(lineNumber) + T(")"));
+		Log::write(T("Unexpected exception: ") + String(e->what()) + T("(") + sourceFilename + T(", line ") + String(lineNumber) + T(")"));
 	}
 
 	void getAllCommands(Array <CommandID>& commands)
@@ -199,7 +200,7 @@ public:
 		if(!ServiceManager::getInstance()->getClodder()->login(lc.getLogin(), lc.getPassword()))
 		{
 			// Login failed
-			Logger::writeToLog("Could not start playing. Login failed.");
+			Log::write("Could not start playing. Login failed.");
 			AlertWindow::showMessageBox(AlertWindow::WarningIcon, T("Login failed."), T("Could not start playing. Login failed."));
 			return false;
 		}

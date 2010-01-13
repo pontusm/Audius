@@ -48,7 +48,7 @@ void DownloadManager::abort( DownloadStream* stream )
 
 void DownloadManager::shutdown()
 {
-	Logger::writeToLog(T("Download manager closing"));
+	Log::write(T("Download manager closing"));
 	if(_downloadStreams.size() > 0)
 		abortAll();
 }

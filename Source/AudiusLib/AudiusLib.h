@@ -4,7 +4,8 @@
 // Ensure that the precompiled stuff is included first
 #include "Precompiled.h"
 
-#include "AudiusLib/System/Exception.h"
+#include "System/Exception.h"
+#include "System/Log.h"
 
 #include "System/Net/DataReceivedEventArgs.h"
 #include "System/Net/WebClient.h"

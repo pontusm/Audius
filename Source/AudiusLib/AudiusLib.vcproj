@@ -469,6 +469,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\System\Log.h"
+				>
+			</File>
+			<File
 				RelativePath=".\System\MessageQueue.h"
 				>
 			</File>

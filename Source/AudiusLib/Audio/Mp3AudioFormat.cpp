@@ -29,7 +29,7 @@ public:
 
 		_handle = mpg123_new(NULL, NULL);
 		if(!_handle)
-			Logger::writeToLog(T("Failed to init mp3 lib."));
+			Log::write(T("Failed to init mp3 lib."));
 
 		mpg123_replace_reader(_handle, &mp3ReadCallback, &mp3SeekCallback);
 		//mpg123_open_feed(_handle);
@@ -59,7 +59,7 @@ public:
 					if(encoding & MPG123_ENC_SIGNED_16)
 						bitsPerSample = 16;
 					else
-						Logger::writeToLog(T("Unknown encoding: ") + String(encoding));
+						Log::write(T("Unknown encoding: ") + String(encoding));
 
 					break;
 				}
@@ -73,7 +73,7 @@ public:
 		//{
 		//	result = mpg123_format(_handle, 44100, MPG123_STEREO, MPG123_ENC_FLOAT_32);
 		//	if(result != MPG123_OK)
-		//		Logger::writeToLog(T("Failed to set mp3 output format."));
+		//		Log::write(T("Failed to set mp3 output format."));
 		//}
 		result = mpg123_scan(_handle);
 		if(result == MPG123_OK)
@@ -141,7 +141,7 @@ public:
 					off_t input_offset;
 					off_t result = mpg123_feedseek(_handle, _reservoirStart, SEEK_SET, &input_offset);
 					//if(result < 0)
-					//	Logger::writeToLog(T("Failed to seek mp3 stream. Error code: " + String(result) ));
+					//	Log::write(T("Failed to seek mp3 stream. Error code: " + String(result) ));
 					input->setPosition(input_offset);
 				}
 

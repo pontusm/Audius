@@ -63,7 +63,7 @@ AudioPlayer::AudioPlayer() :
 {
 	// Init mp3 lib
 	if(mpg123_init() != MPG123_OK)
-		Logger::writeToLog(T("Failed to initialize mp3 library."));
+		Log::write(T("Failed to initialize mp3 library."));
 }
 
 AudioPlayer::~AudioPlayer(void)
@@ -77,7 +77,7 @@ AudioPlayer::~AudioPlayer(void)
 
 void AudioPlayer::initialise()
 {
-	Logger::writeToLog(T("Initializing player..."));
+	Log::write(T("Initializing player..."));
 
 	String err = vars->deviceManager.initialise(0, 2, NULL, true);
 	if(err.length() > 0)
@@ -86,14 +86,14 @@ void AudioPlayer::initialise()
 	AudioIODevice* device = vars->deviceManager.getCurrentAudioDevice();
 	if(device)
 	{
-		Logger::writeToLog(T("  Found device: ") + device->getName());
-		Logger::writeToLog(T("   Device type: ") + device->getTypeName());
-		Logger::writeToLog(T("  Audio format: ") +
+		Log::write(T("  Found device: ") + device->getName());
+		Log::write(T("   Device type: ") + device->getTypeName());
+		Log::write(T("  Audio format: ") +
 			String(device->getCurrentSampleRate()) + T("Hz ") +
 			String(device->getCurrentBitDepth()) + T(" bits"));
 	}
 	else
-		Logger::writeToLog(T("Unable to find a suitable audio device."));
+		Log::write(T("Unable to find a suitable audio device."));
 
 	AudioDeviceManager::AudioDeviceSetup deviceSettings;
 	vars->deviceManager.getAudioDeviceSetup(deviceSettings);
@@ -274,7 +274,7 @@ void AudioPlayer::refreshStream()
 	if(!vars->currentSong)
 		return;
 
-	Logger::writeToLog(T("Playing song: ") + vars->currentSong->getArtist() + T(" \"") + vars->currentSong->getTitle() + T("\""));
+	Log::write(T("Playing song: ") + vars->currentSong->getArtist() + T(" \"") + vars->currentSong->getTitle() + T("\""));
 
 	String url = ServiceManager::getInstance()->getClodder()->getSongUrl(vars->currentSong->getSongID());
 	vars->streamingAudioSource = new StreamingAudioSource(url, vars->mp3Format);
@@ -299,7 +299,7 @@ void AudioPlayer::changeListenerCallback( void* objectThatHasChanged )
 			// Stream is completed so it's time for the next track
 			if(!vars->playlist->gotoNextEntry())
 			{
-				Logger::writeToLog(T("End of playlist reached."));
+				Log::write(T("End of playlist reached."));
 				return;
 			}
 
