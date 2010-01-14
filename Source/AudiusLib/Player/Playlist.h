@@ -70,7 +70,7 @@ public:
 	{
 		const ScopedLock l(_lock);
 
-		assert(position >= 0 && position <= _entries.size());
+		jassert(position >= 0 && position <= _entries.size());
 
 		std::vector< boost::shared_ptr<PlaylistEntry> >::iterator it = _entries.begin() + position;
 		_entries.insert(it, entry);
@@ -109,7 +109,7 @@ public:
 	boost::shared_ptr<PlaylistEntry> getEntry(uint32 position)
 	{
 		const ScopedLock l(_lock);
-		assert(position >= 0 && position < _entries.size());
+		jassert(position >= 0 && position < _entries.size());
 		return _entries[position];
 	}
 

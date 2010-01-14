@@ -119,7 +119,7 @@ void WebRequest::postAsync( const StringPairArray & parameters, DataReceivedDele
 }
 
 // Called when data is received
-size_t WebRequest::receiveDataInternal(void* ptr, uint32 receivedBytes)
+size_t WebRequest::receiveDataInternal(void* ptr, int receivedBytes)
 {
 	// Is total length not known?
 	if(totalBytes < 0)

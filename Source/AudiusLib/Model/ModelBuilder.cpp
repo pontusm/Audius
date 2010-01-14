@@ -28,9 +28,9 @@ shared_ptr<SongInfo> ModelBuilder::createSongInfo(const String& xml )
 		return shared_ptr<SongInfo>();		// No song info found
 	}
 
-	uint32 songID = xe->getIntAttribute(T("i"));
-	uint32 sizeBytes = xe->getIntAttribute(T("s"));
-	uint32 lengthSeconds = xe->getIntAttribute(T("t"));
+	int songID = xe->getIntAttribute(T("i"));
+	int sizeBytes = xe->getIntAttribute(T("s"));
+	int lengthSeconds = xe->getIntAttribute(T("t"));
 
 	String title = xe->getStringAttribute(T("n"));
 	String artist = xe->getStringAttribute(T("a"));

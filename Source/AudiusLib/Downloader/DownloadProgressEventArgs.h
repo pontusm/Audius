@@ -25,23 +25,13 @@ public:
 	{
 	}
 
-	//bool getIsFinished() const { return _isFinished; }
-
-	//int64 getBytesTotal() const { return _bytesTotal; }
-	//int64 getBytesRead() const { return _bytesRead; }
-	//int64 getBufferSize() const { return _bufferSize; }
-
-	//uint32 getSecondsLeft() const { return _secondsLeft; }
-
-	//const void* getBuffer() const { return _buffer; }
-
 public:
-	uint32	secondsLeft;
+	int		secondsLeft;
 	bool	isFinished;
 
-	uint64	bytesTotal;
-	uint32	bytesRead;
-	uint32	bufferSize;
+	int64	bytesTotal;
+	int		bytesRead;
+	int		bufferSize;
 
 	// Pointer to the data buffer that is being filled
 	const void*	buffer;

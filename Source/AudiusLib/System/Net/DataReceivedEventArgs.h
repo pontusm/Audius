@@ -18,7 +18,7 @@ typedef boost::function<void (boost::shared_ptr<DataReceivedEventArgs> args)> Da
 class DataReceivedEventArgs
 {
 public:
-	DataReceivedEventArgs(void* data, uint32 bytesReceived, int64 totalBytes) :
+	DataReceivedEventArgs(void* data, int bytesReceived, int64 totalBytes) :
 	  _data(data),
 	  _bytesReceived(bytesReceived),
 	  _totalBytes(totalBytes),
@@ -30,7 +30,7 @@ public:
 	}
 
 	const void* getData() const { return _data; }
-	uint32 getBytesReceived() const { return _bytesReceived; }
+	int getBytesReceived() const { return _bytesReceived; }
 	int64 getTotalBytes() const { return _totalBytes; }
 
 public:
@@ -39,6 +39,6 @@ public:
 
 private:
 	void*	_data;
-	uint32	_bytesReceived;
+	int		_bytesReceived;
 	int64	_totalBytes;
 };

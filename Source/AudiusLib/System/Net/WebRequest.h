@@ -55,7 +55,7 @@ private:
 		return pThis->receiveDataInternal(ptr, size * nmemb);
 	}
 
-	size_t receiveDataInternal(void* ptr, uint32 receivedBytes);
+	size_t receiveDataInternal(void* ptr, int receivedBytes);
 
 	void handleError();
 
