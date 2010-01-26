@@ -158,6 +158,11 @@ void PlaylistComponent::actionListenerCallback(const String& message)
 	{
 		playlistTable->repaint();
 	}
+	else if(message == PlayerNotifications::serverPlaylistUpdated)
+	{
+		// Need to hide search and display playlist
+		setVisible(true);
+	}
 }
 //[/MiscUserCode]
 

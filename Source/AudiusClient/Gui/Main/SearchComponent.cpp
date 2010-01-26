@@ -231,6 +231,11 @@ void SearchComponent::actionListenerCallback( const String& message )
 	{
 		searchlistTable->repaint();
 	}
+	else if(message == PlayerNotifications::serverPlaylistUpdated)
+	{
+		// Need to hide search and display playlist
+		setVisible(false);
+	}
 }
 //[/MiscUserCode]
 

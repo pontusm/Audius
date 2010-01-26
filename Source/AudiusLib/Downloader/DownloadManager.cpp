@@ -32,10 +32,6 @@ void DownloadManager::abortAll()
 	while(iterator != _downloadStreams.end())
 	{
 		(*iterator)->abort();
-		//if(!(*iterator)->isThreadRunning())
-		//	iterator = _downloadThreads.erase(iterator);
-		//else
-		//	++iterator;
 		iterator = _downloadStreams.erase(iterator);
 	}
 }

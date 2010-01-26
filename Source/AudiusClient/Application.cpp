@@ -179,6 +179,12 @@ public:
 			player->togglePlayPause();
 			return true;
 		case ApplicationCommandIDs::refreshplaylist:
+			if(!AlertWindow::showOkCancelBox(
+				AlertWindow::QuestionIcon,
+				T("Refresh playlist"),
+				T("Are you sure you want to retrieve the playlist from the server?\n(This will empty your current playlist.)")))
+				return true;
+
 			player->refreshPlaylist();
 			AlertWindow::showMessageBox(AlertWindow::InfoIcon, T("Refresh playlist"), T("Your playlist has been refreshed from the server."));
 			return true;
@@ -212,7 +218,7 @@ private:
 	FileLogger*	_logger;
 	MainWindow*	_mainWindow;
 
-	ComponentAnimator*	_animator;
+	//ComponentAnimator*	_animator;
 };
 
 START_JUCE_APPLICATION (AudiusApp)
