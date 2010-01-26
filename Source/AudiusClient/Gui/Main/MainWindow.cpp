@@ -6,6 +6,10 @@
 #include "MainComponent.h"
 //#include "PlayerComponent.h"
 
+#include "../../../AudiusLib/AudiusLib.h"
+
+using namespace boost;
+
 // Globally shared data segment
 #pragma data_seg(".HOOKDATA")
 HHOOK g_hook = NULL;
@@ -56,10 +60,13 @@ MainWindow::MainWindow() :
 	_trayIcon = new AppTrayIconComponent(_appCommandManager);
 #endif
 
+	AudioPlayer::getInstance()->addActionListener(this);
 }
 
 MainWindow::~MainWindow(void)
 {
+	AudioPlayer::getInstance()->removeActionListener(this);
+
 #if JUCE_WIN32 || JUCE_LINUX
 	deleteAndZero (_trayIcon);
 #endif
@@ -120,5 +127,14 @@ void MainWindow::unhookMediaKeys()
 	{
 		UnhookWindowsHookEx(g_hook);
 		g_hook = NULL;
+	}
+}
+
+void MainWindow::actionListenerCallback( const String& message )
+{
+	if(message == PlayerNotifications::newSong)
+	{
+		shared_ptr<SongInfo> songInfo = AudioPlayer::getInstance()->getCurrentSong();
+		setName(songInfo->getTitle() + T(" - ") + songInfo->getArtist());
 	}
 }

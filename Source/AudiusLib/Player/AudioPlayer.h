@@ -38,7 +38,8 @@ public:
 	void goToPrevious();
 	void refreshPlaylist();
 
-	void setCurrentPlaylistPosition(int position);
+	// Sets the current playlist position and optionally starts playing if stopped
+	void setCurrentPlaylistPosition(int position, bool startplay);
 
 	Player::Status getPlayerStatus();
 

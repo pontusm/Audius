@@ -12,7 +12,8 @@
 
 class AppTrayIconComponent;
 
-class MainWindow : public DocumentWindow
+class MainWindow : public DocumentWindow,
+				   public ActionListener
 {
 public:
 	MainWindow();
@@ -26,6 +27,8 @@ public:
 private:
 	bool hookMediaKeys();
 	void unhookMediaKeys();
+
+	virtual void actionListenerCallback(const String& message);
 
 private:
 	AppTrayIconComponent*	_trayIcon;

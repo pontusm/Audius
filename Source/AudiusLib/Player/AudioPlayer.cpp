@@ -219,12 +219,15 @@ void AudioPlayer::setPlaylist( boost::shared_ptr<Playlist> playlist )
 	sendActionMessage(PlayerNotifications::playlistChanged);
 }
 
-void AudioPlayer::setCurrentPlaylistPosition( int position )
+void AudioPlayer::setCurrentPlaylistPosition( int position, bool startplay )
 {
 	if(!vars->playlist->setCurrentPosition(position))
 		return;
 
 	refreshStream();
+
+	if(startplay)
+		startPlaying();
 }
 
 void AudioPlayer::goToNext()

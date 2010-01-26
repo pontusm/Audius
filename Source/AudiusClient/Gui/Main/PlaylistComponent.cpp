@@ -144,7 +144,7 @@ void PlaylistComponent::paintCell( Graphics& g, int rowNumber, int columnId, int
 
 void PlaylistComponent::cellDoubleClicked(int rowNumber, int columnId, const MouseEvent& e)
 {
-	AudioPlayer::getInstance()->setCurrentPlaylistPosition(rowNumber);
+	AudioPlayer::getInstance()->setCurrentPlaylistPosition(rowNumber, true);
 }
 
 void PlaylistComponent::actionListenerCallback(const String& message)
