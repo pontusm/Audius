@@ -66,7 +66,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libcurld_imp.lib libmpg123.lib"
+				AdditionalDependencies="libcurld_imp.lib libmpg123.lib libopenspotify.lib"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)Dependencies\libcurl\lib\DLL-$(ConfigurationName)&quot;;&quot;$(SolutionDir)Libs\$(ConfigurationName)&quot;;&quot;$(SolutionDir)Output\$(ConfigurationName)&quot;"
 				IgnoreDefaultLibraryNames="LIBCMTD"
 			/>
@@ -202,7 +202,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="libcurl_imp.lib libmpg123.lib"
+				AdditionalDependencies="libcurl_imp.lib libmpg123.lib libopenspotify.lib"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)Dependencies\libcurl\lib\DLL-$(ConfigurationName)&quot;;&quot;$(SolutionDir)Libs\$(ConfigurationName)&quot;;&quot;$(SolutionDir)Output\$(ConfigurationName)&quot;"
 			/>
 			<Tool
