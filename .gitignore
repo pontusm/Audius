@@ -26,6 +26,7 @@ Thumbs.db
 obj/
 #[Rr]elease*/
 _ReSharper*/
+_Temp/
 [Tt]est[Rr]esult*
 /Source/AudiusTest/credentials.xml
 BuildLogs/
