@@ -160,7 +160,7 @@ public:
 					jassert(samps <= numToRead);
 
 					// Fill reservoir (TODO: Optimize this)
-					for (int i = jmin (numChannels, _reservoir.getNumChannels()); --i >= 0;)
+					for (int i = jmin ((int)numChannels, (int)_reservoir.getNumChannels()); --i >= 0;)
 					{
 						float* buffer = _reservoir.getSampleData(i, offset);
 						short* src = ((short*)_samplebuffer) + i;
