@@ -5,13 +5,14 @@
 
 using namespace boost;
 
-ServiceManager::ServiceManager(void)
-: _clodderService(shared_ptr<ClodderService>( new ClodderService() ))
+ServiceManager::ServiceManager(void) :
+	_clodderService(shared_ptr<ClodderService>( new ClodderService() ))
 {
 }
 
 ServiceManager::~ServiceManager(void)
 {
+	clearSingletonInstance();
 }
 
 // Singleton impl

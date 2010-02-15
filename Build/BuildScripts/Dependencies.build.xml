@@ -34,9 +34,11 @@
 			<fileset basedir="${directory::get-current-directory()}\..\Dependencies\${Configuration}\">
 				<include name="*.dll"/>
 				<include name="*.lib"/>
+				<include name="*.pdb" if="${Configuration=='Debug'}" />
 			</fileset>
 		</move>
 		<delete dir="${directory::get-current-directory()}\..\Dependencies\${Configuration}"/>
+
 	</target>
 
 	<!--

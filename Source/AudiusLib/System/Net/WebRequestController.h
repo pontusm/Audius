@@ -46,6 +46,13 @@ public:
 		//DBG(T("WebRequestController shutdown"))
 	}
 
+	void shutdown()
+	{
+		signalThreadShouldExit();
+		pendingRequest.signal();
+		waitForThreadToExit(5000);
+	}
+
 	void addRequest(WebRequest* request)
 	{
 		{	// Enter critical section

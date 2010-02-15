@@ -116,7 +116,10 @@ bool MainWindow::hookMediaKeys()
 {
 	g_hook = SetWindowsHookEx( WH_KEYBOARD_LL, LowLevelKeyboardProc, GetModuleHandle(NULL), NULL);
 	if(!g_hook)
+	{
+		Log::write(T("Failed to hook media keys."));
 		return false;
+	}
 
 	return true;
 }

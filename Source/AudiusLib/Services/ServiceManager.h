@@ -10,7 +10,7 @@
 
 #include "juce.h"
 
-//class ClodderService;
+#include "SpotifyService.h"
 #include "ClodderService.h"
 
 class ServiceManager : public DeletedAtShutdown
