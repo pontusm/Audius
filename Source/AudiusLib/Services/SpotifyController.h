@@ -162,7 +162,7 @@ private:
 
 		SpotifyController* self = static_cast<SpotifyController*>(sp_session_userdata(session));
 		self->_user = sp_session_user(session);
-		char* my_name = (sp_user_is_loaded(self->_user) ? sp_user_display_name(self->_user) : sp_user_canonical_name(self->_user));
+		const char* my_name = (sp_user_is_loaded(self->_user) ? sp_user_display_name(self->_user) : sp_user_canonical_name(self->_user));
 
 		Log::write(T("Logged in to Spotify as user ") + String(my_name) );
 
