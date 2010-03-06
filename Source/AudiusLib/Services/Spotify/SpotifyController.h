@@ -21,7 +21,7 @@
 #include "SpotifyService.h"
 #include "SpotifyEventArgs.h"
 
-#include "../System/Exception.h"
+#include "../../System/Exception.h"
 
 class SpotifyController : public Thread
 {
@@ -29,14 +29,14 @@ public:
 	SpotifyController() :
 		Thread(T("SpotifyController")),
 		_nextTimeout(5000),
-		_session(NULL),
-		_user(NULL)
+		_session(NULL)
 	{
 	}
 	~SpotifyController()
 	{
-		if(_session)
-			sp_session_release(_session);
+		// Release is not currently working...
+		//if(_session)
+		//	sp_session_release(_session);
 	}
 
 	// Thread entry point
@@ -58,6 +58,13 @@ public:
 				Log::write(T("Spotify controller thread exception: ") + ex.getFullMessage());
 		}
 		DBG("Spotify controller shutdown");
+	}
+
+	bool isLoggedIn()
+	{
+		if(!_session)
+			return false;
+		return sp_session_user(_session) != NULL;
 	}
 
 	// Initialize the controller
@@ -130,6 +137,17 @@ public:
 		return true;
 	}
 
+	void search(const String & query, SpotifyEventDelegate callback)
+	{
+		// TODO: Create search operation object (supply it with session+callback)
+		//sp_search* search = sp_search_create(_session,
+		//										query,
+		//										0, 10,
+		//										0, 5,
+		//										0, 3,
+		//										&search_complete, NULL);
+	}
+
 	void shutdown()
 	{
 		// Ensure graceful exit
@@ -152,29 +170,32 @@ private:
 	static void SP_CALLCONV connection_error(sp_session *session, sp_error error)
 	{
 		DBG("connection_error");
+		Log::write(T("Spotify connection failed. ") + String(sp_error_message(error)) );
 	}
 
 	static void SP_CALLCONV logged_in(sp_session *session, sp_error error) {
 		if (SP_ERROR_OK != error) {
-			Log::write(T("Failed to log in to Spotify. ") + String(sp_error_message(error)) );
+			Log::write(T("Spotify login failed. ") + String(sp_error_message(error)) );
 			return;
 		}
 
 		SpotifyController* self = static_cast<SpotifyController*>(sp_session_userdata(session));
-		self->_user = sp_session_user(session);
-		const char* my_name = (sp_user_is_loaded(self->_user) ? sp_user_display_name(self->_user) : sp_user_canonical_name(self->_user));
+		sp_user* user = sp_session_user(session);
+		const char* my_name = (sp_user_is_loaded(user) ? sp_user_display_name(user) : sp_user_canonical_name(user));
 
 		Log::write(T("Logged in to Spotify as user ") + String(my_name) );
 
-		self->_loginCallback();
+		if(self->_loginCallback)
+			self->_loginCallback();
 	}
 
 	static void SP_CALLCONV logged_out(sp_session *session)
 	{
 		DBG("logged_out");
+		jassert(sp_session_user(session) == NULL);
 		SpotifyController* self = static_cast<SpotifyController*>(sp_session_userdata(session));
-		self->_user = NULL;
-		self->_logoutCallback();
+		if(self->_logoutCallback)
+			self->_logoutCallback();
 	}
 
 
@@ -189,6 +210,7 @@ private:
 	static void SP_CALLCONV log_message(sp_session *session, const char *data)
 	{
 		DBG("log_message");
+		Log::write(T("Spotify log: ") + String(data) );
 	}
 
 
@@ -201,12 +223,14 @@ private:
 	static void SP_CALLCONV message_to_user(sp_session *session, const char *data)
 	{
 		DBG("message_to_user");
+		Log::write(T("Spotify user message: ") + String(data) );
 	}
 
 
 	static void SP_CALLCONV play_token_lost(sp_session *session)
 	{
 		DBG("play_token_lost");
+		Log::write(T("Spotify play token lost."));
 	}
 
 private:
@@ -214,7 +238,6 @@ private:
 	CriticalSection	_apiLock;
 
 	sp_session*	_session;
-	sp_user*		_user;
 
 	int	_nextTimeout;
 

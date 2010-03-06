@@ -399,7 +399,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Services\SpotifyService.cpp"
+				RelativePath=".\Services\Spotify\SpotifyService.cpp"
 				>
 			</File>
 			<File
@@ -521,19 +521,19 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Services\SpotifyController.h"
+				RelativePath=".\Services\Spotify\SpotifyController.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Services\SpotifyEventArgs.h"
+				RelativePath=".\Services\Spotify\SpotifyEventArgs.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Services\SpotifyKey.h"
+				RelativePath=".\Services\Spotify\SpotifyKey.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Services\SpotifyService.h"
+				RelativePath=".\Services\Spotify\SpotifyService.h"
 				>
 			</File>
 			<File

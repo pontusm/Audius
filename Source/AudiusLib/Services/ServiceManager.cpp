@@ -6,7 +6,8 @@
 using namespace boost;
 
 ServiceManager::ServiceManager(void) :
-	_clodderService(shared_ptr<ClodderService>( new ClodderService() ))
+	_clodderService(shared_ptr<ClodderService>( new ClodderService() )),
+	_spotifyService(shared_ptr<SpotifyService>( new SpotifyService() ))
 {
 }
 
