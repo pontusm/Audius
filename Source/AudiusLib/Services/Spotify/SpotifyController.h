@@ -87,8 +87,8 @@ public:
 
 		// Setup config
 		config.api_version = SPOTIFY_API_VERSION;
-		config.cache_location = "tmp";
-		config.settings_location = "tmp";
+		config.cache_location = "_Temp";
+		config.settings_location = "_Temp";
 		config.application_key = g_spotifykey;
 		config.application_key_size = g_spotifykey_size;
 		config.user_agent = "Audius";
@@ -192,7 +192,6 @@ private:
 	static void SP_CALLCONV logged_out(sp_session *session)
 	{
 		DBG("logged_out");
-		jassert(sp_session_user(session) == NULL);
 		SpotifyController* self = static_cast<SpotifyController*>(sp_session_userdata(session));
 		if(self->_logoutCallback)
 			self->_logoutCallback();
