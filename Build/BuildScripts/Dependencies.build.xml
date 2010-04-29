@@ -39,6 +39,14 @@
 		</move>
 		<delete dir="${directory::get-current-directory()}\..\Dependencies\${Configuration}"/>
 
+		<!-- Move libspotify -->
+		<copy todir="${OutputDir}\${Configuration}" overwrite="true">
+			<fileset basedir="${directory::get-current-directory()}\..\Dependencies\libspotify\lib\">
+				<include name="*.dll"/>
+				<include name="*.lib"/>
+			</fileset>
+		</copy>
+		
 	</target>
 
 	<!--

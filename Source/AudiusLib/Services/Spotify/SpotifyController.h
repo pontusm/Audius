@@ -15,7 +15,7 @@
 #ifndef __bool_true_false_are_defined
 #define __bool_true_false_are_defined
 #endif
-#include "openspotify/include/spotify/api.h"
+#include "libspotify/include/libspotify/api.h"
 
 #include "SpotifyKey.h"
 #include "SpotifyService.h"
