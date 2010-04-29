@@ -4,6 +4,3 @@
 [submodule "Dependencies/juce"]
 	path = Dependencies/juce
 	url = git://juce.git.sourceforge.net/gitroot/juce/juce
-[submodule "Dependencies/openspotify"]
-	path = Dependencies/openspotify
-	url = git://github.com/noahwilliamsson/openspotify.git
