@@ -28,7 +28,7 @@ public:
 
 	void downloadStringCallback(String * str, shared_ptr<DataReceivedEventArgs> args)
 	{
-		(*str) += String::fromUTF8((uint8*)args->getData(), args->getBytesReceived());
+		(*str) += String::fromUTF8((const char*)args->getData(), args->getBytesReceived());
 	}
 
 	void downloadStreamCallback(OutputStream * stream, shared_ptr<DataReceivedEventArgs> args)

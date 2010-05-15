@@ -112,7 +112,7 @@ public:
 		_loginCallback = callback;
 
 		const ScopedLock l(_apiLock);
-		sp_error error = sp_session_login(_session, userName, password);
+		sp_error error = sp_session_login(_session, userName.toCString(), password.toCString());
 		if(error != SP_ERROR_OK)
 		{
 			Log::write(T("Spotify login failed. ") + String(sp_error_message(error)) );

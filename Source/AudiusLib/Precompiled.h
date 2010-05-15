@@ -18,8 +18,8 @@
 #include <list>
 
 #include "juce_AppConfig.h"
-#include "../../Dependencies/juce/src/juce_amalgamated_template.h"
-//#include "../../Dependencies/juce/juce_amalgamated.h"
+//#include "../../Dependencies/juce/amalgamation/juce_amalgamated_template.h"
+#include "../../Dependencies/juce/juce_amalgamated.h"
 //#include "juce.h"
 
 #include "System/Log.h"

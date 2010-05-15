@@ -222,7 +222,7 @@ public:
 };
 
 Mp3AudioFormat::Mp3AudioFormat()
-	: AudioFormat(mp3FormatName, (const tchar**) mp3Extensions)
+	: AudioFormat(mp3FormatName, StringArray(mp3Extensions))
 {
 }
 

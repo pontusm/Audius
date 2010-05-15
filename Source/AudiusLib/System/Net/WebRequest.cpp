@@ -96,7 +96,7 @@ void WebRequest::postAsync( const StringPairArray & parameters, DataReceivedDele
 
 	// Determine utf8 length and then copy to buffer
 	int bufflen = strlen( postdata.toUTF8() ) + 1;
-	postdataBuffer = new uint8[bufflen];
+	postdataBuffer = new char[bufflen];
 	postdata.copyToUTF8(postdataBuffer, bufflen);
 
 	context->receiveCallback = receiveCallback;
@@ -170,7 +170,7 @@ void WebRequest::setComplete()
 
 void WebRequest::setupRequest()
 {
-	if( curl_easy_setopt(context->handle, CURLOPT_URL, (const char*)url) != CURLE_OK)
+	if( curl_easy_setopt(context->handle, CURLOPT_URL, url.toCString()) != CURLE_OK)
 		handleError();
 
 	// Follow redirects
@@ -205,7 +205,7 @@ void WebRequest::setupRequest()
 		// Determine utf8 length and then copy to buffer
 		int bufflen = cookielist.length();
 		cookieBuffer = new char[bufflen + 1];
-		cookielist.copyToBuffer(cookieBuffer, bufflen);
+		cookielist.copyToCString(cookieBuffer, bufflen);
 
 		if( curl_easy_setopt(context->handle, CURLOPT_COOKIE, cookieBuffer) != CURLE_OK)
 			handleError();

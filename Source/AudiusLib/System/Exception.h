@@ -44,7 +44,7 @@ public:
 
 	virtual const char* what() const throw()
 	{
-		return getMessage();
+		return getMessage().toCString();
 	}
 
 protected:

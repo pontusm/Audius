@@ -72,7 +72,7 @@ private:
 	String	url;
 	int64	totalBytes;
 
-	uint8*	postdataBuffer;
+	char*	postdataBuffer;
 	char*	cookieBuffer;
 
 	StringPairArray	cookies;

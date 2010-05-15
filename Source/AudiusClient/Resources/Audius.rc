@@ -73,7 +73,6 @@ BEGIN
             VALUE "FileVersion", "0, 5, 3, 0"
             VALUE "InternalName", "Audius"
             VALUE "LegalCopyright", "Copyright (C) 2009-2010"
-            VALUE "OriginalFilename", "Audius.rc"
             VALUE "ProductName", "Audius"
             VALUE "ProductVersion", "0, 5, 3, 0"
         END
