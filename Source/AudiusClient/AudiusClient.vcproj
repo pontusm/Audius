@@ -252,7 +252,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="rem copy /Y $(SolutionDir)Dependencies\libcurl\lib\DLL-$(ConfigurationName)\*.dll $(TargetDir)&#x0D;&#x0A;$(SolutionDir)Tools\Upx\Upx.exe --force $(TargetPath)&#x0D;&#x0A;"
+				CommandLine="rem copy /Y $(TargetPath) $(TargetDir)$(TargetName)_unpacked.exe&#x0D;&#x0A;rem $(SolutionDir)Tools\Upx\Upx.exe --force $(TargetPath)&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
