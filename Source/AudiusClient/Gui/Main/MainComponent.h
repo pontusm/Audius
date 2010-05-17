@@ -85,7 +85,7 @@ private:
 			ids.add(search);
 		}
 
-		ToolbarItemComponent* createItem(const int itemId)
+		ToolbarItemComponent* createItem(int itemId)
 		{
 			switch(itemId)
 			{

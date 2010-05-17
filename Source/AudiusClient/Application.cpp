@@ -27,21 +27,26 @@ public:
 
 	void initialise( const String& commandLine )
 	{
-		// Initialize logger
-		String appName(getApplicationName());
-		_logger = FileLogger::createDefaultAppLogger(appName, appName + T("Log.txt"), appName + T(" ") + getApplicationVersion());
-		Logger::setCurrentLogger(_logger);
-
 		try
 		{
+			// Initialize logger
+			String appName(getApplicationName());
+			_logger = FileLogger::createDefaultAppLogger(appName, appName + T("Log.txt"), appName + T(" ") + getApplicationVersion());
+			Logger::setCurrentLogger(_logger);
+
 			Log::write(T("Initializing..."));
 
+			// Init config
 			ApplicationProperties::getInstance()->setStorageParameters(getApplicationName(), T("cfg"), String::empty, 3000, PropertiesFile::storeAsCompressedBinary);
 
 			// Create music player
 			AudioPlayer::getInstance()->initialise();
 
-			checkLogin();
+			// *** TEMP TEST - REMOVE!!! ******************************
+			//if(!ServiceManager::getInstance()->getSpotify()->login(T("xxxx"), T("xxxx"), 5000))
+			//	Log::write(T("Could not login to Spotify!"));
+
+			//checkLogin();
 
 			// Initialize main window
 			_mainWindow = new MainWindow();
@@ -56,7 +61,8 @@ public:
 		}
 		catch(Exception& ex)
 		{
-			Log::write(ex.getFullMessage());
+			if(_logger != NULL)
+				Log::write(ex.getFullMessage());
 			quit();
 		}
 	}
@@ -67,6 +73,11 @@ public:
 
 		DownloadManager::getInstance()->shutdown();
 		AudioPlayer::getInstance()->shutdown();
+
+		// *** TEMP TEST - REMOVE!!! ******************************
+		//ServiceManager::getInstance()->getSpotify()->logout();
+
+		ServiceManager::getInstance()->shutdown();
 
 		// Release stuff
 		//deleteAndZero(_animator);
@@ -96,7 +107,7 @@ public:
 	{
 	}
 
-	virtual void unhandledException(const std::exception* e, const String& sourceFilename, const int lineNumber)
+	virtual void unhandledException(const std::exception* e, const String& sourceFilename, int lineNumber)
 	{
 		Log::write(T("Fatal error!"));
 
@@ -119,7 +130,7 @@ public:
 		JUCEApplication::getAllCommands(commands);
 	}
 
-	void getCommandInfo(const CommandID commandID, ApplicationCommandInfo& result)
+	void getCommandInfo(CommandID commandID, ApplicationCommandInfo& result)
 	{
 		Player::Status status = AudioPlayer::getInstance()->getPlayerStatus();
 		switch(commandID)
