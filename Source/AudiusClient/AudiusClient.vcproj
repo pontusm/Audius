@@ -351,6 +351,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\Core\AppContext.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Application.cpp"
 				>
 			</File>
@@ -360,6 +364,10 @@
 			</File>
 			<File
 				RelativePath=".\buildresources.bat"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\CommandManager.cpp"
 				>
 			</File>
 			<File
@@ -453,11 +461,19 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\ApplicationCommands.h"
+				RelativePath=".\Core\AppContext.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\ApplicationCommands.h"
 				>
 			</File>
 			<File
 				RelativePath=".\Gui\AppTrayIconComponent.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Core\CommandManager.h"
 				>
 			</File>
 			<File

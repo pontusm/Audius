@@ -1,7 +1,7 @@
 #include "Precompiled.h"
 #include "MainWindow.h"
 
-#include "../../ApplicationCommands.h"
+#include "../../Core/ApplicationCommands.h"
 #include "../AppTrayIconComponent.h"
 #include "MainComponent.h"
 //#include "PlayerComponent.h"
