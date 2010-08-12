@@ -47,13 +47,6 @@ public:
 			//File skinpath = File::getCurrentWorkingDirectory().getChildFile("Skins/Default/");
 			//SkinManager::getInstance()->initialise( skinpath );
 
-			// Create music player
-			AudioPlayer::getInstance()->initialise();
-
-			// *** TEMP TEST - REMOVE!!! ******************************
-			//if(!ServiceManager::getInstance()->getSpotify()->login(T("xxxx"), T("xxxx"), 5000))
-			//	Log::write(T("Could not login to Spotify!"));
-
 			//checkLogin();
 
 			// Initialize main window
@@ -81,14 +74,6 @@ public:
 
 		if(_mainWindow)
 			_mainWindow->setVisible(false);
-
-		DownloadManager::getInstance()->shutdown();
-		AudioPlayer::getInstance()->shutdown();
-
-		// *** TEMP TEST - REMOVE!!! ******************************
-		//ServiceManager::getInstance()->getSpotify()->logout();
-
-		ServiceManager::getInstance()->shutdown();
 
 		// Release stuff
 		//deleteAndZero(_animator);

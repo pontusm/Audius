@@ -27,4 +27,5 @@ public:
 	// Public fields
 public:
 	CommandManager* commandManager;
+
 };
