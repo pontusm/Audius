@@ -1,7 +1,7 @@
 #include "Precompiled.h"
 #include "AppTrayIconComponent.h"
 
-#include "../ApplicationCommands.h"
+#include "../Core/ApplicationCommands.h"
 
 #include "../Resources/ResourceFiles.h"
 

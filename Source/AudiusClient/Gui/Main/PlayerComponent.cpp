@@ -21,7 +21,7 @@
 
 //[Headers] You can add your own extra header files here...
 #include "Precompiled.h"
-#include "../../ApplicationCommands.h"
+#include "../../Core/ApplicationCommands.h"
 
 #include "../../../AudiusLib/AudiusLib.h"
 //[/Headers]
