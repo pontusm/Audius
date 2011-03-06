@@ -95,7 +95,7 @@ public:
 		config.callbacks = &callbacks;
 		config.userdata = this;
 
-		sp_error error = sp_session_init(&config, &_session);
+		sp_error error = sp_session_create(&config, &_session);
 		if(error != SP_ERROR_OK)
 		{
 			Log::write(T("Failed to initialize Spotify session. ") + String(sp_error_message(error)) );
@@ -106,35 +106,23 @@ public:
 	}
 
 	// Login to Spotify
-	bool login(const String & userName, const String & password, SpotifyCallbackDelegate callback)
+	void login(const String & userName, const String & password, SpotifyCallbackDelegate callback)
 	{
 		assert(callback != NULL);
 		_loginCallback = callback;
 
 		const ScopedLock l(_apiLock);
-		sp_error error = sp_session_login(_session, userName.toCString(), password.toCString());
-		if(error != SP_ERROR_OK)
-		{
-			Log::write(T("Spotify login failed. ") + String(sp_error_message(error)) );
-			return false;
-		}
-		return true;
+		sp_session_login(_session, userName.toCString(), password.toCString());
 	}
 
 	// Logout from Spotify
-	bool logout(SpotifyCallbackDelegate callback)
+	void logout(SpotifyCallbackDelegate callback)
 	{
 		assert(callback != NULL);
 		_logoutCallback = callback;
 
 		const ScopedLock l(_apiLock);
-		sp_error error = sp_session_logout(_session);
-		if(error != SP_ERROR_OK)
-		{
-			Log::write(T("Spotify logout failed. ") + String(sp_error_message(error)) );
-			return false;
-		}
-		return true;
+		sp_session_logout(_session);
 	}
 
 	void search(const String & query, SpotifyEventDelegate callback)
