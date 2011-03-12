@@ -24,6 +24,10 @@
 		<move todir="${OutputDir}\${Configuration}" overwrite="true">
 			<fileset basedir="${directory::get-current-directory()}\..\bin\${Configuration}\bin\">
 				<include name="*.dll"/>
+			</fileset>
+		</move>
+		<move todir="${OutputDir}\${Configuration}" overwrite="true">
+			<fileset basedir="${directory::get-current-directory()}\..\Dependencies\libcurl\lib\DLL-${Configuration}\">
 				<include name="*.lib"/>
 			</fileset>
 		</move>
