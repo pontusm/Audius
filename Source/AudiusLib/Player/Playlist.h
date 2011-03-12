@@ -25,7 +25,7 @@ public:
 	}
 
 	// Add an entry to the play list
-	void add(boost::shared_ptr<PlaylistEntry> entry)
+	void add(std::shared_ptr<PlaylistEntry> entry)
 	{
 		const ScopedLock l(_lock);
 		_entries.push_back(entry);
@@ -66,13 +66,13 @@ public:
 	}
 
 	// Inserts the entry at a certain position in the play list
-	void insert(uint32 position, boost::shared_ptr<PlaylistEntry> entry)
+	void insert(uint32 position, std::shared_ptr<PlaylistEntry> entry)
 	{
 		const ScopedLock l(_lock);
 
 		jassert(position >= 0 && position <= _entries.size());
 
-		std::vector< boost::shared_ptr<PlaylistEntry> >::iterator it = _entries.begin() + position;
+		std::vector< std::shared_ptr<PlaylistEntry> >::iterator it = _entries.begin() + position;
 		_entries.insert(it, entry);
 
 		// Adjust current play position
@@ -81,11 +81,11 @@ public:
 	}
 
 	// Gets the current play list entry
-	boost::shared_ptr<PlaylistEntry> getCurrentEntry()
+	std::shared_ptr<PlaylistEntry> getCurrentEntry()
 	{
 		const ScopedLock l(_lock);
 		if(_currentPosition >= _entries.size())
-			return boost::shared_ptr<PlaylistEntry>();
+			return std::shared_ptr<PlaylistEntry>();
 		return _entries[_currentPosition];
 	}
 
@@ -106,7 +106,7 @@ public:
 		return true;
 	}
 
-	boost::shared_ptr<PlaylistEntry> getEntry(uint32 position)
+	std::shared_ptr<PlaylistEntry> getEntry(uint32 position)
 	{
 		const ScopedLock l(_lock);
 		jassert(position >= 0 && position < _entries.size());
@@ -114,7 +114,7 @@ public:
 	}
 
 private:
-	std::vector< boost::shared_ptr<PlaylistEntry> >	_entries;
+	std::vector< std::shared_ptr<PlaylistEntry> >	_entries;
 
 	uint32	_currentPosition;
 

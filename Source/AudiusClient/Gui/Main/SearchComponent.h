@@ -81,7 +81,7 @@ private:
 	Font _font;
 	Font _boldfont;
 
-	std::vector< boost::shared_ptr<SongInfo> > _searchResult;
+	std::vector< std::shared_ptr<SongInfo> > _searchResult;
 
 	void doSearch();
     //[/UserVariables]

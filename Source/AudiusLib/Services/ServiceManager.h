@@ -18,8 +18,8 @@ class ServiceManager : public DeletedAtShutdown
 public:
 	juce_DeclareSingleton(ServiceManager, true)
 
-	boost::shared_ptr<ClodderService> getClodder() { return _clodderService; }
-	boost::shared_ptr<SpotifyService> getSpotify() { return _spotifyService; }
+	std::shared_ptr<ClodderService> getClodder() { return _clodderService; }
+	std::shared_ptr<SpotifyService> getSpotify() { return _spotifyService; }
 
 	bool isLoggedIn()
 	{
@@ -35,6 +35,6 @@ private:
 	ServiceManager(void);
 	~ServiceManager(void);
 
-	boost::shared_ptr<ClodderService> _clodderService;
-	boost::shared_ptr<SpotifyService> _spotifyService;
+	std::shared_ptr<ClodderService> _clodderService;
+	std::shared_ptr<SpotifyService> _spotifyService;
 };

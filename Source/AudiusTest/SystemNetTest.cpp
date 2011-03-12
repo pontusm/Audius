@@ -3,8 +3,6 @@
 
 #include "AudiusLib/AudiusLib.h"
 
-using namespace boost;
-
 BEGIN_TEST(SystemNet_WebClient_CanDownloadString)
 {
 	WebClient client;
@@ -58,7 +56,7 @@ BEGIN_TEST(SystemNet_WebRequest_CanDownloadChunks)
 END_TEST
 
 int bytesReceived = 0;
-void downloadAsync(shared_ptr<DataReceivedEventArgs> args)
+void downloadAsync(std::shared_ptr<DataReceivedEventArgs> args)
 {
 	bytesReceived += args->getBytesReceived();
 }
@@ -89,7 +87,7 @@ BEGIN_TEST(SystemNet_WebRequest_CanDownloadAsync)
 }
 END_TEST
 
-void pausingCallback(shared_ptr<DataReceivedEventArgs> args)
+void pausingCallback(std::shared_ptr<DataReceivedEventArgs> args)
 {
 	Thread::sleep(500);
 }

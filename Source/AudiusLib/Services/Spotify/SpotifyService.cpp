@@ -3,8 +3,6 @@
 
 #include "SpotifyController.h"
 
-using namespace boost;
-
 SpotifyService::SpotifyService(void) :
 	_controller(new SpotifyController() )
 {

@@ -13,7 +13,7 @@
 class DataReceivedEventArgs;
 
 // Progress delegate
-typedef boost::function<void (boost::shared_ptr<DataReceivedEventArgs> args)> DataReceivedDelegate;
+typedef boost::function<void (std::shared_ptr<DataReceivedEventArgs> args)> DataReceivedDelegate;
 
 class DataReceivedEventArgs
 {

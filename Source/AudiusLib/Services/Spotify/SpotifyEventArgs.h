@@ -14,7 +14,7 @@ class SpotifyEventArgs;
 
 // Callback delegates
 typedef boost::function<void ()> SpotifyCallbackDelegate;
-typedef boost::function<void (boost::shared_ptr<SpotifyEventArgs> args)> SpotifyEventDelegate;
+typedef boost::function<void (std::shared_ptr<SpotifyEventArgs> args)> SpotifyEventDelegate;
 
 class SpotifyEventArgs
 {

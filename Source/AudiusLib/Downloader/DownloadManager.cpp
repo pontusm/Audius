@@ -4,9 +4,6 @@
 #include "DownloadStream.h"
 #include "DownloadProgressEventArgs.h"
 
-using namespace std;
-using namespace boost;
-
 DownloadManager::DownloadManager()
 {
 }
@@ -28,7 +25,7 @@ DownloadStream* DownloadManager::downloadAsync(const String& url)
 void DownloadManager::abortAll()
 {
 	// Abort all downloads
-	list< DownloadStream* >::iterator iterator = _downloadStreams.begin();
+	std::list< DownloadStream* >::iterator iterator = _downloadStreams.begin();
 	while(iterator != _downloadStreams.end())
 	{
 		(*iterator)->abort();

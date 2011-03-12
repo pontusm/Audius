@@ -21,8 +21,6 @@
 
 using namespace libmpg123Namespace;
 
-using namespace boost;
-
 // ********************
 // *** Private data ***
 // ********************
@@ -34,7 +32,7 @@ private:
 
 public:
 	impl() :
-		playlist(shared_ptr<Playlist>( new Playlist() )),
+		playlist(std::shared_ptr<Playlist>( new Playlist() )),
 		streamingAudioSource(NULL)
 	{
 	}
@@ -43,8 +41,8 @@ public:
 		deleteAndZero(streamingAudioSource);
 	}
 
-	shared_ptr<Playlist>	playlist;
-	shared_ptr<SongInfo>	currentSong;
+	std::shared_ptr<Playlist>	playlist;
+	std::shared_ptr<SongInfo>	currentSong;
 
 	AudioDeviceManager		deviceManager;
 	AudioSourcePlayer		sourcePlayer;
@@ -179,7 +177,7 @@ void AudioPlayer::setCurrentSongPosition( double position )
 
 double AudioPlayer::getCurrentSongPositionPercent()
 {
-	shared_ptr<SongInfo> songInfo = getCurrentSong();
+	std::shared_ptr<SongInfo> songInfo = getCurrentSong();
 	int seconds = songInfo->getLengthSeconds();
 	if(seconds <= 0)
 		return 0;
@@ -191,7 +189,7 @@ void AudioPlayer::setCurrentSongPositionPercent( double percent )
 {
 	jassert(percent >= 0 && percent <= 1);
 
-	shared_ptr<SongInfo> songInfo = getCurrentSong();
+	std::shared_ptr<SongInfo> songInfo = getCurrentSong();
 	int seconds = songInfo->getLengthSeconds();
 	if(seconds <= 0)
 		return;
@@ -201,18 +199,18 @@ void AudioPlayer::setCurrentSongPositionPercent( double percent )
 
 // *** Playlist **************************************************
 
-shared_ptr<SongInfo> AudioPlayer::getCurrentSong()
+std::shared_ptr<SongInfo> AudioPlayer::getCurrentSong()
 {
 	return vars->currentSong;
 }
 
-shared_ptr<Playlist> AudioPlayer::getPlaylist()
+std::shared_ptr<Playlist> AudioPlayer::getPlaylist()
 {
 	return vars->playlist;
 }
 
 
-void AudioPlayer::setPlaylist( boost::shared_ptr<Playlist> playlist )
+void AudioPlayer::setPlaylist( std::shared_ptr<Playlist> playlist )
 {
 	vars->playlist = playlist;
 	refreshStream();
@@ -270,7 +268,7 @@ void AudioPlayer::refreshStream()
 	}
 
 	// Update current song from playlist
-	shared_ptr<PlaylistEntry> entry = vars->playlist->getCurrentEntry();
+	std::shared_ptr<PlaylistEntry> entry = vars->playlist->getCurrentEntry();
 	if(!entry)
 		return;
 	vars->currentSong = entry->getSongInfo();

@@ -5,8 +5,6 @@
 #include "../System/Net/WebClient.h"
 #include "../System/Net/HttpUtility.h"
 
-using namespace boost;
-
 ClodderService::ClodderService(void) :
 	_baseUrl(T("http://clodder.com/"))
 {

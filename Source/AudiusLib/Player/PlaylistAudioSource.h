@@ -26,15 +26,15 @@ public:
 	void prepareToPlay(int samplesPerBlockExpected, double sampleRate);
 	void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill);
 
-	void setCurrentPlaylist(boost::shared_ptr<Playlist> playlist)
+	void setCurrentPlaylist(std::shared_ptr<Playlist> playlist)
 	{
 		_playlist = playlist;
 	}
 
 private:
-	void receiveData(boost::shared_ptr<DownloadProgressEventArgs> args);
+	void receiveData(std::shared_ptr<DownloadProgressEventArgs> args);
 
 private:
-	boost::shared_ptr<Playlist>		_playlist;
-	boost::shared_ptr<WebRequest>	_request;
+	std::shared_ptr<Playlist>		_playlist;
+	std::shared_ptr<WebRequest>	_request;
 };

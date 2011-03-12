@@ -15,7 +15,7 @@ class SongInfo;
 class PlaylistEntry
 {
 public:
-	PlaylistEntry(boost::shared_ptr<SongInfo> songInfo, const String& url) :
+	PlaylistEntry(std::shared_ptr<SongInfo> songInfo, const String& url) :
 	  _songInfo(songInfo),
 	  _url(url)
 	{
@@ -23,7 +23,7 @@ public:
 	~PlaylistEntry(void)
 	{}
 
-	boost::shared_ptr<SongInfo> getSongInfo()
+	std::shared_ptr<SongInfo> getSongInfo()
 	{
 		return _songInfo;
 	}
@@ -36,6 +36,6 @@ public:
 private:
 	String	_url;
 
-	boost::shared_ptr<SongInfo>	_songInfo;
+	std::shared_ptr<SongInfo>	_songInfo;
 
 };

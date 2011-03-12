@@ -48,10 +48,10 @@ public:
 	void setCurrentSongPosition(double position);
 	void setCurrentSongPositionPercent(double percent);
 
-	boost::shared_ptr<Playlist> getPlaylist();
-	boost::shared_ptr<SongInfo> getCurrentSong();
+	std::shared_ptr<Playlist> getPlaylist();
+	std::shared_ptr<SongInfo> getCurrentSong();
 
-	void setPlaylist(boost::shared_ptr<Playlist> playlist);
+	void setPlaylist(std::shared_ptr<Playlist> playlist);
 
 private:
 	void changeListenerCallback(void* objectThatHasChanged);
