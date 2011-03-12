@@ -7,8 +7,6 @@
 
 #include <curl/curl.h>
 
-using namespace boost;
-
 // ******************************
 // *** Private implementation ***
 // ******************************
@@ -26,12 +24,12 @@ public:
 	{
 	}
 
-	void downloadStringCallback(String * str, shared_ptr<DataReceivedEventArgs> args)
+	void downloadStringCallback(String * str, std::shared_ptr<DataReceivedEventArgs> args)
 	{
 		(*str) += String::fromUTF8((const char*)args->getData(), args->getBytesReceived());
 	}
 
-	void downloadStreamCallback(OutputStream * stream, shared_ptr<DataReceivedEventArgs> args)
+	void downloadStreamCallback(OutputStream * stream, std::shared_ptr<DataReceivedEventArgs> args)
 	{
 		// Write data to output stream
 		if(!stream->write(args->getData(), args->getBytesReceived()))
@@ -39,7 +37,7 @@ public:
 	}
 
 public:
-	shared_ptr<WebRequest> request;
+	std::shared_ptr<WebRequest> request;
 
 private:
 	DataReceivedDelegate	_callback;

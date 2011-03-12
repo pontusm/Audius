@@ -3,8 +3,6 @@
 
 #include "AudiusLib/AudiusLib.h"
 
-using namespace boost;
-
 BEGIN_TEST(Downloader_CanDownloadStream)
 {
 	try

@@ -5,8 +5,6 @@
 
 #include "../Downloader/DownloadManager.h"
 
-using namespace boost;
-
 PlaylistAudioSource::PlaylistAudioSource(void)
 {
 }
@@ -23,7 +21,7 @@ void PlaylistAudioSource::prepareToPlay( int samplesPerBlockExpected, double sam
 		return;
 
 	// Initiate playing from playlist
-	shared_ptr<PlaylistEntry> entry = _playlist->getCurrentEntry();
+	std::shared_ptr<PlaylistEntry> entry = _playlist->getCurrentEntry();
 	if(!entry)
 		return;
 
@@ -31,7 +29,7 @@ void PlaylistAudioSource::prepareToPlay( int samplesPerBlockExpected, double sam
 	//_downloadThread = DownloadManager::getInstance()->downloadAsync(entry->getUrl(), callback);
 }
 
-void PlaylistAudioSource::receiveData(shared_ptr<DownloadProgressEventArgs> args)
+void PlaylistAudioSource::receiveData(std::shared_ptr<DownloadProgressEventArgs> args)
 {
 
 }

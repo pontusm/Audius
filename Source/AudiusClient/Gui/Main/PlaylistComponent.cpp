@@ -29,7 +29,6 @@
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
-using namespace boost;
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -107,13 +106,13 @@ void PlaylistComponent::paintCell( Graphics& g, int rowNumber, int columnId, int
 {
 	AudioPlayer* player = AudioPlayer::getInstance();
 
-	shared_ptr<Playlist> playlist = player->getPlaylist();
-	shared_ptr<PlaylistEntry> playlistEntry = playlist->getEntry(rowNumber);
+	std::shared_ptr<Playlist> playlist = player->getPlaylist();
+	std::shared_ptr<PlaylistEntry> playlistEntry = playlist->getEntry(rowNumber);
 	if(playlistEntry)
 	{
 		g.setColour(Colours::black);
 
-		shared_ptr<SongInfo> songInfo = playlistEntry->getSongInfo();
+		std::shared_ptr<SongInfo> songInfo = playlistEntry->getSongInfo();
 		if(songInfo == player->getCurrentSong())
 			g.setFont(_boldfont);
 		else

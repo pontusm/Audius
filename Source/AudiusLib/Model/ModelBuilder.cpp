@@ -6,9 +6,6 @@
 #include "../System/Exception.h"
 #include "../System/Html/HtmlScraper.h"
 
-using namespace boost;
-using namespace std;
-
 ModelBuilder::ModelBuilder(void)
 {
 }
@@ -17,15 +14,15 @@ ModelBuilder::~ModelBuilder(void)
 {
 }
 
-shared_ptr<SongInfo> ModelBuilder::createSongInfo(const String& xml )
+std::shared_ptr<SongInfo> ModelBuilder::createSongInfo(const String& xml )
 {
 	XmlDocument xd(xml);
 
-	scoped_ptr<XmlElement> xe( xd.getDocumentElement() );
+	boost::scoped_ptr<XmlElement> xe( xd.getDocumentElement() );
 	if(xe == NULL || xe->getTagName() != T("s"))
 	{
 		//throw Exception(xd.getLastParseError());
-		return shared_ptr<SongInfo>();		// No song info found
+		return std::shared_ptr<SongInfo>();		// No song info found
 	}
 
 	int songID = xe->getIntAttribute(T("i"));
@@ -35,12 +32,12 @@ shared_ptr<SongInfo> ModelBuilder::createSongInfo(const String& xml )
 	String title = xe->getStringAttribute(T("n"));
 	String artist = xe->getStringAttribute(T("a"));
 
-	return shared_ptr<SongInfo>( new SongInfo(songID, sizeBytes, lengthSeconds, title, artist, String::empty) );
+	return std::shared_ptr<SongInfo>( new SongInfo(songID, sizeBytes, lengthSeconds, title, artist, String::empty) );
 }
 
-vector< shared_ptr<SongInfo> > ModelBuilder::createFromSearchResult( const String& searchResultHtml )
+std::vector< std::shared_ptr<SongInfo> > ModelBuilder::createFromSearchResult( const String& searchResultHtml )
 {
-	vector< shared_ptr<SongInfo> > songs;
+	std::vector< std::shared_ptr<SongInfo> > songs;
 
 	if(searchResultHtml.length() == 0)
 		return songs;
@@ -65,7 +62,7 @@ vector< shared_ptr<SongInfo> > ModelBuilder::createFromSearchResult( const Strin
 
 		String album = scraper.getElementContents();
 
-		shared_ptr<SongInfo> song( new SongInfo(songID.getIntValue(), -1, -1, title, artist, album) );
+		std::shared_ptr<SongInfo> song( new SongInfo(songID.getIntValue(), -1, -1, title, artist, album) );
 		songs.push_back(song);
 	}
 

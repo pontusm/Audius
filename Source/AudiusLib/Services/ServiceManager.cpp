@@ -3,11 +3,9 @@
 
 #include "ClodderService.h"
 
-using namespace boost;
-
 ServiceManager::ServiceManager(void) :
-	_clodderService(shared_ptr<ClodderService>( new ClodderService() )),
-	_spotifyService(shared_ptr<SpotifyService>( new SpotifyService() ))
+	_clodderService(std::shared_ptr<ClodderService>( new ClodderService() )),
+	_spotifyService(std::shared_ptr<SpotifyService>( new SpotifyService() ))
 {
 }
 

@@ -6,8 +6,6 @@
 #include "WebException.h"
 #include "HttpUtility.h"
 
-using namespace boost;
-
 WebRequest::WebRequest(const String & url) :
 	url(url),
 	totalBytes(-1),
@@ -133,7 +131,7 @@ size_t WebRequest::receiveDataInternal(void* ptr, int receivedBytes)
 	}
 
 	// Pass it on to the desired callback method
-	shared_ptr<DataReceivedEventArgs> args( new DataReceivedEventArgs( ptr, receivedBytes, totalBytes ) );
+	std::shared_ptr<DataReceivedEventArgs> args( new DataReceivedEventArgs( ptr, receivedBytes, totalBytes ) );
 	context->receiveCallback(args);
 
 	// If callback wants to cancel transfer we return 0 to curl to make it stop

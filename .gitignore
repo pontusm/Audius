@@ -19,6 +19,9 @@ Thumbs.db
 *.cache
 *.ilk
 *.log
+*.opensdf
+*.sdf
+ipch/
 [Bb]in
 #[Dd]ebug*/
 #*.lib
@@ -36,3 +39,4 @@ Output/
 /Setup/Audius.msi
 /Dependencies/mpg123*/ports/MSVC++/*/libmpg123/Debug
 /Dependencies/mpg123*/ports/MSVC++/*/libmpg123/Release
+

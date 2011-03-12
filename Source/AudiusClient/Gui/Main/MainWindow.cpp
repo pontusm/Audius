@@ -8,8 +8,6 @@
 
 #include "../../../AudiusLib/AudiusLib.h"
 
-using namespace boost;
-
 // Globally shared data segment
 #pragma data_seg(".HOOKDATA")
 HHOOK g_hook = NULL;
@@ -137,7 +135,7 @@ void MainWindow::actionListenerCallback( const String& message )
 {
 	if(message == PlayerNotifications::newSong)
 	{
-		shared_ptr<SongInfo> songInfo = AudioPlayer::getInstance()->getCurrentSong();
+		std::shared_ptr<SongInfo> songInfo = AudioPlayer::getInstance()->getCurrentSong();
 		setName(songInfo->getTitle() + T(" - ") + songInfo->getArtist());
 	}
 }

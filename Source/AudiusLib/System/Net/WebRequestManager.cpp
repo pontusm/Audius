@@ -9,8 +9,6 @@
 
 #include <curl/curl.h>
 
-using namespace boost;
-
 // ********************
 // *** Private data ***
 // ********************

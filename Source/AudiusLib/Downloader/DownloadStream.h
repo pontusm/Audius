@@ -56,13 +56,13 @@ private:
 	// Aborts the current download (done by manager)
 	void abort();
 
-	void receiveData(boost::shared_ptr<DataReceivedEventArgs> args);
+	void receiveData(std::shared_ptr<DataReceivedEventArgs> args);
 	void completed();
 
 private:
 	CriticalSection	_lock;
 
-	boost::shared_ptr<WebRequest> _request;
+	std::shared_ptr<WebRequest> _request;
 
 	MemoryBlock		_buffer;
 

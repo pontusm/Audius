@@ -5,8 +5,6 @@
 
 #include "DownloadManager.h"
 
-using namespace boost;
-
 DownloadStream::DownloadStream(const String & url) :
 	_request( new WebRequest(url) ),
 	_bytesRead(0),
@@ -38,7 +36,7 @@ void DownloadStream::abort()
 	_request->abort();
 }
 
-void DownloadStream::receiveData( boost::shared_ptr<DataReceivedEventArgs> received )
+void DownloadStream::receiveData( std::shared_ptr<DataReceivedEventArgs> received )
 {
 	const ScopedLock l(_lock);
 

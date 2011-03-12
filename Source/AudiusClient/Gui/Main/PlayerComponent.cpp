@@ -30,7 +30,6 @@
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
-using namespace boost;
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -219,7 +218,7 @@ void PlayerComponent::actionListenerCallback( const String& message )
 
 		songPositionSlider->setValue(player->getCurrentSongPositionPercent());
 
-		shared_ptr<SongInfo> songInfo = player->getCurrentSong();
+		std::shared_ptr<SongInfo> songInfo = player->getCurrentSong();
 		if(songInfo)
 		{
 			titleLabel->setText(songInfo->getTitle(), false);
@@ -245,7 +244,7 @@ void PlayerComponent::actionListenerCallback( const String& message )
 void PlayerComponent::timerCallback()
 {
 	AudioPlayer* player = AudioPlayer::getInstance();
-	shared_ptr<SongInfo> songInfo = player->getCurrentSong();
+	std::shared_ptr<SongInfo> songInfo = player->getCurrentSong();
 	if(!songInfo)
 		return;
 

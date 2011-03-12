@@ -29,7 +29,6 @@
 
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
-using namespace boost;
 //[/MiscUserDefs]
 
 //==============================================================================
@@ -146,7 +145,7 @@ void SearchComponent::paintCell( Graphics& g, int rowNumber, int columnId, int w
 {
 	g.setColour(Colours::black);
 
-	shared_ptr<SongInfo> songInfo = _searchResult.at(rowNumber);
+	std::shared_ptr<SongInfo> songInfo = _searchResult.at(rowNumber);
 	if(songInfo == AudioPlayer::getInstance()->getCurrentSong())
 		g.setFont(_boldfont);
 	else
@@ -174,12 +173,12 @@ void SearchComponent::cellDoubleClicked( int rowNumber, int columnId, const Mous
 {
 	// Submit a new playlist
 	// TODO: This plumbing should be done in lower layers
-	shared_ptr<Playlist> playlist( new Playlist() );
+	std::shared_ptr<Playlist> playlist( new Playlist() );
 	for(int i = rowNumber; i < (int)_searchResult.size(); i++)
 	{
-		shared_ptr<SongInfo> songInfo = _searchResult.at(i);
+		std::shared_ptr<SongInfo> songInfo = _searchResult.at(i);
 		String url = ServiceManager::getInstance()->getClodder()->getSongUrl(songInfo->getSongID());
-		shared_ptr<PlaylistEntry> entry( new PlaylistEntry(songInfo, url));
+		std::shared_ptr<PlaylistEntry> entry( new PlaylistEntry(songInfo, url));
 		playlist->add(entry);
 	}
 
