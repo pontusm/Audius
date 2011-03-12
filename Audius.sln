@@ -1,19 +1,16 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Audius", "Source\AudiusClient\AudiusClient.vcproj", "{AFB84DFE-80AD-4C98-A093-97564B8043A5}"
-	ProjectSection(ProjectDependencies) = postProject
-		{FC9FDD58-8545-4931-998C-01C057BEA96C} = {FC9FDD58-8545-4931-998C-01C057BEA96C}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AudiusLib", "Source\AudiusLib\AudiusLib.vcproj", "{FC9FDD58-8545-4931-998C-01C057BEA96C}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AudiusTest", "Source\AudiusTest\AudiusTest.vcproj", "{0D45AEED-34DB-4725-9E37-34C1763C4B1C}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{980579BF-2A32-466B-B414-456B72C17315}"
 	ProjectSection(SolutionItems) = preProject
 		BuildReadMe.txt = BuildReadMe.txt
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Audius", "Source\AudiusClient\AudiusClient.vcxproj", "{AFB84DFE-80AD-4C98-A093-97564B8043A5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AudiusLib", "Source\AudiusLib\AudiusLib.vcxproj", "{FC9FDD58-8545-4931-998C-01C057BEA96C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AudiusTest", "Source\AudiusTest\AudiusTest.vcxproj", "{0D45AEED-34DB-4725-9E37-34C1763C4B1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
