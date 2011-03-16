@@ -5,8 +5,7 @@
 --------
 Needing attention at the moment:
 
--Fix Spotify implementation after upgrade
-
+-BUG: If Spotify login fails the SpotifyService will hang forever
 
 
 * Plan *
