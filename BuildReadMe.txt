@@ -1,6 +1,6 @@
 * Building Audius *
 
-NOTE: You need to have Microsoft Visual Studio 2008 to compile this project.
+NOTE: You need to have Microsoft Visual Studio 2010 to compile this project.
 
 First of all go to the Build directory and unpack the BuildTools.zip package
 to get directory Build/BuildTools.
