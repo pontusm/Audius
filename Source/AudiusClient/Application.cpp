@@ -47,7 +47,10 @@ public:
 			//File skinpath = File::getCurrentWorkingDirectory().getChildFile("Skins/Default/");
 			//SkinManager::getInstance()->initialise( skinpath );
 
-			//checkLogin();
+			// *** TODO: This is temp test code that needs to be changed!
+			// Login dialog should not be shown here. User needs to add music services and
+			// we will try to login to all of them at this point without any prompt.
+			checkLogin();
 
 			// Initialize main window
 			_mainWindow = new MainWindow();
@@ -74,6 +77,9 @@ public:
 
 		if(_mainWindow)
 			_mainWindow->setVisible(false);
+
+		if(ServiceManager::getInstance()->isLoggedIn())
+			ServiceManager::getInstance()->getSpotify()->logout();
 
 		// Release stuff
 		//deleteAndZero(_animator);
@@ -115,6 +121,27 @@ public:
 		Log::write(T("Unexpected exception: ") + String(e->what()) + T("(") + sourceFilename + T(", line ") + String(lineNumber) + T(")"));
 	}
 
+	bool checkLogin()
+	{
+		if(ServiceManager::getInstance()->isLoggedIn())
+			return true;
+
+		// Show login dialog
+		LoginComponent lc;
+		int result = DialogWindow::showModalDialog(T("Login"), &lc, NULL, Colours::azure, true);
+		if(result == 0)
+			return false;	// User canceled
+
+		if(!ServiceManager::getInstance()->getSpotify()->login(lc.getLogin(), lc.getPassword()))
+		{
+			// Login failed
+			Logger::writeToLog("Could not start playing. Login failed.");
+			AlertWindow::showMessageBox(AlertWindow::WarningIcon, T("Login failed."), T("Could not start playing. Login failed."));
+			return false;
+		}
+
+		return true;
+	}
 
 private:
 	FileLogger*	_logger;
