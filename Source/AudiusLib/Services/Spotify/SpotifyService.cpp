@@ -3,6 +3,8 @@
 
 #include "SpotifyController.h"
 
+#define DEFAULT_TIMEOUT_MSEC	10000
+
 SpotifyService::SpotifyService(void) :
 	_controller(new SpotifyController() )
 {
@@ -57,4 +59,17 @@ void SpotifyService::shutdown()
 bool SpotifyService::isLoggedIn()
 {
 	return _controller->isLoggedIn();
+}
+
+void SpotifyService::searchAsync( const String & query, SpotifyEventDelegate callback )
+{
+	_controller->search(query, callback);
+}
+
+void SpotifyService::search( const String & query )
+{
+	_operationComplete.reset();
+	SpotifyEventDelegate callback = boost::bind(&SpotifyService::signalOperationComplete, this);
+	searchAsync(query, callback);
+	_operationComplete.wait(DEFAULT_TIMEOUT_MSEC);
 }

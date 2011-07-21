@@ -176,5 +176,11 @@
     <ClInclude Include="System\Net\WebRequestManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Services\Spotify\Operations\SearchOperation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Services\Spotify\Operations\SearchResult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

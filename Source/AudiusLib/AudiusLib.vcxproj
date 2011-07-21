@@ -199,7 +199,9 @@
     <ClInclude Include="Player\AudioPlayer.h" />
     <ClInclude Include="AudiusLib.h" />
     <ClInclude Include="Player\ClodderPlaylistFetcher.h" />
+    <ClInclude Include="Services\Spotify\Operations\SearchOperation.h" />
     <ClInclude Include="Services\ClodderService.h" />
+    <ClInclude Include="Services\Spotify\Operations\SearchResult.h" />
     <ClInclude Include="System\Net\DataReceivedEventArgs.h" />
     <ClInclude Include="Downloader\DownloadManager.h" />
     <ClInclude Include="Downloader\DownloadProgressEventArgs.h" />

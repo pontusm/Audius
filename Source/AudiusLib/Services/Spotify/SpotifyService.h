@@ -24,9 +24,11 @@ public:
 
 	bool login(const String & userName, const String & password, int timeOutMillisecs = -1);
 	void logout(int timeOutMillisecs = -1);
+	void search(const String & query);
 
 	void loginAsync(const String & userName, const String & password, SpotifyCallbackDelegate callback);
 	void logoutAsync(SpotifyCallbackDelegate callback);
+	void searchAsync(const String & query, SpotifyEventDelegate callback);
 
 	void shutdown();
 

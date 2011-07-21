@@ -18,8 +18,10 @@
 #include "libspotify/include/libspotify/api.h"
 
 #include "SpotifyKey.h"
-#include "SpotifyService.h"
+//#include "SpotifyService.h"
 #include "SpotifyEventArgs.h"
+
+#include "Operations/SearchOperation.h"
 
 #include "../../System/Exception.h"
 
@@ -127,13 +129,9 @@ public:
 
 	void search(const String & query, SpotifyEventDelegate callback)
 	{
-		// TODO: Create search operation object (supply it with session+callback)
-		//sp_search* search = sp_search_create(_session,
-		//										query,
-		//										0, 10,
-		//										0, 5,
-		//										0, 3,
-		//										&search_complete, NULL);
+		assert(callback != NULL);
+		std::shared_ptr<SearchOperation> operation( new SearchOperation(_session, query, callback) );
+		operation->execute();
 	}
 
 	void shutdown()

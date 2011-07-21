@@ -215,6 +215,7 @@ void SearchComponent::doSearch()
 	if(text.length() == 0)
 		return;
 
+/*
 	String result = ServiceManager::getInstance()->getClodder()->searchRaw(text);
 	
 	ModelBuilder builder;
@@ -222,6 +223,7 @@ void SearchComponent::doSearch()
 
 	searchlistTable->updateContent();
 	searchlistTable->repaint();
+*/
 }
 
 void SearchComponent::actionListenerCallback( const String& message )
