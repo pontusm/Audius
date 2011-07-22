@@ -20,7 +20,7 @@
 			<arg value="/logger:${MSBuildLogger}" unless="${MSBuildLogger==''}"/>
 		</exec>
 		
-		<!-- Move libcurl -->
+		<!-- Move libcurl and cleanup -->
 		<move todir="${OutputDir}\${Configuration}" overwrite="true">
 			<fileset basedir="${directory::get-current-directory()}\..\bin\${Configuration}\bin\">
 				<include name="*.dll"/>
@@ -32,8 +32,9 @@
 			</fileset>
 		</move>
 		<delete dir="${directory::get-current-directory()}\..\bin"/>
-		
-		<!-- Move libmpg123 and libopenspotify -->
+		<delete dir="${directory::get-current-directory()}\..\Dependencies\libcurl\lib\DLL-${Configuration}"/>
+
+		<!-- Move libmpg123 -->
 		<move todir="${OutputDir}\${Configuration}" overwrite="true">
 			<fileset basedir="${directory::get-current-directory()}\..\Dependencies\${Configuration}\">
 				<include name="*.dll"/>
@@ -43,7 +44,7 @@
 		</move>
 		<delete dir="${directory::get-current-directory()}\..\Dependencies\${Configuration}"/>
 
-		<!-- Move libspotify -->
+		<!-- Copy libspotify -->
 		<copy todir="${OutputDir}\${Configuration}" overwrite="true">
 			<fileset basedir="${directory::get-current-directory()}\..\Dependencies\libspotify\lib\">
 				<include name="*.dll"/>
