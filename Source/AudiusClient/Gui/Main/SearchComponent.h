@@ -32,25 +32,25 @@ class SongInfo;
 
 //==============================================================================
 /**
-                                                                    //[Comments]
-    An auto-generated component, created by the Jucer.
+																	//[Comments]
+	An auto-generated component, created by the Jucer.
 
-    Describe your class and how it works here!
-                                                                    //[/Comments]
+	Describe your class and how it works here!
+																	//[/Comments]
 */
 class SearchComponent  : public Component,
-                         public TableListBoxModel,
-                         public TextEditorListener,
-                         public ButtonListener,
+						 public TableListBoxModel,
+						 public TextEditorListener,
+						 public ButtonListener,
 						 public ActionListener
 {
 public:
-    //==============================================================================
-    SearchComponent ();
-    ~SearchComponent();
+	//==============================================================================
+	SearchComponent ();
+	~SearchComponent();
 
-    //==============================================================================
-    //[UserMethods]     -- You can add your own custom methods in this section.
+	//==============================================================================
+	//[UserMethods]     -- You can add your own custom methods in this section.
 
 	// TableListBoxModel
 	virtual int getNumRows();
@@ -66,35 +66,35 @@ public:
 
 	// ActionListener
 	virtual void actionListenerCallback(const String& message);
-    //[/UserMethods]
+	//[/UserMethods]
 
-    void paint (Graphics& g);
-    void resized();
-    void buttonClicked (Button* buttonThatWasClicked);
+	void paint (Graphics& g);
+	void resized();
+	void buttonClicked (Button* buttonThatWasClicked);
 
 
-    //==============================================================================
-    juce_UseDebuggingNewOperator
+	//==============================================================================
+	juce_UseDebuggingNewOperator
 
 private:
-    //[UserVariables]   -- You can add your own custom variables in this section.
+	//[UserVariables]   -- You can add your own custom variables in this section.
 	Font _font;
 	Font _boldfont;
 
-	std::vector< std::shared_ptr<SongInfo> > _searchResult;
+	std::vector<std::shared_ptr<SongInfo>> _searchResult;
 
 	void doSearch();
-    //[/UserVariables]
+	//[/UserVariables]
 
-    //==============================================================================
-    TextButton* searchButton;
-    TextEditor* textEditor;
-    TableListBox* searchlistTable;
+	//==============================================================================
+	TextButton* searchButton;
+	TextEditor* textEditor;
+	TableListBox* searchlistTable;
 
-    //==============================================================================
-    // (prevent copy constructor and operator= being generated..)
-    SearchComponent (const SearchComponent&);
-    const SearchComponent& operator= (const SearchComponent&);
+	//==============================================================================
+	// (prevent copy constructor and operator= being generated..)
+	SearchComponent (const SearchComponent&);
+	const SearchComponent& operator= (const SearchComponent&);
 };
 
 

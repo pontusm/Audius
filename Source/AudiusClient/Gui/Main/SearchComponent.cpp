@@ -33,35 +33,35 @@
 
 //==============================================================================
 SearchComponent::SearchComponent ()
-    : _font(14.0f),
+	: _font(14.0f),
 	  _boldfont(14.0f, Font::bold),
-      searchButton (0),
-      textEditor (0),
-      searchlistTable (0)
+	  searchButton (0),
+	  textEditor (0),
+	  searchlistTable (0)
 {
-    addAndMakeVisible (searchButton = new TextButton (T("search")));
-    searchButton->setButtonText (T("Go"));
-    searchButton->addButtonListener (this);
+	addAndMakeVisible (searchButton = new TextButton (T("search")));
+	searchButton->setButtonText (T("Go"));
+	searchButton->addButtonListener (this);
 
-    addAndMakeVisible (textEditor = new TextEditor (T("new text editor")));
-    textEditor->setMultiLine (false);
-    textEditor->setReturnKeyStartsNewLine (false);
-    textEditor->setReadOnly (false);
-    textEditor->setScrollbarsShown (true);
-    textEditor->setCaretVisible (true);
-    textEditor->setPopupMenuEnabled (true);
-    textEditor->setText (String::empty);
+	addAndMakeVisible (textEditor = new TextEditor (T("new text editor")));
+	textEditor->setMultiLine (false);
+	textEditor->setReturnKeyStartsNewLine (false);
+	textEditor->setReadOnly (false);
+	textEditor->setScrollbarsShown (true);
+	textEditor->setCaretVisible (true);
+	textEditor->setPopupMenuEnabled (true);
+	textEditor->setText (String::empty);
 
-    addAndMakeVisible (searchlistTable = new TableListBox (T("searchlist"), this));
-    searchlistTable->setName (T("searchlist"));
+	addAndMakeVisible (searchlistTable = new TableListBox (T("searchlist"), this));
+	searchlistTable->setName (T("searchlist"));
 
 
-    //[UserPreSize]
-    //[/UserPreSize]
+	//[UserPreSize]
+	//[/UserPreSize]
 
-    setSize (400, 400);
+	setSize (400, 400);
 
-    //[Constructor] You can add your own custom stuff here..
+	//[Constructor] You can add your own custom stuff here..
 	textEditor->setTooltip(T("Enter search text here"));
 	textEditor->setSelectAllWhenFocused(true);
 	textEditor->addListener(this);
@@ -74,56 +74,56 @@ SearchComponent::SearchComponent ()
 	searchlistTable->getHeader()->addColumn(T("Album"), 3, 150, 30, -1, TableHeaderComponent::notSortable);
 
 	AudioPlayer::getInstance()->addActionListener(this);
-    //[/Constructor]
+	//[/Constructor]
 }
 
 SearchComponent::~SearchComponent()
 {
-    //[Destructor_pre]. You can add your own custom destruction code here..
+	//[Destructor_pre]. You can add your own custom destruction code here..
 	AudioPlayer::getInstance()->removeActionListener(this);
-    //[/Destructor_pre]
+	//[/Destructor_pre]
 
-    deleteAndZero (searchButton);
-    deleteAndZero (textEditor);
-    deleteAndZero (searchlistTable);
+	deleteAndZero (searchButton);
+	deleteAndZero (textEditor);
+	deleteAndZero (searchlistTable);
 
-    //[Destructor]. You can add your own custom destruction code here..
-    //[/Destructor]
+	//[Destructor]. You can add your own custom destruction code here..
+	//[/Destructor]
 }
 
 //==============================================================================
 void SearchComponent::paint (Graphics& g)
 {
-    //[UserPrePaint] Add your own custom painting code here..
-    //[/UserPrePaint]
+	//[UserPrePaint] Add your own custom painting code here..
+	//[/UserPrePaint]
 
-    //[UserPaint] Add your own custom painting code here..
-    //[/UserPaint]
+	//[UserPaint] Add your own custom painting code here..
+	//[/UserPaint]
 }
 
 void SearchComponent::resized()
 {
-    searchButton->setBounds (getWidth() - 48, 8, 39, 24);
-    textEditor->setBounds (8, 8, getWidth() - 60, 24);
-    searchlistTable->setBounds (8, 40, getWidth() - 16, getHeight() - 40);
-    //[UserResized] Add your own custom resize handling here..
-    //[/UserResized]
+	searchButton->setBounds (getWidth() - 48, 8, 39, 24);
+	textEditor->setBounds (8, 8, getWidth() - 60, 24);
+	searchlistTable->setBounds (8, 40, getWidth() - 16, getHeight() - 40);
+	//[UserResized] Add your own custom resize handling here..
+	//[/UserResized]
 }
 
 void SearchComponent::buttonClicked (Button* buttonThatWasClicked)
 {
-    //[UserbuttonClicked_Pre]
-    //[/UserbuttonClicked_Pre]
+	//[UserbuttonClicked_Pre]
+	//[/UserbuttonClicked_Pre]
 
-    if (buttonThatWasClicked == searchButton)
-    {
-        //[UserButtonCode_searchButton] -- add your button handler code here..
+	if (buttonThatWasClicked == searchButton)
+	{
+		//[UserButtonCode_searchButton] -- add your button handler code here..
 		doSearch();
-        //[/UserButtonCode_searchButton]
-    }
+		//[/UserButtonCode_searchButton]
+	}
 
-    //[UserbuttonClicked_Post]
-    //[/UserbuttonClicked_Post]
+	//[UserbuttonClicked_Post]
+	//[/UserbuttonClicked_Post]
 }
 
 
@@ -245,26 +245,26 @@ void SearchComponent::actionListenerCallback( const String& message )
 #if 0
 /*  -- Jucer information section --
 
-    This is where the Jucer puts all of its metadata, so don't change anything in here!
+	This is where the Jucer puts all of its metadata, so don't change anything in here!
 
 BEGIN_JUCER_METADATA
 
 <JUCER_COMPONENT documentType="Component" className="SearchComponent" componentName=""
-                 parentClasses="public Component, public TableListBoxModel, public TextEditorListener, public ActionListener"
-                 constructorParams="" variableInitialisers="_font(14.0f), _boldfont(14.0f, Font::bold)" snapPixels="8"
-                 snapActive="1" snapShown="1" overlayOpacity="0.330000013" fixedSize="0"
-                 initialWidth="400" initialHeight="400">
+				 parentClasses="public Component, public TableListBoxModel, public TextEditorListener, public ActionListener"
+				 constructorParams="" variableInitialisers="_font(14.0f), _boldfont(14.0f, Font::bold)" snapPixels="8"
+				 snapActive="1" snapShown="1" overlayOpacity="0.330000013" fixedSize="0"
+				 initialWidth="400" initialHeight="400">
   <BACKGROUND backgroundColour="ffffff"/>
   <TEXTBUTTON name="search" id="97800ff1382c8fb0" memberName="searchButton"
-              virtualName="" explicitFocusOrder="0" pos="48R 8 39 24" buttonText="Go"
-              connectedEdges="0" needsCallback="1" radioGroupId="0"/>
+			  virtualName="" explicitFocusOrder="0" pos="48R 8 39 24" buttonText="Go"
+			  connectedEdges="0" needsCallback="1" radioGroupId="0"/>
   <TEXTEDITOR name="new text editor" id="6d52bd45f42a379" memberName="textEditor"
-              virtualName="" explicitFocusOrder="0" pos="8 8 60M 24" initialText=""
-              multiline="0" retKeyStartsLine="0" readonly="0" scrollbars="1"
-              caret="1" popupmenu="1"/>
+			  virtualName="" explicitFocusOrder="0" pos="8 8 60M 24" initialText=""
+			  multiline="0" retKeyStartsLine="0" readonly="0" scrollbars="1"
+			  caret="1" popupmenu="1"/>
   <GENERICCOMPONENT name="searchlist" id="b2c21b70104bb812" memberName="searchlistTable"
-                    virtualName="" explicitFocusOrder="0" pos="8 40 16M 40M" class="TableListBox"
-                    params="T(&quot;searchlist&quot;), this"/>
+					virtualName="" explicitFocusOrder="0" pos="8 40 16M 40M" class="TableListBox"
+					params="T(&quot;searchlist&quot;), this"/>
 </JUCER_COMPONENT>
 
 END_JUCER_METADATA
