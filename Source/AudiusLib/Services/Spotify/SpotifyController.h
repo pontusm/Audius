@@ -80,12 +80,20 @@ public:
 			connection_error,
 			message_to_user,
 			notify_main_thread,
-			NULL,
+			NULL,			// music delivery
 			play_token_lost,
-			log_message
+			log_message,
+			NULL,			// end of track
+			NULL,			// streaming error
+			NULL,			// user info updated
+			NULL,			// start playback
+			NULL,			// stop playback
+			NULL,			// get audio buffer stats
+			NULL			// offline status updated
 		};
 
 		sp_session_config config;
+		memset(&config, 0, sizeof(config));
 
 		// Setup config
 		config.api_version = SPOTIFY_API_VERSION;
@@ -96,6 +104,7 @@ public:
 		config.user_agent = "Audius";
 		config.callbacks = &callbacks;
 		config.userdata = this;
+		config.initially_unload_playlists = true;
 
 		sp_error error = sp_session_create(&config, &_session);
 		if(error != SP_ERROR_OK)
