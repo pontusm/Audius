@@ -20,20 +20,6 @@
 			<arg value="/logger:${MSBuildLogger}" unless="${MSBuildLogger==''}"/>
 		</exec>
 		
-		<!-- Move libcurl and cleanup -->
-		<move todir="${OutputDir}\${Configuration}" overwrite="true">
-			<fileset basedir="${directory::get-current-directory()}\..\bin\${Configuration}\bin\">
-				<include name="*.dll"/>
-			</fileset>
-		</move>
-		<move todir="${OutputDir}\${Configuration}" overwrite="true">
-			<fileset basedir="${directory::get-current-directory()}\..\Dependencies\libcurl\lib\DLL-${Configuration}\">
-				<include name="*.lib"/>
-			</fileset>
-		</move>
-		<delete dir="${directory::get-current-directory()}\..\bin"/>
-		<delete dir="${directory::get-current-directory()}\..\Dependencies\libcurl\lib\DLL-${Configuration}"/>
-
 		<!-- Move libmpg123 -->
 		<move todir="${OutputDir}\${Configuration}" overwrite="true">
 			<fileset basedir="${directory::get-current-directory()}\..\Dependencies\${Configuration}\">
@@ -44,6 +30,14 @@
 		</move>
 		<delete dir="${directory::get-current-directory()}\..\Dependencies\${Configuration}"/>
 
+		<!-- Copy libcurl -->
+		<copy todir="${OutputDir}\${Configuration}" overwrite="true" flatten="true">
+			<fileset basedir="${directory::get-current-directory()}\..\Dependencies\libcurl\">
+				<include name="**\*.dll"/>
+				<include name="**\*.lib"/>
+			</fileset>
+		</copy>
+		
 		<!-- Copy libspotify -->
 		<copy todir="${OutputDir}\${Configuration}" overwrite="true">
 			<fileset basedir="${directory::get-current-directory()}\..\Dependencies\libspotify\lib\">
