@@ -18,8 +18,8 @@ std::shared_ptr<SongInfo> ModelBuilder::createSongInfo(const String& xml )
 {
 	XmlDocument xd(xml);
 
-	boost::scoped_ptr<XmlElement> xe( xd.getDocumentElement() );
-	if(xe == NULL || xe->getTagName() != T("s"))
+	std::unique_ptr<XmlElement> xe( xd.getDocumentElement() );
+	if(xe == nullptr || xe->getTagName() != T("s"))
 	{
 		//throw Exception(xd.getLastParseError());
 		return std::shared_ptr<SongInfo>();		// No song info found
