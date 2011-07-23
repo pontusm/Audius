@@ -1,6 +1,3 @@
-[submodule "Dependencies/libcurl"]
-	path = Dependencies/libcurl
-	url = git://repo.or.cz/libcurl.git
 [submodule "Dependencies/juce"]
 	path = Dependencies/juce
 	url = git://juce.git.sourceforge.net/gitroot/juce/juce
