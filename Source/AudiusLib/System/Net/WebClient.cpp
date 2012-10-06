@@ -7,6 +7,8 @@
 
 #include <curl/curl.h>
 
+using namespace std::placeholders;
+
 // ******************************
 // *** Private implementation ***
 // ******************************
@@ -68,10 +70,10 @@ String WebClient::downloadString(const String & url)
 	WebRequest request(url);
 
 	// Bind callback to our private impl class that will take care of filling the string
-	DataReceivedDelegate callback = boost::bind(&impl::downloadStringCallback, pimpl, &str, _1);
+	DataReceivedDelegate callback = std::bind(&impl::downloadStringCallback, pimpl, &str, _1);
 	request.downloadAsync(callback);
 	if(!request.wait(timeoutMilliseconds))
-		throw WebException(T("Operation timed out"));
+		throw WebException("Operation timed out");
 
 	return str;
 }
@@ -85,10 +87,10 @@ void WebClient::downloadStream(const String & url, OutputStream & stream )
 {
 	WebRequest request(url);
 
-	DataReceivedDelegate callback = boost::bind(&impl::downloadStreamCallback, pimpl, &stream, _1);
+	DataReceivedDelegate callback = std::bind(&impl::downloadStreamCallback, pimpl, &stream, _1);
 	request.downloadAsync(callback);
 	if(!request.wait(timeoutMilliseconds))
-		throw WebException(T("Operation timed out"));
+		throw WebException("Operation timed out");
 }
 
 String WebClient::post( const String & url, const StringPairArray & parameters )
@@ -98,10 +100,10 @@ String WebClient::post( const String & url, const StringPairArray & parameters )
 	request.setCookies(cookies);
 
 	// Bind callback to our private impl class that will take care of filling the string
-	DataReceivedDelegate callback = boost::bind(&impl::downloadStringCallback, pimpl, &str, _1);
+	DataReceivedDelegate callback = std::bind(&impl::downloadStringCallback, pimpl, &str, _1);
 	request.postAsync(parameters, callback);
 	if(!request.wait(timeoutMilliseconds))
-		throw WebException(T("Operation timed out"));
+		throw WebException("Operation timed out");
 
 	return str;
 }

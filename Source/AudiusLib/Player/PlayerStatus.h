@@ -23,9 +23,9 @@ namespace Player
 
 namespace PlayerNotifications
 {
-	static const String newSong					= T("newsong");
-	static const String songInfoChanged			= T("songinfochg");
-	static const String statusChanged			= T("statuschg");
-	static const String playlistChanged			= T("playlistchg");
-	static const String serverPlaylistUpdated	= T("serverplaylistupdated");
+	static const String newSong					= "newsong";
+	static const String songInfoChanged			= "songinfochg";
+	static const String statusChanged			= "statuschg";
+	static const String playlistChanged			= "playlistchg";
+	static const String serverPlaylistUpdated	= "serverplaylistupdated";
 }

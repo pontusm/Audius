@@ -104,7 +104,7 @@ private:
     ImageButton* nextButton;
     Label* timeLabel;
     Slider* songPositionSlider;
-    Image* cachedImage_loudspeaker_png;
+    Image cachedImage_loudspeaker_png;
 
     //==============================================================================
     // (prevent copy constructor and operator= being generated..)

@@ -5,6 +5,8 @@
 
 #include "DownloadManager.h"
 
+using namespace std::placeholders;
+
 DownloadStream::DownloadStream(const String & url) :
 	_request( new WebRequest(url) ),
 	_bytesRead(0),
@@ -26,8 +28,8 @@ void DownloadStream::start()
 {
 	_startTime = Time::currentTimeMillis();
 
-	DataReceivedDelegate receiveCallback = boost::bind(&DownloadStream::receiveData, this, _1);
-	RequestCompleteDelegate completeCallback = boost::bind(&DownloadStream::completed, this);
+	DataReceivedDelegate receiveCallback = std::bind(&DownloadStream::receiveData, this, _1);
+	RequestCompleteDelegate completeCallback = std::bind(&DownloadStream::completed, this);
 	_request->downloadAsync(receiveCallback, completeCallback);
 }
 
@@ -69,13 +71,13 @@ void DownloadStream::receiveData( std::shared_ptr<DataReceivedEventArgs> receive
 	}
 
 	// Notify listeners about progress
-	sendChangeMessage(this);
+	sendChangeMessage();
 }
 
 void DownloadStream::completed()
 {
 	// Notify listeners that we are done
-	sendChangeMessage(this);
+	sendChangeMessage();
 }
 
 bool DownloadStream::wait( int timeoutMilliseconds )

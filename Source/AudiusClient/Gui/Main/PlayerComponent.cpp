@@ -44,24 +44,24 @@ PlayerComponent::PlayerComponent (ApplicationCommandManager* commandManager)
       songPositionSlider (0),
       cachedImage_loudspeaker_png (0)
 {
-    addAndMakeVisible (titleLabel = new Label (T("title"),
-                                               T("Hiya dude.")));
+    addAndMakeVisible (titleLabel = new Label ("title",
+                                               "Hiya dude."));
     titleLabel->setFont (Font (20.0000f, Font::bold));
     titleLabel->setJustificationType (Justification::centredLeft);
     titleLabel->setEditable (false, false, false);
     titleLabel->setColour (TextEditor::textColourId, Colours::black);
     titleLabel->setColour (TextEditor::backgroundColourId, Colour (0x0));
 
-    addAndMakeVisible (artistLabel = new Label (T("artist"),
-                                                T("(Artist)")));
+    addAndMakeVisible (artistLabel = new Label ("artist",
+                                                "(Artist)"));
     artistLabel->setFont (Font (15.0000f, Font::plain));
     artistLabel->setJustificationType (Justification::centredLeft);
     artistLabel->setEditable (false, false, false);
     artistLabel->setColour (TextEditor::textColourId, Colours::black);
     artistLabel->setColour (TextEditor::backgroundColourId, Colour (0x0));
 
-    addAndMakeVisible (albumLabel = new Label (T("album"),
-                                               T("(Album)")));
+    addAndMakeVisible (albumLabel = new Label ("album",
+                                               "(Album)"));
     albumLabel->setFont (Font (15.0000f, Font::plain));
     albumLabel->setJustificationType (Justification::centredLeft);
     albumLabel->setEditable (false, false, false);
@@ -69,28 +69,28 @@ PlayerComponent::PlayerComponent (ApplicationCommandManager* commandManager)
     albumLabel->setColour (TextEditor::textColourId, Colours::black);
     albumLabel->setColour (TextEditor::backgroundColourId, Colour (0x0));
 
-    addAndMakeVisible (playButton = new ImageButton (T("play")));
-    playButton->setButtonText (T("Play"));
+    addAndMakeVisible (playButton = new ImageButton ("play"));
+    playButton->setButtonText ("Play");
 
     playButton->setImages (false, true, true,
                            ImageCache::getFromMemory (media_play_png, media_play_pngSize), 1.0000f, Colour (0x0),
                            ImageCache::getFromMemory (media_play_hover_png, media_play_hover_pngSize), 1.0000f, Colour (0x0),
                            ImageCache::getFromMemory (media_play_down_png, media_play_down_pngSize), 1.0000f, Colour (0x0));
-    addAndMakeVisible (previousButton = new ImageButton (T("previous")));
-    previousButton->setButtonText (T("Previous"));
+    addAndMakeVisible (previousButton = new ImageButton ("previous"));
+    previousButton->setButtonText ("Previous");
 
     previousButton->setImages (false, true, true,
                                ImageCache::getFromMemory (media_beginning_png, media_beginning_pngSize), 1.0000f, Colour (0x0),
                                ImageCache::getFromMemory (media_beginning_hover_png, media_beginning_hover_pngSize), 1.0000f, Colour (0x0),
                                ImageCache::getFromMemory (media_beginning_down_png, media_beginning_down_pngSize), 1.0000f, Colour (0x0));
-    addAndMakeVisible (nextButton = new ImageButton (T("next")));
-    nextButton->setButtonText (T("Next"));
+    addAndMakeVisible (nextButton = new ImageButton ("next"));
+    nextButton->setButtonText ("Next");
 
     nextButton->setImages (false, true, true,
                            ImageCache::getFromMemory (media_end_png, media_end_pngSize), 1.0000f, Colour (0x0),
                            ImageCache::getFromMemory (media_end_hover_png, media_end_hover_pngSize), 1.0000f, Colour (0x0),
                            ImageCache::getFromMemory (media_end_down_png, media_end_down_pngSize), 1.0000f, Colour (0x0));
-    addAndMakeVisible (timeLabel = new Label (T("time"),
+    addAndMakeVisible (timeLabel = new Label ("time",
                                               String::empty));
     timeLabel->setFont (Font (20.0000f, Font::bold));
     timeLabel->setJustificationType (Justification::centredRight);
@@ -98,7 +98,7 @@ PlayerComponent::PlayerComponent (ApplicationCommandManager* commandManager)
     timeLabel->setColour (TextEditor::textColourId, Colours::black);
     timeLabel->setColour (TextEditor::backgroundColourId, Colour (0x0));
 
-    addAndMakeVisible (songPositionSlider = new Slider (T("songPosition")));
+    addAndMakeVisible (songPositionSlider = new Slider ("songPosition"));
     songPositionSlider->setRange (0, 1, 0);
     songPositionSlider->setSliderStyle (Slider::LinearHorizontal);
     songPositionSlider->setTextBoxStyle (Slider::NoTextBox, true, 80, 20);
@@ -114,7 +114,7 @@ PlayerComponent::PlayerComponent (ApplicationCommandManager* commandManager)
 
     //[Constructor] You can add your own custom stuff here..
 	artistLabel->setText(String::empty, false);
-	albumLabel->setText(T("Press play to start"), false);
+	albumLabel->setText("Press play to start", false);
 
 	playButton->setCommandToTrigger( commandManager, ApplicationCommandIDs::toggleplaypause, true );
 	nextButton->setCommandToTrigger( commandManager, ApplicationCommandIDs::next, false );
@@ -141,7 +141,7 @@ PlayerComponent::~PlayerComponent()
     deleteAndZero (nextButton);
     deleteAndZero (timeLabel);
     deleteAndZero (songPositionSlider);
-    ImageCache::release (cachedImage_loudspeaker_png);
+    //ImageCache::release (cachedImage_loudspeaker_png);
 
     //[Destructor]. You can add your own custom destruction code here..
     //[/Destructor]
@@ -253,7 +253,7 @@ void PlayerComponent::timerCallback()
 		return;
 
 	int seconds = (int)player->getCurrentSongPosition();
-	String s = String::formatted(T("%d:%02d"), (seconds / 60), (seconds % 60) );
+	String s = String::formatted("%d:%02d", (seconds / 60), (seconds % 60) );
 	timeLabel->setText(s, false);
 
 	// Only update slider if not being dragged

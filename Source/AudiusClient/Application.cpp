@@ -32,13 +32,10 @@ public:
 		{
 			// Initialize logger
 			String appName(getApplicationName());
-			_logger = FileLogger::createDefaultAppLogger(appName, appName + T("Log.txt"), appName + T(" ") + getApplicationVersion());
+			_logger = FileLogger::createDefaultAppLogger(appName, appName + "Log.txt", appName + " " + getApplicationVersion());
 			Logger::setCurrentLogger(_logger);
 
-			Log::write(T("Initializing..."));
-
-			// Init config
-			ApplicationProperties::getInstance()->setStorageParameters(getApplicationName(), T("cfg"), String::empty, 3000, PropertiesFile::storeAsCompressedBinary);
+			Log::write("Initializing...");
 
 			// Setup app context
 			AppContext::getInstance()->initialise();
@@ -61,7 +58,7 @@ public:
 			//_animator = new ComponentAnimator();
 			//_animator->animateComponent(_mainWindow, Rectangle(_mainWindow->getX(), _mainWindow->getY(), 500, 600), 1000, 3, 0);
 
-			Log::write(T("Entering main loop"));
+			Log::write("Entering main loop");
 		}
 		catch(Exception& ex)
 		{
@@ -73,7 +70,7 @@ public:
 
 	void shutdown()
 	{
-		Log::write(T("Shutting down..."));
+		Log::write("Shutting down...");
 
 		if(_mainWindow)
 			_mainWindow->setVisible(false);
@@ -88,18 +85,18 @@ public:
 		AppContext::getInstance()->shutdown();
 
 		// Write final log entry before exiting
-		Log::write(T("Successfully terminated."));
+		Log::write("Successfully terminated.");
 		deleteAndZero(_logger);
 	}
 
 	const String getApplicationName()
 	{
-		return T("Audius");
+		return "Audius";
 	}
 
 	const String getApplicationVersion()
 	{
-		return T("1.0 Alpha");
+		return "1.0 Alpha";
 	}
 
 	bool moreThanOneInstanceAllowed()
@@ -113,12 +110,12 @@ public:
 
 	virtual void unhandledException(const std::exception* e, const String& sourceFilename, int lineNumber)
 	{
-		Log::write(T("Fatal error!"));
+		Log::write("Fatal error!");
 
 		if(!e)
 			return;
 
-		Log::write(T("Unexpected exception: ") + String(e->what()) + T("(") + sourceFilename + T(", line ") + String(lineNumber) + T(")"));
+		Log::write("Unexpected exception: " + String(e->what()) + "(" + sourceFilename + ", line " + String(lineNumber) + ")");
 	}
 
 	bool checkLogin()
@@ -128,7 +125,7 @@ public:
 
 		// Show login dialog
 		LoginComponent lc;
-		int result = DialogWindow::showModalDialog(T("Login"), &lc, NULL, Colours::azure, true);
+		int result = DialogWindow::showModalDialog("Login", &lc, NULL, Colours::azure, true);
 		if(result == 0)
 			return false;	// User canceled
 
@@ -136,7 +133,7 @@ public:
 		{
 			// Login failed
 			Logger::writeToLog("Could not start playing. Login failed.");
-			AlertWindow::showMessageBox(AlertWindow::WarningIcon, T("Login failed."), T("Could not start playing. Login failed."));
+			AlertWindow::showMessageBox(AlertWindow::WarningIcon, "Login failed.", "Could not start playing. Login failed.");
 			return false;
 		}
 

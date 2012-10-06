@@ -19,18 +19,18 @@ std::shared_ptr<SongInfo> ModelBuilder::createSongInfo(const String& xml )
 	XmlDocument xd(xml);
 
 	std::unique_ptr<XmlElement> xe( xd.getDocumentElement() );
-	if(xe == nullptr || xe->getTagName() != T("s"))
+	if(xe == nullptr || xe->getTagName() != "s")
 	{
 		//throw Exception(xd.getLastParseError());
 		return std::shared_ptr<SongInfo>();		// No song info found
 	}
 
-	int songID = xe->getIntAttribute(T("i"));
-	int sizeBytes = xe->getIntAttribute(T("s"));
-	int lengthSeconds = xe->getIntAttribute(T("t"));
+	int songID = xe->getIntAttribute("i");
+	int sizeBytes = xe->getIntAttribute("s");
+	int lengthSeconds = xe->getIntAttribute("t");
 
-	String title = xe->getStringAttribute(T("n"));
-	String artist = xe->getStringAttribute(T("a"));
+	String title = xe->getStringAttribute("n");
+	String artist = xe->getStringAttribute("a");
 
 	return std::shared_ptr<SongInfo>( new SongInfo(songID, sizeBytes, lengthSeconds, title, artist, String::empty) );
 }
@@ -43,21 +43,21 @@ std::vector< std::shared_ptr<SongInfo> > ModelBuilder::createFromSearchResult( c
 		return songs;
 
 	HtmlScraper scraper(searchResultHtml);
-	while( scraper.findNextElement(T("tr"), T("class=\"ctxm_song\"")) )
+	while( scraper.findNextElement("tr", "class=\"ctxm_song\"") )
 	{
 		String songID = scraper.getAttribute("songId");
 
-		if(!scraper.findNextElement(T("a"), T("javascript:ps(")))
+		if(!scraper.findNextElement("a", "javascript:ps("))
 			continue;
 
 		String title = scraper.getElementContents();
 
-		if(!scraper.findNextElement(T("a"), T("href=\"#ar")))
+		if(!scraper.findNextElement("a", "href=\"#ar"))
 			continue;
 
 		String artist = scraper.getElementContents();
 
-		if(!scraper.findNextElement(T("a"), T("href=\"#al")))
+		if(!scraper.findNextElement("a", "href=\"#al"))
 			continue;
 
 		String album = scraper.getElementContents();

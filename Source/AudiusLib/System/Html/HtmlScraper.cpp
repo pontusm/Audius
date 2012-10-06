@@ -6,7 +6,7 @@ bool HtmlScraper::gotoNextElement()
 {
 	if(isAtEnd())
 		return false;
-	int pos = _html.indexOfChar(_position + 1, T('<'));
+	int pos = _html.indexOfChar(_position + 1, '<');
 	if(pos < 0)
 		return false;
 	_position = pos;
@@ -17,32 +17,32 @@ String HtmlScraper::getElementName()
 {
 	jassert(isAtElement());
 
-	int endpos = _html.indexOfAnyOf(T(" >"), _position + 1);
+	int endpos = _html.indexOfAnyOf(" >", _position + 1);
 	if(endpos < 0)
 		return String::empty;
 
 	String name = _html.substring(_position + 1, endpos);
-	return name.trimCharactersAtEnd(T(" />"));
+	return name.trimCharactersAtEnd(" />");
 }
 
 String HtmlScraper::getAttribute( const String & attributeName )
 {
 	jassert(isAtElement());
 
-	int endpos = _html.indexOf(_position + 1, T(">"));
+	int endpos = _html.indexOf(_position + 1, ">");
 	if(endpos < 0)
 		return String::empty;
 
-	int pos = _html.indexOf(_position + 1, attributeName + T("="));
+	int pos = _html.indexOf(_position + 1, attributeName + "=");
 	if(pos < 0 || pos > endpos)
 		return String::empty;
 
 	int attributeStartPos = pos + attributeName.length() + 1;
-	int attributeEndPos = _html.indexOfAnyOf(T(" >\""), attributeStartPos + 1);
+	int attributeEndPos = _html.indexOfAnyOf(" >\"", attributeStartPos + 1);
 	if(attributeEndPos < 0)
 		return String::empty;
 
-	String value = _html.substring(attributeStartPos, attributeEndPos).trimCharactersAtEnd(T(" >"));
+	String value = _html.substring(attributeStartPos, attributeEndPos).trimCharactersAtEnd(" >");
 	return value.unquoted();
 }
 
@@ -51,7 +51,7 @@ String HtmlScraper::getElementContents()
 	jassert(isAtElement());
 
 	// Locate start of content
-	int startpos = _html.indexOfChar(_position + 1, T('>'));
+	int startpos = _html.indexOfChar(_position + 1, '>');
 	if(startpos < 0)
 		return String::empty;
 
@@ -59,7 +59,7 @@ String HtmlScraper::getElementContents()
 
 	// Locate end tag position
 	String name = getElementName();
-	int endpos = _html.indexOfIgnoreCase(startpos, T("</") + name + T(">"));
+	int endpos = _html.indexOfIgnoreCase(startpos, "</" + name + ">");
 	if(endpos < 0)
 		return String::empty;
 
@@ -71,7 +71,7 @@ bool HtmlScraper::findNextElement( const String & elementName )
 	if(isAtEnd())
 		return false;
 
-	int pos = _html.indexOf(_position + 1, T("<") + elementName);
+	int pos = _html.indexOf(_position + 1, "<" + elementName);
 	if(pos < 0)
 		return false;
 	_position = pos;
@@ -88,13 +88,13 @@ bool HtmlScraper::findNextElement( const String & elementName, const String & co
 	while(currpos >= 0)
 	{
 		// Find element
-		int pos = _html.indexOf(currpos + 1, T("<") + elementName);
+		int pos = _html.indexOf(currpos + 1, "<" + elementName);
 		if(pos < 0)
 			return false;
 
 		currpos = pos;
 
-		int endpos = _html.indexOf(pos, T(">"));
+		int endpos = _html.indexOf(pos, ">");
 		if(endpos < 0)
 			return false;
 

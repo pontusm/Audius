@@ -90,7 +90,7 @@ private:
 			switch(itemId)
 			{
 			case search:
-				searchButton = new ToolbarButton(itemId, T("Search"), Drawable::createFromImageData(ResourceFiles::view_png, ResourceFiles::view_pngSize), 0);
+				searchButton = new ToolbarButton(itemId, "Search", Drawable::createFromImageData(ResourceFiles::view_png, ResourceFiles::view_pngSize), 0);
 				return searchButton;
 			}
 			return NULL;

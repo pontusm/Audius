@@ -8,17 +8,17 @@ void GetSpotifyCredentials(String& login, String& password)
 	// The file "credentials.xml" must exist and should contain your credentials for running tests
 	// requiring authentication. Make a copy of the file "credentials.tmpl.xml" and update it with your data.
 	//DBG(File::getCurrentWorkingDirectory().getFullPathName());
-	String fname(File::getCurrentWorkingDirectory().getFullPathName() + T("/../../Source/AudiusTest/credentials.xml"));
+	String fname(File::getCurrentWorkingDirectory().getFullPathName() + "/../../Source/AudiusTest/credentials.xml");
 	File file(fname);
 	WIN_ASSERT_TRUE(file.existsAsFile());
 
 	XmlDocument xd(file);
 	WIN_ASSERT_NOT_NULL(xd.getDocumentElement());
-	XmlElement* xe = xd.getDocumentElement()->getChildByName(T("spotify"));
+	XmlElement* xe = xd.getDocumentElement()->getChildByName("spotify");
 	WIN_ASSERT_NOT_NULL(xe);
 
-	login = xe->getStringAttribute(T("login"));
-	password = xe->getStringAttribute(T("password"));
+	login = xe->getStringAttribute("login");
+	password = xe->getStringAttribute("password");
 }
 
 WaitableEvent g_loginDone;

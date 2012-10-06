@@ -43,13 +43,13 @@ MainComponent::MainComponent (ApplicationCommandManager* commandManager)
       toolbar (0)
 {
     addAndMakeVisible (playerComp = new PlayerComponent (commandManager));
-    playerComp->setName (T("player"));
+    playerComp->setName ("player");
 
     addAndMakeVisible (playlistComp = new PlaylistComponent());
-    playlistComp->setName (T("playlist"));
+    playlistComp->setName ("playlist");
 
     addAndMakeVisible (toolbar = new Toolbar());
-    toolbar->setName (T("toolbar"));
+    toolbar->setName ("toolbar");
 
 
     //[UserPreSize]
@@ -62,7 +62,7 @@ MainComponent::MainComponent (ApplicationCommandManager* commandManager)
 
     //[Constructor] You can add your own custom stuff here..
 	toolbar->addDefaultItems(toolbarFactory);
-	toolbarFactory.searchButton->addButtonListener(this);
+	toolbarFactory.searchButton->addListener(this);
     //[/Constructor]
 }
 

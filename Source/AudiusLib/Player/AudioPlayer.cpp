@@ -61,7 +61,7 @@ AudioPlayer::AudioPlayer() :
 {
 	// Init mp3 lib
 	if(mpg123_init() != MPG123_OK)
-		Log::write(T("Failed to initialize mp3 library."));
+		Log::write("Failed to initialize mp3 library.");
 }
 
 AudioPlayer::~AudioPlayer(void)
@@ -75,23 +75,23 @@ AudioPlayer::~AudioPlayer(void)
 
 void AudioPlayer::initialise()
 {
-	Log::write(T("Initializing player..."));
+	Log::write("Initializing player...");
 
 	String err = vars->deviceManager.initialise(0, 2, NULL, true);
 	if(err.length() > 0)
-		throw Exception(T("Failed to initialize audio device. ") + err);
+		throw Exception("Failed to initialize audio device. " + err);
 
 	AudioIODevice* device = vars->deviceManager.getCurrentAudioDevice();
 	if(device)
 	{
-		Log::write(T("  Found device: ") + device->getName());
-		Log::write(T("   Device type: ") + device->getTypeName());
-		Log::write(T("  Audio format: ") +
-			String(device->getCurrentSampleRate()) + T("Hz ") +
-			String(device->getCurrentBitDepth()) + T(" bits"));
+		Log::write("  Found device: " + device->getName());
+		Log::write("   Device type: " + device->getTypeName());
+		Log::write("  Audio format: " +
+			String(device->getCurrentSampleRate()) + "Hz " +
+			String(device->getCurrentBitDepth()) + " bits");
 	}
 	else
-		Log::write(T("Unable to find a suitable audio device."));
+		Log::write("Unable to find a suitable audio device.");
 
 	AudioDeviceManager::AudioDeviceSetup deviceSettings;
 	vars->deviceManager.getAudioDeviceSetup(deviceSettings);
@@ -99,7 +99,7 @@ void AudioPlayer::initialise()
 	//deviceSettings.bufferSize = 8192;
 	err = vars->deviceManager.setAudioDeviceSetup(deviceSettings, true);
 	if(err.length() > 0)
-		throw Exception(T("Unable to setup audio device. ") + err);
+		throw Exception("Unable to setup audio device. " + err);
 
 	// Setup audio chain
 	vars->deviceManager.addAudioCallback(&vars->sourcePlayer);
@@ -275,7 +275,7 @@ void AudioPlayer::refreshStream()
 	if(!vars->currentSong)
 		return;
 
-	Log::write(T("Playing song: ") + vars->currentSong->getArtist() + T(" \"") + vars->currentSong->getTitle() + T("\""));
+	Log::write("Playing song: " + vars->currentSong->getArtist() + " \"" + vars->currentSong->getTitle() + "\"");
 
 	String url = ServiceManager::getInstance()->getClodder()->getSongUrl(vars->currentSong->getSongID());
 	vars->streamingAudioSource = new StreamingAudioSource(url, vars->mp3Format);
@@ -290,17 +290,17 @@ void AudioPlayer::refreshStream()
 
 // *** Change listener **************************************************
 
-void AudioPlayer::changeListenerCallback( void* objectThatHasChanged )
+void AudioPlayer::changeListenerCallback(ChangeBroadcaster* source)
 {
 	// Transport changed?
-	if(objectThatHasChanged == &vars->transportSource)
+	if(source == &vars->transportSource)
 	{
 		if(vars->transportSource.hasStreamFinished())
 		{
 			// Stream is completed so it's time for the next track
 			if(!vars->playlist->gotoNextEntry())
 			{
-				Log::write(T("End of playlist reached."));
+				Log::write("End of playlist reached.");
 				return;
 			}
 
@@ -309,7 +309,7 @@ void AudioPlayer::changeListenerCallback( void* objectThatHasChanged )
 			vars->transportSource.start();
 		}
 	}
-	else if(objectThatHasChanged == vars->streamingAudioSource->getStream())
+	else if(source == vars->streamingAudioSource->getStream())
 	{
 		DownloadStream* stream = vars->streamingAudioSource->getStream();
 		//if(stream->isDownloadComplete() && vars->currentSong->getLengthSeconds() <= 0)

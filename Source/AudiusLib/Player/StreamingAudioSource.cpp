@@ -78,17 +78,17 @@ void StreamingAudioSource::getNextAudioBlock( const AudioSourceChannelInfo& info
 	_buffering = needBuffering;
 }
 
-void StreamingAudioSource::setNextReadPosition( int newPosition )
+void StreamingAudioSource::setNextReadPosition( int64 newPosition )
 {
 	_readerSource->setNextReadPosition(newPosition);
 }
 
-int StreamingAudioSource::getNextReadPosition() const
+int64 StreamingAudioSource::getNextReadPosition() const
 {
 	return _readerSource->getNextReadPosition();
 }
 
-int StreamingAudioSource::getTotalLength() const
+int64 StreamingAudioSource::getTotalLength() const
 {
 	// A bit of a hack to correctly stop the source once it has run out of data
 	if(_stream->isExhausted() && _stream->getBytesAvailable() == 0)

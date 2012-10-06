@@ -30,26 +30,26 @@ void CommandManager::getCommandInfo(CommandID commandID, ApplicationCommandInfo&
 	switch(commandID)
 	{
 	case ApplicationCommandIDs::play:
-		result.setInfo(T("Play"), T("Start playing music"), T("Player"), status == Player::Playing ? ApplicationCommandInfo::isDisabled : 0);
+		result.setInfo("Play", "Start playing music", "Player", status == Player::Playing ? ApplicationCommandInfo::isDisabled : 0);
 		break;
 	case ApplicationCommandIDs::pause:
-		result.setInfo(T("Pause"), T("Pause music"), T("Player"), status != Player::Playing ? ApplicationCommandInfo::isDisabled : 0);
+		result.setInfo("Pause", "Pause music", "Player", status != Player::Playing ? ApplicationCommandInfo::isDisabled : 0);
 		result.addDefaultKeypress(KeyPress::stopKey, ModifierKeys());
 		break;
 	case ApplicationCommandIDs::next:
-		result.setInfo(T("Next"), T("Go to next song"), T("Player"), 0);
+		result.setInfo("Next", "Go to next song", "Player", 0);
 		result.addDefaultKeypress(KeyPress::fastForwardKey, ModifierKeys());
 		break;
 	case ApplicationCommandIDs::previous:
-		result.setInfo(T("Previous"), T("Go to previous song"), T("Player"), 0);
+		result.setInfo("Previous", "Go to previous song", "Player", 0);
 		result.addDefaultKeypress(KeyPress::rewindKey, ModifierKeys());
 		break;
 	case ApplicationCommandIDs::toggleplaypause:
-		result.setInfo(T("Play/pause"), T("Play or pause music"), T("Player"), 0);
+		result.setInfo("Play/pause", "Play or pause music", "Player", 0);
 		result.addDefaultKeypress(KeyPress::playKey, ModifierKeys());
 		break;
 	case ApplicationCommandIDs::refreshplaylist:
-		result.setInfo(T("Refresh playlist"), T("Refreshes the playlist from the server"), T("Player"), 0);
+		result.setInfo("Refresh playlist", "Refreshes the playlist from the server", "Player", 0);
 		break;
 	}
 }
@@ -84,12 +84,12 @@ bool CommandManager::perform(const InvocationInfo& info)
 	case ApplicationCommandIDs::refreshplaylist:
 		if(!AlertWindow::showOkCancelBox(
 			AlertWindow::QuestionIcon,
-			T("Refresh playlist"),
-			T("Are you sure you want to retrieve the playlist from the server?\n(This will empty your current playlist.)")))
+			"Refresh playlist",
+			"Are you sure you want to retrieve the playlist from the server?\n(This will empty your current playlist.)"))
 			return true;
 
 		player->refreshPlaylist();
-		AlertWindow::showMessageBox(AlertWindow::InfoIcon, T("Refresh playlist"), T("Your playlist has been refreshed from the server."));
+		AlertWindow::showMessageBox(AlertWindow::InfoIcon, "Refresh playlist", "Your playlist has been refreshed from the server.");
 		return true;
 	}
 	return false;
@@ -102,7 +102,7 @@ bool CommandManager::checkLogin()
 
 	// Show login dialog
 	LoginComponent lc;
-	int result = DialogWindow::showModalDialog(T("Clodder Login"), &lc, NULL, Colours::azure, true);
+	int result = DialogWindow::showModalDialog("Clodder Login", &lc, NULL, Colours::azure, true);
 	if(result == 0)
 		return false;	// User canceled
 
@@ -110,7 +110,7 @@ bool CommandManager::checkLogin()
 	{
 		// Login failed
 		Log::write("Could not start playing. Login failed.");
-		AlertWindow::showMessageBox(AlertWindow::WarningIcon, T("Login failed."), T("Could not start playing. Login failed."));
+		AlertWindow::showMessageBox(AlertWindow::WarningIcon, "Login failed.", "Could not start playing. Login failed.");
 		return false;
 	}
 

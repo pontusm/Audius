@@ -104,9 +104,6 @@
     <ClInclude Include="System\Net\HttpUtility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="juce_AppConfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="System\Log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -180,6 +177,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Services\Spotify\Operations\SearchResult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AppConfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -29,7 +29,7 @@ class SpotifyController : public Thread
 {
 public:
 	SpotifyController() :
-		Thread(T("SpotifyController")),
+		Thread("SpotifyController"),
 		_nextTimeout(5000),
 		_session(NULL)
 	{
@@ -57,7 +57,7 @@ public:
 		catch (Exception& ex)
 		{
 			if(!threadShouldExit())
-				Log::write(T("Spotify controller thread exception: ") + ex.getFullMessage());
+				Log::write("Spotify controller thread exception: " + ex.getFullMessage());
 		}
 		DBG("Spotify controller shutdown");
 	}
@@ -109,7 +109,7 @@ public:
 		sp_error error = sp_session_create(&config, &_session);
 		if(error != SP_ERROR_OK)
 		{
-			Log::write(T("Failed to initialize Spotify session. ") + String(sp_error_message(error)) );
+			Log::write("Failed to initialize Spotify session. " + String(sp_error_message(error)) );
 			return false;
 		}
 
@@ -119,17 +119,17 @@ public:
 	// Login to Spotify
 	void login(const String & userName, const String & password, SpotifyCallbackDelegate callback)
 	{
-		assert(callback != NULL);
+		jassert(callback != NULL);
 		_loginCallback = callback;
 
 		const ScopedLock l(_apiLock);
-		sp_session_login(_session, userName.toCString(), password.toCString());
+		sp_session_login(_session, userName.toUTF8(), password.toUTF8());
 	}
 
 	// Logout from Spotify
 	void logout(SpotifyCallbackDelegate callback)
 	{
-		assert(callback != NULL);
+		jassert(callback != NULL);
 		_logoutCallback = callback;
 
 		const ScopedLock l(_apiLock);
@@ -138,7 +138,7 @@ public:
 
 	void search(const String & query, SpotifyEventDelegate callback)
 	{
-		assert(callback != NULL);
+		jassert(callback != NULL);
 		std::shared_ptr<SearchOperation> operation( new SearchOperation(_session, query, callback) );
 		operation->execute();
 	}
@@ -165,12 +165,12 @@ private:
 	static void SP_CALLCONV connection_error(sp_session *session, sp_error error)
 	{
 		DBG("connection_error");
-		Log::write(T("Spotify connection failed. ") + String(sp_error_message(error)) );
+		Log::write("Spotify connection failed. " + String(sp_error_message(error)) );
 	}
 
 	static void SP_CALLCONV logged_in(sp_session *session, sp_error error) {
 		if (SP_ERROR_OK != error) {
-			Log::write(T("Spotify login failed. ") + String(sp_error_message(error)) );
+			Log::write("Spotify login failed. " + String(sp_error_message(error)) );
 			return;
 		}
 
@@ -178,7 +178,7 @@ private:
 		sp_user* user = sp_session_user(session);
 		const char* my_name = (sp_user_is_loaded(user) ? sp_user_display_name(user) : sp_user_canonical_name(user));
 
-		Log::write(T("Logged in to Spotify as user ") + String(my_name) );
+		Log::write("Logged in to Spotify as user " + String(my_name) );
 
 		if(self->_loginCallback)
 			self->_loginCallback();
@@ -204,7 +204,7 @@ private:
 	static void SP_CALLCONV log_message(sp_session *session, const char *data)
 	{
 		DBG("log_message");
-		Log::write(T("Spotify log: ") + String(data) );
+		Log::write("Spotify log: " + String(data) );
 	}
 
 
@@ -217,14 +217,14 @@ private:
 	static void SP_CALLCONV message_to_user(sp_session *session, const char *data)
 	{
 		DBG("message_to_user");
-		Log::write(T("Spotify user message: ") + String(data) );
+		Log::write("Spotify user message: " + String(data) );
 	}
 
 
 	static void SP_CALLCONV play_token_lost(sp_session *session)
 	{
 		DBG("play_token_lost");
-		Log::write(T("Spotify play token lost."));
+		Log::write("Spotify play token lost.");
 	}
 
 private:

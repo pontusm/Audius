@@ -39,7 +39,7 @@ WelcomeComponent::WelcomeComponent ()
       textButton (0)
 {
     addAndMakeVisible (label = new Label (String::empty,
-                                          T("Would you like to add your music to Clodder?")));
+                                          "Would you like to add your music to Clodder?"));
     label->setFont (Font (15.0000f, Font::plain));
     label->setJustificationType (Justification::centred);
     label->setEditable (false, false, false);
@@ -47,30 +47,30 @@ WelcomeComponent::WelcomeComponent ()
     label->setColour (TextEditor::backgroundColourId, Colour (0x0));
 
     addAndMakeVisible (label2 = new Label (String::empty,
-                                           T("Welcome to Audius\nmusic player for Clodder")));
+                                           "Welcome to Audius\nmusic player for Clodder"));
     label2->setFont (Font (25.1000f, Font::bold));
     label2->setJustificationType (Justification::centred);
     label2->setEditable (false, false, false);
     label2->setColour (TextEditor::textColourId, Colours::black);
     label2->setColour (TextEditor::backgroundColourId, Colour (0x0));
 
-    addAndMakeVisible (toggleYes = new ToggleButton (T("Yes")));
-    toggleYes->setButtonText (T("Yes (recommended)"));
+    addAndMakeVisible (toggleYes = new ToggleButton ("Yes"));
+    toggleYes->setButtonText ("Yes (recommended)");
     toggleYes->setRadioGroupId (1);
-    toggleYes->addButtonListener (this);
+	toggleYes->addListener(this);
 
-    addAndMakeVisible (toggleRemind = new ToggleButton (T("Remind")));
-    toggleRemind->setButtonText (T("Remind me later"));
+    addAndMakeVisible (toggleRemind = new ToggleButton ("Remind"));
+    toggleRemind->setButtonText ("Remind me later");
     toggleRemind->setRadioGroupId (1);
-    toggleRemind->addButtonListener (this);
+    toggleRemind->addListener(this);
 
-    addAndMakeVisible (toggleNo = new ToggleButton (T("No")));
+    addAndMakeVisible (toggleNo = new ToggleButton ("No"));
     toggleNo->setRadioGroupId (1);
-    toggleNo->addButtonListener (this);
+    toggleNo->addListener(this);
 
-    addAndMakeVisible (textButton = new TextButton (T("new button")));
-    textButton->setButtonText (T("Next ->"));
-    textButton->addButtonListener (this);
+    addAndMakeVisible (textButton = new TextButton ("new button"));
+    textButton->setButtonText ("Next ->");
+    textButton->addListener(this);
 
 
     //[UserPreSize]

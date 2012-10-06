@@ -20,7 +20,7 @@ SpotifyService::~SpotifyService(void)
 bool SpotifyService::login( const String & userName, const String & password, int timeOutMillisecs )
 {
 	_operationComplete.reset();
-	SpotifyCallbackDelegate callback = boost::bind(&SpotifyService::signalOperationComplete, this);
+	SpotifyCallbackDelegate callback = std::bind(&SpotifyService::signalOperationComplete, this);
 	loginAsync(userName, password, callback);
 	if(!_operationComplete.wait(timeOutMillisecs))
 		return false;
@@ -30,7 +30,7 @@ bool SpotifyService::login( const String & userName, const String & password, in
 void SpotifyService::logout( int timeOutMillisecs /*= -1*/ )
 {
 	_operationComplete.reset();
-	SpotifyCallbackDelegate callback = boost::bind(&SpotifyService::signalOperationComplete, this);
+	SpotifyCallbackDelegate callback = std::bind(&SpotifyService::signalOperationComplete, this);
 	logoutAsync(callback);
 	_operationComplete.wait(timeOutMillisecs);
 }
@@ -69,7 +69,7 @@ void SpotifyService::searchAsync( const String & query, SpotifyEventDelegate cal
 void SpotifyService::search( const String & query )
 {
 	_operationComplete.reset();
-	SpotifyEventDelegate callback = boost::bind(&SpotifyService::signalOperationComplete, this);
+	SpotifyEventDelegate callback = std::bind(&SpotifyService::signalOperationComplete, this);
 	searchAsync(query, callback);
 	_operationComplete.wait(DEFAULT_TIMEOUT_MSEC);
 }

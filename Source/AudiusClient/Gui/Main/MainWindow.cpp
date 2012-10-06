@@ -18,7 +18,7 @@ HHOOK g_hook = NULL;
 ApplicationCommandManager* g_commandManager = NULL;
 
 MainWindow::MainWindow() :
-	DocumentWindow(T("Audius"),
+	DocumentWindow("Audius",
 					Colour(0xffbee6c8),
 					DocumentWindow::minimiseButton | DocumentWindow::closeButton,
 					true),
@@ -42,7 +42,8 @@ MainWindow::MainWindow() :
 	// Setup main window component (lifetime is managed by window)
 	//PlayerComponent* component = new PlayerComponent(player, _appCommandManager);
 	MainComponent* component = new MainComponent(_appCommandManager);
-	setContentComponent(component, true, true);
+	//setContentComponent(component, true, true);
+	setContentOwned(component, true);
 
 	//setResizeLimits(200, 170, 1000, 170);
 	setResizable(true, false);
@@ -73,7 +74,7 @@ MainWindow::~MainWindow(void)
 
 	// This will ensure that the current content component and all its children
 	// are deleted before we destroy the command manager which is used by it
-	setContentComponent(NULL, true);
+	clearContentComponent();
 
 	g_commandManager = NULL;
 	deleteAndZero(_appCommandManager);
@@ -115,7 +116,7 @@ bool MainWindow::hookMediaKeys()
 	g_hook = SetWindowsHookEx( WH_KEYBOARD_LL, LowLevelKeyboardProc, GetModuleHandle(NULL), NULL);
 	if(!g_hook)
 	{
-		Log::write(T("Failed to hook media keys."));
+		Log::write("Failed to hook media keys.");
 		return false;
 	}
 
@@ -136,6 +137,6 @@ void MainWindow::actionListenerCallback( const String& message )
 	if(message == PlayerNotifications::newSong)
 	{
 		std::shared_ptr<SongInfo> songInfo = AudioPlayer::getInstance()->getCurrentSong();
-		setName(songInfo->getTitle() + T(" - ") + songInfo->getArtist());
+		setName(songInfo->getTitle() + " - " + songInfo->getArtist());
 	}
 }

@@ -40,7 +40,7 @@ public:
 
 	bool isAtStart() { return _position == 0; }
 	bool isAtEnd() { return _position == _html.length(); }
-	bool isAtElement() { return _html[_position] == T('<'); }
+	bool isAtElement() { return _html[_position] == '<'; }
 
 	// Tries to find the next element with the specified name
 	bool findNextElement(const String & elementName);

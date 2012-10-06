@@ -19,15 +19,15 @@
 #include <windows.h>
 
 // Boost
-#include <boost/shared_ptr.hpp>
-#include <boost/shared_array.hpp>
-#include <boost/scoped_ptr.hpp>
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
+//#include <boost/shared_ptr.hpp>
+//#include <boost/shared_array.hpp>
+//#include <boost/scoped_ptr.hpp>
+//#include <boost/function.hpp>
+//#include <boost/bind.hpp>
 
 // STL
 #include <vector>
 
-#include "../AudiusLib/juce_AppConfig.h"
+#include "../AudiusLib/AppConfig.h"
 //#include "../../Dependencies/juce/src/juce_amalgamated_template.h"
 #include "../../Dependencies/juce/juce_amalgamated.h"

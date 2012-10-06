@@ -6,7 +6,7 @@ using namespace libmpg123Namespace;
 
 //==============================================================================
 #define mp3FormatName                          TRANS("Mp3 file")
-static const tchar* const mp3Extensions[] =    { T(".mp3"), 0 };
+static const char* const mp3Extensions[] =    { ".mp3", 0 };
 
 class Mp3Reader : public AudioFormatReader
 {
@@ -29,7 +29,7 @@ public:
 
 		_handle = mpg123_new(NULL, NULL);
 		if(!_handle)
-			Log::write(T("Failed to init mp3 lib."));
+			Log::write("Failed to init mp3 lib.");
 
 		mpg123_replace_reader(_handle, &mp3ReadCallback, &mp3SeekCallback);
 		//mpg123_open_feed(_handle);
@@ -59,7 +59,7 @@ public:
 					if(encoding & MPG123_ENC_SIGNED_16)
 						bitsPerSample = 16;
 					else
-						Log::write(T("Unknown encoding: ") + String(encoding));
+						Log::write("Unknown encoding: " + String(encoding));
 
 					break;
 				}
@@ -193,8 +193,8 @@ public:
 		int result = mpg123_info(_handle, &frameInfo);
 		if(result == MPG123_OK)
 		{
-			metadataValues.set(T("samplerate"), String(frameInfo.rate));
-			metadataValues.set(T("bitrate"), String(frameInfo.bitrate));
+			metadataValues.set("samplerate", String(frameInfo.rate));
+			metadataValues.set("bitrate", String(frameInfo.bitrate));
 
 			//lengthInSamples = mpg123_length(_handle);
 		}
@@ -202,7 +202,7 @@ public:
 		return true;
 	}
 
-	static ssize_t mp3ReadCallback(int fd, void* buffer, size_t bytesToRead)
+	static libmpg123Namespace::ssize_t mp3ReadCallback(int fd, void* buffer, size_t bytesToRead)
 	{
 		return ((InputStream*)fd)->read(buffer, bytesToRead);
 	}
@@ -230,17 +230,16 @@ Mp3AudioFormat::~Mp3AudioFormat()
 {
 }
 
-const Array<int> Mp3AudioFormat::getPossibleSampleRates()
+Array<int> Mp3AudioFormat::getPossibleSampleRates()
 {
 	const int rates[] = { 22050, 32000, 44100, 48000, 0 };
-	return Array <int> (rates);
+	return Array<int> (rates);
 }
 
-const Array<int> Mp3AudioFormat::getPossibleBitDepths()
+Array<int> Mp3AudioFormat::getPossibleBitDepths()
 {
-	Array<int> depths;
-	depths.add(32);
-	return depths;
+	const int depths[] = { 32 };
+	return Array<int>(depths);
 }
 
 bool Mp3AudioFormat::canDoStereo()

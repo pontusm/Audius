@@ -10,15 +10,14 @@ AppTrayIconComponent::AppTrayIconComponent( ApplicationCommandManager* commandMa
 	_icon(0)
 {
 	_icon = ImageFileFormat::loadFrom(ResourceFiles::eket_mask_png, ResourceFiles::eket_mask_pngSize);
-	if(_icon)
-		setIconImage(*_icon);
+	if(_icon.isValid())
+		setIconImage(_icon);
 
-	setIconTooltip (T("Audius music player"));
+	setIconTooltip ("Audius music player");
 }
 
 AppTrayIconComponent::~AppTrayIconComponent()
 {
-	delete _icon;
 }
 
 void AppTrayIconComponent::mouseDown( const MouseEvent& e )

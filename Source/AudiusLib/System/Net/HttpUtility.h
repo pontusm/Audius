@@ -30,17 +30,17 @@ public:
 		const int length = str.length();
 		for (int i = 0; i < length; i++)
 		{
-			tchar c = str[i];
+			juce_wchar c = str[i];
 
 			if(_istalnum(c))
 				result += c;
 			else
 				if(_istspace(c))
-					result += T('+');
+					result += '+';
 				else
 				{
 					int ic = _TINT(c);
-					result += T('%');
+					result += '%';
 					result += toHex((byte)(ic>>4));
 					result += toHex((byte)(ic%16));
 				}

@@ -40,7 +40,7 @@ WebRequestManager::WebRequestManager(void) :
 
 	CURLM* multiHandle = curl_multi_init();
 	if(!multiHandle)
-		throw WebException(T("Failed to initialize libcurl."));
+		throw WebException("Failed to initialize libcurl.");
 
 	vars->controller.multiHandle = multiHandle;
 }

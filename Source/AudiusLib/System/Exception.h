@@ -36,7 +36,7 @@ public:
 		Exception* ex = _innerException;
 		while(ex != NULL)
 		{
-			msg += T(" ") + ex->getMessage();
+			msg += " " + ex->getMessage();
 			ex = ex->getInnerException();
 		}
 		return msg;
@@ -44,7 +44,7 @@ public:
 
 	virtual const char* what() const throw()
 	{
-		return getMessage().toCString();
+		return getMessage().toUTF8();
 	}
 
 protected:

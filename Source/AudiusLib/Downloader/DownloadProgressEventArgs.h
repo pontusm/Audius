@@ -39,4 +39,4 @@ public:
 };
 
 // Progress delegate
-typedef boost::function<void (std::shared_ptr<DownloadProgressEventArgs> args)> DownloadProgressDelegate;
+typedef std::function<void (std::shared_ptr<DownloadProgressEventArgs> args)> DownloadProgressDelegate;

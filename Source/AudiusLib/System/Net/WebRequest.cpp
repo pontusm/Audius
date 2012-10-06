@@ -17,7 +17,7 @@ WebRequest::WebRequest(const String & url) :
 	context = new WebRequestContext();
 	context->handle = curl_easy_init();
 	if(!context->handle)
-		throw WebException(T("Failed to initialize curl."));
+		throw WebException("Failed to initialize curl.");
 
 	// Setup error message buffer
 	memset(context->errorBuffer, 0, CURL_ERROR_SIZE);
@@ -168,7 +168,7 @@ void WebRequest::setComplete()
 
 void WebRequest::setupRequest()
 {
-	if( curl_easy_setopt(context->handle, CURLOPT_URL, url.toCString()) != CURLE_OK)
+	if( curl_easy_setopt(context->handle, CURLOPT_URL, url.toUTF8()) != CURLE_OK)
 		handleError();
 
 	// Follow redirects
@@ -201,9 +201,9 @@ void WebRequest::setupRequest()
 		}
 
 		// Determine utf8 length and then copy to buffer
-		int bufflen = cookielist.length();
-		cookieBuffer = new char[bufflen + 1];
-		cookielist.copyToCString(cookieBuffer, bufflen);
+		//int bufflen = cookielist.length();
+		//cookieBuffer = new char[bufflen + 1];
+		//cookielist.copyToCString(cookieBuffer, bufflen);
 
 		if( curl_easy_setopt(context->handle, CURLOPT_COOKIE, cookieBuffer) != CURLE_OK)
 			handleError();

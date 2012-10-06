@@ -19,7 +19,7 @@ public:
 	void mouseDown (const MouseEvent& e);
 
 private:
-	ApplicationCommandManager*	_commandManager;
+	ApplicationCommandManager* _commandManager;
 
-	Image*	_icon;
+	Image _icon;
 };

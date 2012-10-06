@@ -18,7 +18,7 @@ BEGIN_TEST(Downloader_CanDownloadStream)
 	catch(Exception & ex)
 	{
 		String msg = ex.getFullMessage();
-		WIN_ASSERT_FAIL(msg);
+		WIN_ASSERT_FAIL(msg.toUTF16());
 	}
 }
 END_TEST

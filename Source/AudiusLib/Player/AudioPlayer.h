@@ -54,7 +54,7 @@ public:
 	void setPlaylist(std::shared_ptr<Playlist> playlist);
 
 private:
-	void changeListenerCallback(void* objectThatHasChanged);
+	void changeListenerCallback(ChangeBroadcaster* source);
 
 	void refreshStream();
 

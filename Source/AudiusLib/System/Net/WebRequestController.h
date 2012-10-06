@@ -18,7 +18,7 @@ class WebRequestController : public Thread
 {
 public:
 	WebRequestController() :
-		Thread(T("WebRequestController")),
+		Thread("WebRequestController"),
 		multiHandle(NULL)
 	{
 	}
@@ -41,7 +41,7 @@ public:
 		catch (Exception& ex)
 		{
 			if(!threadShouldExit())
-				Log::write(T("Web request thread exception: ") + ex.getFullMessage());
+				Log::write("Web request thread exception: " + ex.getFullMessage());
 		}
 		//DBG(T("WebRequestController shutdown"))
 	}

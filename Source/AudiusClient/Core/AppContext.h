@@ -28,4 +28,5 @@ public:
 public:
 	CommandManager* commandManager;
 
+	ApplicationProperties properties;
 };

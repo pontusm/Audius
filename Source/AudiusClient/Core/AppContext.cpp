@@ -15,6 +15,12 @@ AppContext::~AppContext(void)
 
 void AppContext::initialise()
 {
+	// Init preferences
+	PropertiesFile::Options options;
+	options.applicationName = "Audius";
+	options.filenameSuffix = ".cfg";
+	properties.setStorageParameters(options);
+
 	// Setup global managers
 	commandManager = new CommandManager();
 
@@ -29,6 +35,8 @@ void AppContext::shutdown()
 	AudioPlayer::getInstance()->shutdown();
 
 	ServiceManager::getInstance()->shutdown();
+
+	properties.closeFiles();
 
 	// Release stuff
 	deleteAndZero(commandManager);

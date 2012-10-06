@@ -3,18 +3,20 @@
 
 #include "AudiusLib/AudiusLib.h"
 
+using namespace std::placeholders;
+
 BEGIN_TEST(SystemNet_WebClient_CanDownloadString)
 {
 	WebClient client;
 	try
 	{
-		String str = client.downloadString(T("http://www.google.com"));
-		WIN_ASSERT_TRUE(str.indexOfIgnoreCase(T("<html>")) >= 0);
+		String str = client.downloadString("http://www.google.com");
+		WIN_ASSERT_TRUE(str.indexOfIgnoreCase("<html>") >= 0);
 	}
 	catch(Exception & ex)
 	{
 		String msg = ex.getFullMessage();
-		WIN_ASSERT_FAIL(msg);
+		WIN_ASSERT_FAIL(msg.toUTF16());
 	}
 }
 END_TEST
@@ -25,13 +27,13 @@ BEGIN_TEST(SystemNet_WebClient_CanDownloadStream)
 	try
 	{
 		MemoryOutputStream stream;
-		client.downloadStream(T("http://www.google.com"), stream);
+		client.downloadStream("http://www.google.com", stream);
 		WIN_ASSERT_TRUE(stream.getDataSize() >= 0);
 	}
 	catch(Exception & ex)
 	{
 		String msg = ex.getFullMessage();
-		WIN_ASSERT_FAIL(msg);
+		WIN_ASSERT_FAIL(msg.toUTF16());
 	}
 }
 END_TEST
@@ -66,8 +68,8 @@ BEGIN_TEST(SystemNet_WebRequest_CanDownloadAsync)
 	try
 	{
 		bytesReceived = 0;
-		WebRequest request(T("http://www.google.com"));
-		DataReceivedDelegate callback = boost::bind(downloadAsync, _1);
+		WebRequest request("http://www.google.com");
+		DataReceivedDelegate callback = std::bind(downloadAsync, _1);
 		request.downloadAsync(callback);
 		WIN_ASSERT_TRUE( request.isStarted() );
 
@@ -82,7 +84,7 @@ BEGIN_TEST(SystemNet_WebRequest_CanDownloadAsync)
 	catch(Exception & ex)
 	{
 		String msg = ex.getFullMessage();
-		WIN_ASSERT_FAIL(msg);
+		WIN_ASSERT_FAIL(msg.toUTF16());
 	}
 }
 END_TEST
@@ -96,8 +98,8 @@ BEGIN_TEST(SystemNet_WebRequest_CanAbortDownload)
 {
 	try
 	{
-		WebRequest request(T("http://www.google.com"));
-		DataReceivedDelegate callback = boost::bind(pausingCallback, _1);
+		WebRequest request("http://www.google.com");
+		DataReceivedDelegate callback = std::bind(pausingCallback, _1);
 		request.downloadAsync(callback);
 		request.abort();
 
@@ -106,7 +108,7 @@ BEGIN_TEST(SystemNet_WebRequest_CanAbortDownload)
 	catch(Exception & ex)
 	{
 		String msg = ex.getFullMessage();
-		WIN_ASSERT_FAIL(msg);
+		WIN_ASSERT_FAIL(msg.toUTF16());
 	}
 }
 END_TEST
@@ -116,8 +118,8 @@ BEGIN_TEST(SystemNet_WebRequest_CanPostAsync)
 	try
 	{
 		bytesReceived = 0;
-		WebRequest request(T("http://www.google.com"));
-		DataReceivedDelegate callback = boost::bind(downloadAsync, _1);
+		WebRequest request("http://www.google.com");
+		DataReceivedDelegate callback = std::bind(downloadAsync, _1);
 		StringPairArray params;
 		params.set("q", "test");
 		request.postAsync(params, callback);
@@ -129,7 +131,7 @@ BEGIN_TEST(SystemNet_WebRequest_CanPostAsync)
 	catch(Exception & ex)
 	{
 		String msg = ex.getFullMessage();
-		WIN_ASSERT_FAIL(msg);
+		WIN_ASSERT_FAIL(msg.toUTF16());
 	}
 }
 END_TEST

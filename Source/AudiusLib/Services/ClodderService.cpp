@@ -6,7 +6,7 @@
 #include "../System/Net/HttpUtility.h"
 
 ClodderService::ClodderService(void) :
-	_baseUrl(T("http://clodder.com/"))
+	_baseUrl("http://clodder.com/")
 {
 }
 
@@ -21,7 +21,7 @@ bool ClodderService::login( const String & userName, const String & password )
 	String encodedUserName = HttpUtility::urlEncode(userName);
 	String encodedPassword = HttpUtility::urlEncode(password);
 
-	String url = _baseUrl + T("s/lgin.aspx?u=") + encodedUserName + T("&p=") + encodedPassword;
+	String url = _baseUrl + "s/lgin.aspx?u=" + encodedUserName + "&p=" + encodedPassword;
 
 	WebClient client;
 	String key = client.downloadString(url);
@@ -34,34 +34,34 @@ bool ClodderService::login( const String & userName, const String & password )
 
 String ClodderService::getCurrentPlaylistItem()
 {
-	String url = _baseUrl + T("s/c.aspx?uk=") + _userKey;
+	String url = _baseUrl + "s/c.aspx?uk=" + _userKey;
 	WebClient client;
 	return client.downloadString(url);
 }
 
 String ClodderService::getSongUrl(int songID)
 {
-	String url = _baseUrl + T("s/st.ashx?uk=") + _userKey + T("&i=") + String(songID);
+	String url = _baseUrl + "s/st.ashx?uk=" + _userKey + "&i=" + String(songID);
 	return url;
 }
 
 String ClodderService::gotoNext()
 {
-	String url = _baseUrl + T("s/n.aspx?uk=") + _userKey;
+	String url = _baseUrl + "s/n.aspx?uk=" + _userKey;
 	WebClient client;
 	return client.downloadString(url);
 }
 
 String ClodderService::gotoPrevious()
 {
-	String url = _baseUrl + T("s/p.aspx?uk=") + _userKey;
+	String url = _baseUrl + "s/p.aspx?uk=" + _userKey;
 	WebClient client;
 	return client.downloadString(url);
 }
 
 String ClodderService::searchRaw( const String & text )
 {
-	String url = _baseUrl + T("c/s2.aspx");
+	String url = _baseUrl + "c/s2.aspx";
 	StringPairArray params;
 	params.set("q", text);
 	WebClient client;

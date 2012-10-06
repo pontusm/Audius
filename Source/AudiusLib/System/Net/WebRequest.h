@@ -14,7 +14,7 @@
 #include "DataReceivedEventArgs.h"
 
 // Complete delegate
-typedef boost::function<void()> RequestCompleteDelegate;
+typedef std::function<void()> RequestCompleteDelegate;
 
 struct WebRequestContext;
 

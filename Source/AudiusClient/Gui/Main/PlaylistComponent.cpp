@@ -37,8 +37,8 @@ PlaylistComponent::PlaylistComponent ()
 	_boldfont(14.0f, Font::bold),
       playlistTable (0)
 {
-    addAndMakeVisible (playlistTable = new TableListBox (T("playlist"), this));
-    playlistTable->setName (T("playlist"));
+    addAndMakeVisible (playlistTable = new TableListBox ("playlist", this));
+    playlistTable->setName ("playlist");
 
 
     //[UserPreSize]
@@ -50,9 +50,9 @@ PlaylistComponent::PlaylistComponent ()
 	playlistTable->setColour(ListBox::outlineColourId, Colours::grey);
 	playlistTable->setOutlineThickness(1);
 
-	playlistTable->getHeader()->addColumn(T("Track"), 1, 250, 30, -1, TableHeaderComponent::notSortable);
-	playlistTable->getHeader()->addColumn(T("Artist"), 2, 150, 30, -1, TableHeaderComponent::notSortable);
-	playlistTable->getHeader()->addColumn(T("Length"), 3, 50, 30, -1, TableHeaderComponent::notSortable);
+	playlistTable->getHeader().addColumn("Track", 1, 250, 30, -1, TableHeaderComponent::notSortable);
+	playlistTable->getHeader().addColumn("Artist", 2, 150, 30, -1, TableHeaderComponent::notSortable);
+	playlistTable->getHeader().addColumn("Length", 3, 50, 30, -1, TableHeaderComponent::notSortable);
 	//playlistTable->getHeader()->setStretchToFitActive(true);
 
 	AudioPlayer::getInstance()->addActionListener(this);
@@ -130,7 +130,7 @@ void PlaylistComponent::paintCell( Graphics& g, int rowNumber, int columnId, int
 			int seconds = songInfo->getLengthSeconds();
 			if(seconds > 0)
 			{
-				const String s = String::formatted(T("%d:%02d"), (seconds / 60), (seconds % 60) );
+				const String s = String::formatted("%d:%02d", (seconds / 60), (seconds % 60) );
 				g.drawText(s, 2, 0, width - 4, height, Justification::centredRight, true);
 			}
 			break;

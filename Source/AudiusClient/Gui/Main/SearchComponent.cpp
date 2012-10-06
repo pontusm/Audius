@@ -39,11 +39,11 @@ SearchComponent::SearchComponent ()
 	  textEditor (0),
 	  searchlistTable (0)
 {
-	addAndMakeVisible (searchButton = new TextButton (T("search")));
-	searchButton->setButtonText (T("Go"));
-	searchButton->addButtonListener (this);
+	addAndMakeVisible (searchButton = new TextButton ("search"));
+	searchButton->setButtonText ("Go");
+	searchButton->addListener (this);
 
-	addAndMakeVisible (textEditor = new TextEditor (T("new text editor")));
+	addAndMakeVisible (textEditor = new TextEditor ("new text editor"));
 	textEditor->setMultiLine (false);
 	textEditor->setReturnKeyStartsNewLine (false);
 	textEditor->setReadOnly (false);
@@ -52,8 +52,8 @@ SearchComponent::SearchComponent ()
 	textEditor->setPopupMenuEnabled (true);
 	textEditor->setText (String::empty);
 
-	addAndMakeVisible (searchlistTable = new TableListBox (T("searchlist"), this));
-	searchlistTable->setName (T("searchlist"));
+	addAndMakeVisible (searchlistTable = new TableListBox ("searchlist", this));
+	searchlistTable->setName ("searchlist");
 
 
 	//[UserPreSize]
@@ -62,16 +62,16 @@ SearchComponent::SearchComponent ()
 	setSize (400, 400);
 
 	//[Constructor] You can add your own custom stuff here..
-	textEditor->setTooltip(T("Enter search text here"));
+	textEditor->setTooltip("Enter search text here");
 	textEditor->setSelectAllWhenFocused(true);
 	textEditor->addListener(this);
 
 	searchlistTable->setColour(ListBox::outlineColourId, Colours::grey);
 	searchlistTable->setOutlineThickness(1);
 
-	searchlistTable->getHeader()->addColumn(T("Track"), 1, 150, 30, -1, TableHeaderComponent::notSortable);
-	searchlistTable->getHeader()->addColumn(T("Artist"), 2, 150, 30, -1, TableHeaderComponent::notSortable);
-	searchlistTable->getHeader()->addColumn(T("Album"), 3, 150, 30, -1, TableHeaderComponent::notSortable);
+	searchlistTable->getHeader().addColumn("Track", 1, 150, 30, -1, TableHeaderComponent::notSortable);
+	searchlistTable->getHeader().addColumn("Artist", 2, 150, 30, -1, TableHeaderComponent::notSortable);
+	searchlistTable->getHeader().addColumn("Album", 3, 150, 30, -1, TableHeaderComponent::notSortable);
 
 	AudioPlayer::getInstance()->addActionListener(this);
 	//[/Constructor]

@@ -208,7 +208,7 @@
     <ClInclude Include="System\Exception.h" />
     <ClInclude Include="System\Html\HtmlScraper.h" />
     <ClInclude Include="System\Net\HttpUtility.h" />
-    <ClInclude Include="juce_AppConfig.h" />
+    <ClInclude Include="AppConfig.h" />
     <ClInclude Include="System\Log.h" />
     <ClInclude Include="System\MessageQueue.h" />
     <ClInclude Include="Model\ModelBuilder.h" />

@@ -22,9 +22,9 @@ public:
 	void releaseResources();
 	void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill);
 
-	int getNextReadPosition() const;
-	int getTotalLength() const;
-	void setNextReadPosition(int newPosition);
+	int64 getNextReadPosition() const;
+	int64 getTotalLength() const;
+	void setNextReadPosition(int64 newPosition);
 	bool isLooping() const { return false; }
 
 	// Retrieves the current download stream. Do not delete it!

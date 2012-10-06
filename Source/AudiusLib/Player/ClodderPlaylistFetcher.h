@@ -17,7 +17,7 @@ class ClodderPlaylistFetcher : public ThreadWithProgressWindow
 {
 public:
 	ClodderPlaylistFetcher() :
-		ThreadWithProgressWindow(T("Retrieving playlist..."), true, true)
+		ThreadWithProgressWindow("Retrieving playlist...", true, true)
 	{
 		_clodder = ServiceManager::getInstance()->getClodder();
 	}
@@ -81,7 +81,7 @@ private:
 		if(url.length() == 0)
 			return std::shared_ptr<PlaylistEntry>();
 
-		DBG(String(T("Scanned song: ")) + songInfo->getArtist() + String(T(" - \"")) + songInfo->getTitle() + String(T("\"")));
+		DBG(String("Scanned song: ") + songInfo->getArtist() + String(" - \"") + songInfo->getTitle() + String("\""));
 
 		return std::shared_ptr<PlaylistEntry>( new PlaylistEntry(songInfo, url) );
 	}

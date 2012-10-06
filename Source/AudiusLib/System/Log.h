@@ -27,8 +27,8 @@ public:
 
 		Time now(Time::getCurrentTime());
 		Logger::writeToLog(now.toString(false, true, true, true) +
-							String(T(",") + String(now.getMilliseconds()) +
-							String(T(" [")) + threadName + String(T("] ")) +
-							message));
+							String(",") + String(now.getMilliseconds()) +
+							String(" [") + threadName + String("] ") +
+							message);
 	}
 };

@@ -21,6 +21,7 @@
 
 //[Headers] You can add your own extra header files here...
 #include "Precompiled.h"
+#include "../../Core/AppContext.h"
 //[/Headers]
 
 #include "LoginComponent.h"
@@ -28,9 +29,9 @@
 
 //[MiscUserDefs] You can add your own user definitions and misc code here...
 
-#define LOGIN_KEY	T("login")
-#define PWD_KEY		T("pwd")
-#define RMB_KEY		T("remember")
+#define LOGIN_KEY	"login"
+#define PWD_KEY		"pwd"
+#define RMB_KEY		"remember"
 
 //[/MiscUserDefs]
 
@@ -44,7 +45,7 @@ LoginComponent::LoginComponent ()
       buttonLogin (0),
       buttonCancel (0)
 {
-    addAndMakeVisible (textLogin = new TextEditor (T("Login")));
+    addAndMakeVisible (textLogin = new TextEditor ("Login"));
     textLogin->setMultiLine (false);
     textLogin->setReturnKeyStartsNewLine (false);
     textLogin->setReadOnly (false);
@@ -53,23 +54,23 @@ LoginComponent::LoginComponent ()
     textLogin->setPopupMenuEnabled (true);
     textLogin->setText (String::empty);
 
-    addAndMakeVisible (label = new Label (T("new label"),
-                                          T("Login")));
+    addAndMakeVisible (label = new Label ("new label",
+                                          "Login"));
     label->setFont (Font (15.0000f, Font::plain));
     label->setJustificationType (Justification::centredRight);
     label->setEditable (false, false, false);
     label->setColour (TextEditor::textColourId, Colours::black);
     label->setColour (TextEditor::backgroundColourId, Colour (0x0));
 
-    addAndMakeVisible (label2 = new Label (T("new label"),
-                                           T("Password")));
+    addAndMakeVisible (label2 = new Label ("new label",
+                                           "Password"));
     label2->setFont (Font (15.0000f, Font::plain));
     label2->setJustificationType (Justification::centredRight);
     label2->setEditable (false, false, false);
     label2->setColour (TextEditor::textColourId, Colours::black);
     label2->setColour (TextEditor::backgroundColourId, Colour (0x0));
 
-    addAndMakeVisible (textPassword = new TextEditor (T("Password")));
+    addAndMakeVisible (textPassword = new TextEditor ("Password"));
     textPassword->setMultiLine (false);
     textPassword->setReturnKeyStartsNewLine (false);
     textPassword->setReadOnly (false);
@@ -78,17 +79,17 @@ LoginComponent::LoginComponent ()
     textPassword->setPopupMenuEnabled (true);
     textPassword->setText (String::empty);
 
-    addAndMakeVisible (toggleRemember = new ToggleButton (T("Remember")));
-    toggleRemember->setButtonText (T("Remember me"));
-    toggleRemember->addButtonListener (this);
+    addAndMakeVisible (toggleRemember = new ToggleButton ("Remember"));
+    toggleRemember->setButtonText ("Remember me");
+    toggleRemember->addListener (this);
 
-    addAndMakeVisible (buttonLogin = new TextButton (T("LoginButton")));
-    buttonLogin->setButtonText (T("Login"));
-    buttonLogin->addButtonListener (this);
+    addAndMakeVisible (buttonLogin = new TextButton ("LoginButton"));
+    buttonLogin->setButtonText ("Login");
+    buttonLogin->addListener (this);
 
-    addAndMakeVisible (buttonCancel = new TextButton (T("CancelButton")));
-    buttonCancel->setButtonText (T("Cancel"));
-    buttonCancel->addButtonListener (this);
+    addAndMakeVisible (buttonCancel = new TextButton ("CancelButton"));
+    buttonCancel->setButtonText ("Cancel");
+    buttonCancel->addListener (this);
 
 
     //[UserPreSize]
@@ -99,7 +100,7 @@ LoginComponent::LoginComponent ()
     //[Constructor] You can add your own custom stuff here..
 	textPassword->setPasswordCharacter(0x2022);
 
-	PropertiesFile* props = ApplicationProperties::getInstance()->getUserSettings();
+	PropertiesFile* props = AppContext::getInstance()->properties.getUserSettings();
 	textLogin->setText(props->getValue(LOGIN_KEY));
 	textPassword->setText(props->getValue(PWD_KEY));
 	toggleRemember->setToggleState(props->getBoolValue(RMB_KEY), true);
@@ -162,7 +163,7 @@ void LoginComponent::buttonClicked (Button* buttonThatWasClicked)
     {
         //[UserButtonCode_buttonLogin] -- add your button handler code here..
 
-		PropertiesFile* props = ApplicationProperties::getInstance()->getUserSettings();
+		PropertiesFile* props = AppContext::getInstance()->properties.getUserSettings();
 		props->setValue(RMB_KEY, toggleRemember->getToggleState());
 		if(toggleRemember->getToggleState())
 		{
@@ -174,9 +175,9 @@ void LoginComponent::buttonClicked (Button* buttonThatWasClicked)
 			props->setValue(LOGIN_KEY, String::empty);
 			props->setValue(PWD_KEY, String::empty);
 		}
-		ApplicationProperties::getInstance()->saveIfNeeded();
+		//ApplicationProperties::getInstance()->saveIfNeeded();
 
-		DialogWindow* dw = findParentComponentOfClass((DialogWindow*)0);
+		DialogWindow* dw = findParentComponentOfClass<DialogWindow>();
 		if(dw)
 			dw->exitModalState(1);
         //[/UserButtonCode_buttonLogin]
@@ -184,7 +185,7 @@ void LoginComponent::buttonClicked (Button* buttonThatWasClicked)
     else if (buttonThatWasClicked == buttonCancel)
     {
         //[UserButtonCode_buttonCancel] -- add your button handler code here..
-		DialogWindow* dw = findParentComponentOfClass((DialogWindow*)0);
+		DialogWindow* dw = findParentComponentOfClass<DialogWindow>();
 		if(dw)
 			dw->exitModalState(0);
         //[/UserButtonCode_buttonCancel]

@@ -43,7 +43,7 @@ public:
 	{
 		// TODO: Create search operation object (supply it with session+callback)
 		_search = sp_search_create(_session,
-									_query.toCString(),
+									_query.toUTF8(),
 									0, 10,
 									0, 5,
 									0, 3,
@@ -55,7 +55,7 @@ private:
 	{
 		SearchOperation* self = static_cast<SearchOperation*>(userdata);
 
-		Log::write(T("Search returned total tracks: ") + String(sp_search_total_tracks(result)));
+		Log::write("Search returned total tracks: " + String(sp_search_total_tracks(result)));
 	}
 
 private:

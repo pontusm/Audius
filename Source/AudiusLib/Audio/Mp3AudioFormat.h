@@ -17,15 +17,15 @@ public:
 	~Mp3AudioFormat(void);
 
 	//==============================================================================
-	const Array <int> getPossibleSampleRates();
-	const Array <int> getPossibleBitDepths();
+	Array<int> getPossibleSampleRates();
+	Array<int> getPossibleBitDepths();
 	bool canDoStereo();
 	bool canDoMono();
 	bool isCompressed();
 
 	//==============================================================================
 	AudioFormatReader* createReaderFor (InputStream* sourceStream,
-		const bool deleteStreamIfOpeningFails);
+		bool deleteStreamIfOpeningFails);
 
 	AudioFormatWriter* createWriterFor (OutputStream* streamToWriteTo,
 		double sampleRateToUse,
