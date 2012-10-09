@@ -23,11 +23,11 @@ Thumbs.db
 *.sdf
 ipch/
 [Bb]in
-#[Dd]ebug*/
+[Dd]ebug*/
 #*.lib
 *.sbr
 obj/
-#[Rr]elease*/
+[Rr]elease*/
 _ReSharper*/
 _Temp/
 [Tt]est[Rr]esult*

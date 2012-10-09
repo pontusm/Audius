@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="xKu8bP" name="Audius" projectType="guiapp" version="1.0.0"
+              bundleIdentifier="com.yourcompany.Audius" jucerVersion="3.0.0">
+  <MAINGROUP id="PmWcXR" name="Audius">
+    <GROUP id="{DD6FA493-EB26-735D-6C0F-17A9F4E2DF15}" name="Lua">
+      <FILE id="k6BGBK" name="LuaLibrary.h" compile="0" resource="0" file="../Dependencies/Lua/LuaLibrary.h"/>
+      <FILE id="VZrjcq" name="LuaLibrary5.2.0.cpp" compile="1" resource="0"
+            file="../Dependencies/Lua/LuaLibrary5.2.0.cpp"/>
+    </GROUP>
+    <GROUP id="{88FC92B0-4BE5-BFFD-453C-09189DA05A37}" name="LuaBridge">
+      <FILE id="Zie5Fc" name="LuaBridge.h" compile="0" resource="0" file="../Dependencies/LuaBridge/LuaBridge.h"/>
+    </GROUP>
+    <GROUP id="{C9D6E6D9-EFA9-AAC1-3A09-43DDACDD790D}" name="Source">
+      <FILE id="N6P6Ls" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="yy4fG8" name="MainComponent.cpp" compile="1" resource="0"
+            file="Source/MainComponent.cpp"/>
+      <FILE id="iN0j1u" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <MODULES>
+    <MODULE id="juce_gui_audio" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="1"/>
+  </MODULES>
+  <EXPORTFORMATS>
+    <VS2010 targetFolder="Builds/VisualStudio2010" libraryType="1" juceFolder="..\Dependencies\Juce\modules">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="1" optimisation="1" targetName="Audius" headerPath="../../../Dependencies"/>
+        <CONFIGURATION name="Release" winWarningLevel="4" generateManifest="1" winArchitecture="32-bit"
+                       isDebug="0" optimisation="2" targetName="Audius" headerPath="../../../Dependencies"/>
+      </CONFIGURATIONS>
+    </VS2010>
+  </EXPORTFORMATS>
+  <JUCEOPTIONS/>
+</JUCERPROJECT>
