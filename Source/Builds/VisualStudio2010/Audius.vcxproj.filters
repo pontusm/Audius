@@ -5,14 +5,17 @@
     <Filter Include="Audius">
       <UniqueIdentifier>{0FB51B46-E3B4-150E-999C-4920D071A2BF}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Audius\Lua">
-      <UniqueIdentifier>{69DE181D-04E3-628C-910F-18C5348FE960}</UniqueIdentifier>
+    <Filter Include="Audius\Libs">
+      <UniqueIdentifier>{4983F50D-64B6-78DA-14D9-77923A14D53B}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Audius\LuaBridge">
-      <UniqueIdentifier>{6FB2CA85-EFA4-0B96-71ED-FD5DCB789CEC}</UniqueIdentifier>
+    <Filter Include="Audius\Libs\Lua">
+      <UniqueIdentifier>{69D399E5-E21E-A392-C3C6-ECAF3CDF8B47}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Audius\Source">
-      <UniqueIdentifier>{D309CB67-94CC-33D7-2E83-1323BA1CD11F}</UniqueIdentifier>
+    <Filter Include="Audius\Libs\LuaBridge">
+      <UniqueIdentifier>{8F9B60EA-9472-6739-0DA0-2D0701AB2285}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Audius\Application">
+      <UniqueIdentifier>{315F3F58-C2E2-8617-8E73-B306D8E5DA9C}</UniqueIdentifier>
     </Filter>
     <Filter Include="Juce Modules">
       <UniqueIdentifier>{422C46B7-0467-2DB0-BF3C-16DFCAFD69AC}</UniqueIdentifier>
@@ -191,13 +194,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Dependencies\Lua\LuaLibrary5.2.0.cpp">
-      <Filter>Audius\Lua</Filter>
+      <Filter>Audius\Libs\Lua</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Main.cpp">
-      <Filter>Audius\Source</Filter>
+      <Filter>Audius\Application</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\MainComponent.cpp">
-      <Filter>Audius\Source</Filter>
+      <Filter>Audius\Application</Filter>
     </ClCompile>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\text\juce_CharacterFunctions.cpp">
       <Filter>Juce Modules\juce_core\text</Filter>
@@ -988,13 +991,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Dependencies\Lua\LuaLibrary.h">
-      <Filter>Audius\Lua</Filter>
+      <Filter>Audius\Libs\Lua</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Dependencies\LuaBridge\LuaBridge.h">
-      <Filter>Audius\LuaBridge</Filter>
+      <Filter>Audius\Libs\LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\App.h">
+      <Filter>Audius\Application</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\MainComponent.h">
-      <Filter>Audius\Source</Filter>
+      <Filter>Audius\Application</Filter>
     </ClInclude>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\text\juce_CharacterFunctions.h">
       <Filter>Juce Modules\juce_core\text</Filter>

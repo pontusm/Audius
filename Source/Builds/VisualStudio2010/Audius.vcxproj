@@ -861,6 +861,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\Dependencies\Lua\LuaLibrary.h"/>
     <ClInclude Include="..\..\..\Dependencies\LuaBridge\LuaBridge.h"/>
+    <ClInclude Include="..\..\Source\App.h"/>
     <ClInclude Include="..\..\Source\MainComponent.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\text\juce_CharacterFunctions.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\text\juce_CharPointer_ASCII.h"/>
