@@ -38,6 +38,14 @@
                        isDebug="0" optimisation="2" targetName="Audius" headerPath="../../../Dependencies"/>
       </CONFIGURATIONS>
     </VS2010>
+    <XCODE_MAC targetFolder="Builds/MacOSX" juceFolder="..\Dependencies\Juce\modules">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="1" optimisation="1" targetName="Audius" headerPath="../../../Dependencies"/>
+        <CONFIGURATION name="Release" osxSDK="default" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="0" optimisation="2" targetName="Audius" headerPath="../../../Dependencies"/>
+      </CONFIGURATIONS>
+    </XCODE_MAC>
   </EXPORTFORMATS>
   <JUCEOPTIONS/>
 </JUCERPROJECT>
